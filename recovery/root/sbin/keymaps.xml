@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<keymaps>
+	<key value="1,0x2a"   name="home" />
+	<key value="1,0x56"   name="back" />
+	<key value="1,0x86"   name="gps" />
+	<key value="1,0xbb"   name="FM/AM" />
+	<key value="1, 8"  name="mute" longpress_timeout="1200" longpress="power" />
+
+	<key value="2, 0x34" name="music" />
+	<key value="2, 0x57" name="bt" />
+	<key value="2, 0x8d" name="video" />
+	<key value="2, 0xbd" name="source" />
+	<key value="2, 0x08" name="enter" />
+
+	<key value="7, 1" name="VOL-" />
+	<key value="7, 2" name="VOL+" />
+	<key value="7, 3" name="SCROLL_L" />
+	<key value="7, 4" name="SCROLL_R" />
+
+	<key value="128"  name="mute" longpress_timeout="1200" longpress="power" />
+	<key value="3" name="HOME" />
+	<key value="4" name="BACK" />
+	<key value="24"   name="VOL+" />
+	<key value="25"   name="VOL-" />
+	<key value="209" name="music" />
+
+	<key value="137" name="source" />
+	<key value="138" name="EQ" />
+	<key value="139" name="MOTOR" longpress="power"/>
+	<key value="141" name="BKLIGHT" />
+	<key value="142" name="LAUNCHER_APPS" />
+	<key value="188" name="REPEAT" />
+	<key value="189" name="RANDOM" />
+	<key value="190" name="SETUP" />
+	<key value="191" name="SCAN" />
+	<key value="192" name="AS/PS" />
+	<key value="193" name="STEP_FORWARD" />
+	<key value="194" name="STEP_BACKWARD" />
+	<key value="195" name="BT" />
+	<key value="196" name="HANG_DOWN" />
+	<key value="197" name="FM/AM" />
+	<key value="198" name="AUXIN" />
+	<key value="199" name="ASSIST" />
+
+	<!-- from KEYCODE_F3   KEYCODE_F6   -->
+	<key value="133" name="BACK" />
+	<key value="134" name="FM/AM" />
+	<key value="135" name="PLAY/PAUSE" />
+	<key value="136" name="GPS" />
+
+
+</keymaps>
+
+

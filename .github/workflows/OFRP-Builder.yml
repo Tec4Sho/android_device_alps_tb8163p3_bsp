@@ -1,0 +1,274 @@
+name: OFRP Builder 2025
+
+on:
+  workflow_dispatch:
+    inputs:
+      SYNC_URL:
+        description: 'SYNC URL'
+        required: true
+        default: 'https://gitlab.com/OrangeFox/sync.git'
+      MANIFEST_BRANCH:
+        description: 'MANIFEST BRANCH'
+        required: true
+        default: '9.0'
+      DEVICE_TREE_URL:
+        description: 'DEVICE TREE URL'
+        required: true
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
+      DEVICE_TREE_BRANCH:
+        description: 'DEVICE TREE BRANCH'
+        required: true
+        default: 'android-9.0'
+      DEVICE_PATH:
+        description: 'DEVICE PATH'
+        required: true
+        default: 'device/alps/tb8163p3_bsp'
+      DEVICE_NAME:
+        description: 'DEVICE NAME'
+        required: true
+        default: 'tb8163p3_bsp'
+      MAKEFILE_NAME:
+        description: 'MAKEFILE NAME'
+        required: true
+        default: 'omni_tb8163p3_bsp'
+      BUILD_TARGET:
+        description: 'BUILD TARGET'
+        required: true
+        default: 'recovery'
+      USER_EMAIL:
+        description: 'USER EMAIL'
+        type: string
+        required: true
+        default: 'tec4sho@gmail.com'
+      MAXIMIZE_BUILD_SPACE:
+        description: 'MAXIMIZE BUILD SPACE'
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  build:
+    name: Build OrangeFox by ${{ github.actor }}
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+      GITHUB_TOKEN: ${{ secrets.ALPS }}
+    permissions:
+      contents: write
+    steps:
+    - name: Display Inputs
+      run: |
+        echo "::group::User Environment Variables"
+        echo "Displaying main variables/inputs."
+        echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
+        echo "Device Tree: ${{ github.event.inputs.DEVICE_TREE }}"
+        echo "Device Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
+        echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
+        echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}image"     
+        echo "::endgroup::"
+        
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Check Out
+      uses: actions/checkout@v4
+
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup build space
+      uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps  
+
+    - name: Maximize build space
+      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == 'true'
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 11000 # Example: Reserve 12 GB for the root directory
+        swap-size-mb: 2048 # Example: Reserve 4 GB for swap file
+        remove-dotnet: 'true' # Example: Remove the .NET SDK to free space 
+      continue-on-error: true
+      
+    - name: Initialize workspace
+      run: |
+        mkdir workspace
+        cd workspace
+        echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
+      id: pwd
+
+    - name: Prepare the build environment
+      run: |
+        sudo apt-get update && sudo apt-get upgrade -y && sudo add-apt-repository universe
+        DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
+            linux-modules-extra-$(uname -r) \
+            git python3 tar aria2 git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip lzma xz-utils fontconfig git repo
+        git clone https://gitlab.com/OrangeFox/misc/scripts
+        cd scripts
+        sudo bash setup/android_build_env.sh
+        sed -i 's/cd -/cd ../g' setup/install_android_sdk.sh
+        sudo bash setup/install_android_sdk.sh
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Install Python 2
+      if: github.event.inputs.MANIFEST_BRANCH == '9.0'
+      run: |
+        sudo apt-get -y remove python
+        sudo apt-get -y install python2
+        cd /usr/bin
+        sudo ln -sf python2 python
+      continue-on-error: true
+
+    - name: Install Git-Repo
+      run: |
+        mkdir ~/bin
+        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+        chmod a+x ~/bin/repo
+        sudo ln -sf ~/bin/repo /usr/bin/repo
+
+    - name: Install OpenJDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+
+    - name: Setup SSH Keys
+      if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') || 
+          startsWith(github.event.inputs.DEVICE_TREE_URL, 'git@github.com') ||
+          startsWith(github.event.inputs.COMMON_TREE_URL, 'git@github.com') }}
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+          ssh-private-key: |
+            ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Sync OrangeFox sources and minimal manifest
+      run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.event.inputs.USER_EMAIL }}"
+        git clone ${{ github.event.inputs.SYNC_URL }}
+        cd sync
+        cd legacy
+        ./orangefox_sync_legacy.sh --branch ${{ github.event.inputs.MANIFEST_BRANCH }} --path ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Clone device tree
+      run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
+        mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
+        git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Build Space
+      run: |
+        echo '### Before clean ###'
+        sudo df -h
+        echo
+        echo '### cleaning build environment space ###'
+        # clean build environment space
+        sudo apt-get remove -qy kubectl powershell firefox dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli docker-ce # libllvm13
+        sudo rm -vrf /usr/share/dotnet/ >/dev/null
+        echo '### After clean ###' 
+        sudo df -h
+        cd workspace
+        echo
+        echo '### Workspace directory ###'
+        sudo df . -h
+        echo
+        echo '### large files in workspace dir ###'
+        sudo find . -type f -size +100M -exec du -ha {} +
+      continue-on-error: true
+
+    - name: Workspace Contents
+      run: |
+        du ${GITHUB_WORKSPACE} -h -d 3
+        mkdir -p ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/
+        cp -rf ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/ofrp/theme/* ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/recovery/root/twres/
+        mv -f ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/default.prop ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/
+      continue-on-error: true
+        
+    - name: Building recovery
+      run: |
+        cd ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
+        set +e
+        export RECOVERY_VARIANT="ofrp"
+        source build/envsetup.sh
+        export ALLOW_MISSING_DEPENDENCIES=true
+        #export LLVM_ENABLE_THREADS=OFF
+        export FOX_VANILLA_BUILD=1
+        export OF_DISABLE_MIUI_SPECIFIC_FEATURES=1
+        export OF_FORCE_PREBUILT_KERNEL=1
+        export FOX_BUILD_DEVICE="tb8163p3_bsp"
+        export OF_USE_LZMA_COMPRESSION=1
+        export FOX_DRASTIC_SIZE_REDUCTION=1
+        export TARGET_SCREEN_HEIGHT=600
+        export TARGET_SCREEN_WIDTH=1024
+        export LC_ALL=C
+        set -e
+        ninja -t restat
+        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && mka adbd ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Does Recovery Exist
+      run: |
+        if [ -f  ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery.img ]; then
+            echo "RECOVERY_TYPE=recovery" >> $GITHUB_ENV
+            echo "recovery.img file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        elif [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/boot.img ]; then
+            echo "RECOVERY_TYPE=boot" >> $GITHUB_ENV
+            echo "boot.img file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        elif [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img ]; then
+            echo "RECOVERY_TYPE=vendor_boot" >> $GITHUB_ENV
+            echo "vendor_boot.img file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        elif [ -f ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*.img ]; then
+            echo "RECOVERY_TYPE=${{ github.event.inputs.BUILD_TARGET }}" >> $GITHUB_ENV
+            echo "${{ github.event.inputs.BUILD_TARGET }} file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        else
+            echo "No Image file found!"
+            exit 1
+        fi
+
+    - name: Output directory before uploading
+      run: |
+        ls -al ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/
+        echo
+        ls -al ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/
+
+    - name: Set Build Date # Output will be use in Release
+      run: |
+        echo "Done building your ${{ github.event.inputs.BUILD_TARGET }}.img"
+        echo "BUILD_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+        DEVICE_TREE_URL="${{ github.event.inputs.DEVICE_TREE }}"
+        if [[ "${DEVICE_TREE_URL}" == *.git ]]; then
+          DEVICE_TREE_URL="${DEVICE_TREE_URL%.git}"
+        fi
+        echo "DEVICE_TREE_URL=${DEVICE_TREE_URL}" >> $GITHUB_ENV
+
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox-Unofficial-tb8163p3.img
+          ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox-Unofficial-tb8163p3.zip
+        name: Unofficial OFRP for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          
+    - name: Release ramdisk-recovery
+      uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
+      with:
+        files: |
+          ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery.img
+          ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/ramdisk-recovery.*
+          ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/boot.img
+          ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/ClassicTheme.zip
+
+        name: Unofficial OFRP for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
+          Target: ${{ github.event.inputs.BUILD_TARGET}}.img
+          Device: [Device Tree/Branch](${{ env.DEVICE_TREE_URL }}/${{ github.event.inputs.DEVICE_TREE_BRANCH }})
+          Commit: Most recent [commit](${{ env.DEVICE_TREE_URL }}/commit/${{ env.COMMIT_ID }}) during building.
+          MD5 (img): ${{ env.MD5_IMG }}
+          

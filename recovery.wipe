@@ -1,0 +1,15 @@
+# file content >>>
+##########################################################
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/userdata
+/dev/block/by-name/userdata
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/metadata
+/dev/block/by-name/metadata
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system
+/dev/block/bootdevice/by-name/system
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor
+/dev/block/bootdevice/by-name/vendor
+/dev/block/bootdevice/by-name/userdata
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot
+/dev/block/bootdevice/by-name/boot
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache
+########################################################

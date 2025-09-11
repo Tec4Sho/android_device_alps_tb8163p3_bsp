@@ -1,0 +1,43 @@
+/system_root     ext4     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system       flags=display=system;backup=1;flashimg=1
+/vendor          ext4     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor       flags=display=vendor;backup=1;flashimg=1
+/data            ext4     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/userdata     flags=display=data;backup=1;flashimg=1;wipeingui
+/cache           ext4     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache        flags=display=cache;backup=1;flashimg=1;wipeingui
+/apd             ext4     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd          flags=display=apd;backup=1;flashimg=1
+auto             vfat     /devices/platform/soc/11240000.mmc*                                flags=display=auto;backup=1;flashimg=1
+auto             vfat     /devices/platform/mt_usb*                                          flags=display=auto;backup=1;flashimg=1
+auto             vfat     /devices/platform/soc/11270000.usb*                                flags=display=auto;backup=1;flashimg=1
+/dtbo            emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dtbo         flags=display=dtbo;backup=1;flashimg=1
+/nvram           emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/nvram        flags=display=nvram;backup=1;flashimg=1
+/proinfo         emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/proinfo      flags=display=proinfo;backup=1;flashimg=1
+/bootloader      emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/lk           flags=display=bootloader;backup=1;flashimg=1
+/bootloader2     emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/lk2          flags=display=bootloader2;backup=1;flashimg=1
+/misc            emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/para         flags=display=misc;backup=1;flashimg=1
+/boot            emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot         flags=display=boot;backup=1;flashimg=1
+/recovery        emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/recovery     flags=display=recovery;backup=1;flashimg=1
+/logo            emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/logo         flags=display=logo;backup=1;flashimg=1
+/expdb           emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/expdb        flags=display=expdb;backup=1;flashimg=1
+/secro           emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/secro        flags=display=secro;backup=1;flashimg=1
+/seccfg          emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/seccfg       flags=display=seccfg;backup=1;flashimg=1
+/vbmeta          emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vbmeta       flags=display=vbmeta;backup=1;flashimg=1
+/tee1            emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/tee1         flags=display=tee1;backup=1;flashimg=1
+/tee2            emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/tee2         flags=display=tee2;backup=1;flashimg=1
+/kb              emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/kb           flags=display=kb;backup=1;flashimg=1
+/dkb             emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dkb          flags=display=dkb;backup=1;flashimg=1
+/protect_f       emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/protect1     flags=display=protect_f;backup=1;flashimg=1
+/protect_s       emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/protect2     flags=display=protect_s;backup=1;flashimg=1
+
+# Partition backup 
+/system_root     emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system       flags=display=system_root;backup=1;flashimg=1
+/vendor_root     emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor       flags=display=vendor_root;backup=1;flashimg=1
+
+#SD cards
+#/external_sd 	   vfat	    /dev/block/mmcblk0p1	/dev/block/mmcblk0					                 flags=display="MicroSD Card 1";backup=0;storage;wipeingui;removable
+#/external_sd     vfat     /dev/block/mmcblk1p1	/dev/block/mmcblk1 					                 flags=display="MicroSD Card 2";backup=0;storage;wipeingui;removable
+#/external_sd 	   auto	    /dev/block/mmcblk0p1	/dev/block/mmcblk0	  				               flags=display="MicroSD Card 3";backup=0;storage;wipeingui;removable
+#/external_sd     auto     /dev/block/mmcblk1p1	/dev/block/mmcblk1 			  	                 flags=display="MicroSD Card 4";backup=0;storage;wipeingui;removable
+
+#OTG
+/usb-otg    	   auto     /dev/block/sda                       							                 flags=display="USB-OTG 1";backup=0;storage;wipeingui;removable
+/usb-otg    	   auto     /dev/block/sdb                       							                 flags=display="USB-OTG 2";backup=0;storage;wipeingui;removable
+#/usb-otg    	   auto     /dev/block/sdb        /dev/block/sdb1                       			 flags=display="USB-OTG 3";backup=0;storage;wipeingui;removable
+#/usb-otg    	   auto     /dev/block/sdb        /dev/block/sdb2                       			 flags=display="USB-OTG 4";backup=0;storage;wipeingui;removable

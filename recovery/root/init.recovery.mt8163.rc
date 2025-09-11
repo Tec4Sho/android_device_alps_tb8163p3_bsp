@@ -1,0 +1,80 @@
+on init
+    setprop sys.usb.controller musb-hdrc
+
+#	fake to CDP case
+#	write /sys/module/musb_hdrc/parameters/musb_skip_charge_detect 1
+
+# 	set battery thread free
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 0E8D
+    write /sys/class/android_usb/android0/idProduct 2008
+    write /sys/class/android_usb/android0/functions mtp
+    write /sys/class/android_usb/android0/enable 1
+
+#	make this twice to keep following action not race with battery thread
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 0E8D
+    write /sys/class/android_usb/android0/idProduct 2008
+    write /sys/class/android_usb/android0/functions mtp
+    write /sys/class/android_usb/android0/enable 1
+
+# 	distinguish USB shoulde connect or not by this, CDP vs SDP
+	write /sys/devices/platform/mt_usb/cmode 2
+
+on property:ro.debuggable=1
+# 	restore cmode to normal for making USB enumeration
+	write /sys/devices/platform/mt_usb/cmode 1
+
+on fs
+    write /proc/bootprof "INIT:Mount_START"
+    mkdir /dev/block/platform/mtk-msdc.0
+    symlink ../soc/11230000.mmc /dev/block/platform/mtk-msdc.0/11230000.MSDC0
+    write /sys/class/power_supply/usb/otg_switch 1
+
+	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system / ro wait
+	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor /vendor ro wait
+	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache /cache rw wait
+    #mount_all /fstab.mt8163 --early 
+    
+    write /proc/bootprof "INIT:Mount_END"
+    write /proc/sys/vm/page-cluster 0
+	write /dev/event-log-tags "# content owned by logd"
+    chown logd logd /dev/event-log-tags
+    chmod 0644 /dev/event-log-tags
+    start logd
+    start init_mount
+    setprop modules.loaded 1 
+
+service init_mount /sbin/mount.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+on property:ro.mtk_emmc_support=1
+    # Support A/B feature for emmc boot region
+    symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
+    symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
+
+on property:ro.mtk_ufs_booting=1
+    # Support A/B feature for ufs boot region
+    symlink /dev/block/sda /dev/block/platform/bootdevice/by-name/preloader_a
+    symlink /dev/block/sdb /dev/block/platform/bootdevice/by-name/preloader_b
+
+service logd /sbin/logd
+    socket logd stream 0666 logd logd
+    socket logdr seqpacket 0666 logd logd
+    socket logdw dgram+passcred 0222 logd logd
+    file /proc/kmsg r
+    file /dev/kmsg w
+    user logd
+    group logd system package_info readproc
+    writepid /dev/cpuset/system-background/tasks
+
+service logd-reinit /sbin/logd --reinit
+    oneshot
+    disabled
+    user logd
+    group logd
+    writepid /dev/cpuset/system-background/tasks

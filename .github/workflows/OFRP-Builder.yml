@@ -199,8 +199,6 @@ jobs:
         export FOX_DRASTIC_SIZE_REDUCTION=1
         export TARGET_SCREEN_HEIGHT=600
         export TARGET_SCREEN_WIDTH=1024
-        export USE_RECOVERY_INSTALLER=true
-        export RECOVERY_INSTALLER_PATH=bootable/recovery/installer
         export LC_ALL=C
         set -e
         ninja -t restat
@@ -249,6 +247,8 @@ jobs:
     - name: Include Recovery Installer
       run: |
           cd ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/
+          export USE_RECOVERY_INSTALLER=true
+          export RECOVERY_INSTALLER_PATH=bootable/recovery/installer
           wget https://github.com/kinguser981/recovery-installer/releases/download/zip/recovery-installer.zip
           zip -ur recovery-installer.zip ${{ env.RECOVERY_TYPE }}.img
       continue-on-error: true

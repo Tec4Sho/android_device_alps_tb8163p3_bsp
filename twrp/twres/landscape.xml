@@ -3337,7 +3337,7 @@
 
 			<button style="button_quarter_width">
 				<placement x="%center_x%" y="%row13_y%"/>
-				<text>{@part_sd_btn=Partition}</text>
+				<text>{@sd_btn=Partition}</text>
 				<action function="page">partsdcardaction</action>
 				<actions>
 					<action function="set">tw_back=partsdcard</action>
@@ -3347,7 +3347,7 @@
 					<action function="set">tw_action2_param=tw_zip_location=/sdcard</action>
 					<action function="set">tw_action_text1={@partitioning_sd=Partitioning SD Card...}</action>
 					<action function="set">tw_action_text2={@partitioning_sd2=This will take a few minutes.}</action>
-					<action function="set">tw_complete_text1={@part_sd_btn=Partitioning Complete}</action>
+					<action function="set">tw_complete_text1={@sd_btn=Partitioning Complete}</action>
 					<action function="page">action_page</action>
 				</actions>
 			</button>

@@ -103,7 +103,6 @@ TARGET_COPY_OUT_VENDOR := vendor
 # Platform
 PRODUCT_KERNEL_ARCH := arm
 TARGET_BOARD_PLATFORM := mt8163
-#TARGET_BOARD_PLATFORM_GPU := mtk
 TARGET_BOARD_PLATFORM_GPU := mali-t720mp2
 TARGET_BOARD_HARDWARE_EGL := mali
 
@@ -132,16 +131,16 @@ PLATFORM_SECURITY_PATCH := 2021-09-05
 PLATFORM_VERSION := 9.0.0
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
-# TWRP or OrangeFox Theme Configuration
+# TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
   #TW_THEME := portrait_hdpi
-  TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/theme
+  TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := ofrp
 else
   #TW_THEME := landscape_mdpi
-  TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/theme
+  TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
@@ -152,6 +151,7 @@ TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
+# Uses Custom ARM Busybox w/ Toybox
 RECOVERY_BUSYBOX_SYMLINKS := false
 RECOVERY_BUSYBOX_TOOLS := false
 
@@ -182,9 +182,7 @@ TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.k
 
 # to use TWRP module loader code for vendor_boot module loading.
 TW_LOAD_VENDOR_BOOT_MODULES := true
-
-# To load vendor dlkm modules for touch or etc
-#TW_LOAD_VENDOR_DLKM_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
 # To fix temperature showing 0 degree and battery on 100% all the time
 TW_USE_LEGACY_BATTERY_SERVICES := true
@@ -244,9 +242,6 @@ TW_DEVICE_VERSION := alps_tb8163p3-bsp
 TW_INCLUDE_RESETPROP := true
 TW_HAS_DOWNLOAD_MODE := false
 
-# Specify a custom device name for MTP
-##TW_MTP_DEVICE := tb8163p3_bsp-9
-
 # Use the current VNDK version
 BOARD_VNDK_VERSION := current
 
@@ -278,12 +273,11 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 BOARD_OPENGL_AEP := true
 
 # Copy your own init.rc file
-# TARGET_PROVIDES_INIT_RC := true
+TARGET_PROVIDES_INIT_RC := false
 
 # Explicitly set the kernel version for depmod
 KERNEL_VERSION := 4.9.117+
 BOARD_VENDOR_KERNEL_MODULES_DEPMOD_VERSION := $(KERNEL_VERSION)
-TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
 # Twrp Logging 
 TARGET_USES_LOGD := true
@@ -298,7 +292,7 @@ TW_ENABLE_ADB_SIDELOAD := true
 TW_GRAPHICS_FORCE_USE_LINELENGTH := true
 
 # Define custom paths for battery.
-# TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/
+TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly
@@ -312,7 +306,7 @@ TW_CUSTOM_POWER_BUTTON := 116
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
 # For people whose screens were mounted the wrong side across
-#BOARD_HAS_FLIPPED_SCREEN := true
+BOARD_HAS_FLIPPED_SCREEN := false
 
 # screen will stay awake
 TW_NO_SCREEN_TIMEOUT := true
@@ -324,15 +318,12 @@ TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_SUPERSU := true
 
 # twrp touch
-#RECOVERY_TOUCHSCREEN_SWAP_XY := true
-#RECOVERY_TOUCHSCREEN_FLIP_X := true
-#RECOVERY_TOUCHSCREEN_FLIP_Y := true
+RECOVERY_TOUCHSCREEN_SWAP_XY := false
+RECOVERY_TOUCHSCREEN_FLIP_X := false
+RECOVERY_TOUCHSCREEN_FLIP_Y := false
 
 # This tells the build system to ignore neverallow rules when compiling the SELinux policy.
 SELINUX_IGNORE_NEVERALLOWS := true
-
-# to set device display framerate
-#TW_FRAMERATE := 60
 
 # For Surface Flinger Rotation
 SF_PRIMARY_DISPLAY_ORIENTATION := 270

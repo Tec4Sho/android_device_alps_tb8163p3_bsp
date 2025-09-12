@@ -4517,7 +4517,7 @@
 
 			<button style="button_quarter_width">
 				<placement x="%center_x%" y="%row13_y%"/>
-				<text>{@fix_contexts_btn=Fix Contexts}</text>
+				<text>{@fix_context_btn=Fix Contexts}</text>
 				<actions>
 					<action function="set">tw_back=advanced</action>
 					<action function="set">tw_action=fixcontexts</action>

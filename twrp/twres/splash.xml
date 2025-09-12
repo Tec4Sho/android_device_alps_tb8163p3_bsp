@@ -5,7 +5,7 @@
 		<author>TeamWin</author>
 		<title>TWRP</title>
 		<description>splash screen</description>
-		<themeversion>1</themeversion>
+		<themeversion>5</themeversion>
 	</details>
 
 	<resources>
@@ -40,12 +40,13 @@
 				<placement x="960" y="920" placement="4"/>
 			</image>
 
-			<text color="%header_color%">
+			<text color="%accent_color%">
 				<font resource="font_l"/>
 				<placement x="960" y="970" placement="5"/>
-				<text>Recovery Project %tw_version%</text>
+				<text>Recovery Project %tw_version% Android Radio</text>
 			</text>
 		</page>
 	</pages>
 </recovery>
+
 

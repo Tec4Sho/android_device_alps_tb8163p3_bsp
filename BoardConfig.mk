@@ -380,3 +380,4 @@ DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
 #DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor-manifest.xml
 
 # Auto copy files into ramdisk-recovery
+TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/recovery/root

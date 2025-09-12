@@ -46,7 +46,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export OF_FORCE_PREBUILT_KERNEL=1
    export FOX_BUILD_DEVICE="tb8163p3_bsp"
    export OF_PATCH_AVB20=1
-   #export OF_USE_LOCKSCREEN_BUTTON=0
+   export OF_TWRP_COMPATIBILITY_MODE=1
    export OF_USE_LZMA_COMPRESSION=1
    export FOX_DRASTIC_SIZE_REDUCTION=1
    export TARGET_SCREEN_HEIGHT="720"
@@ -75,8 +75,8 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export FOX_USE_BASH_SHELL=1
    export FOX_ASH_IS_BASH=1
    export FOX_USE_NANO_EDITOR=1
-   export FOX_USE_TAR_BINARY=1
-   export FOX_USE_SED_BINARY=1
+   export FOX_USE_TAR_BINARY=0
+   export FOX_USE_SED_BINARY=0
    export FOX_USE_XZ_UTILS=1
    export FOX_REPLACE_BUSYBOX_PS=1
    export FOX_REMOVE_BUSYBOX_BINARY=1
@@ -92,10 +92,6 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export FOX_VERSION="R9.0"
    export FOX_VARIANT="ALPS"
    export FOX_BUILD_TYPE="Stable"
-
- # A/B partitioning
-   export FOX_AB_DEVICE=0
-   export FOX_VIRTUAL_AB_DEVICE=0
  
  # Store settings at /data/recovery instead of internal storage
  ##export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
@@ -111,13 +107,13 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
  ##export FOX_RESET_SETTINGS=0
  ##export FOX_INSTALLER_DEBUG_MODE=
 
-# run a process after formatting datato work-around MTP issues
+ # run a process after formatting datato work-around MTP issues
    export OF_RUN_POST_FORMAT_PROCESS=1
 
-# fux screen height for tablets
+ # fux screen height for tablets
    export OF_SCREEN_H="720"
  
-# Maintainer 
+ # Maintainer 
    export OF_MAINTAINER="Tec4Sho"
 
  # Let's see our build VARs ZZZ

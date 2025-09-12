@@ -224,16 +224,16 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto
 
 # Storage
 TW_NO_USB_STORAGE := false
-
+TW_INTERNAL_LABEL := data
 TW_INTERNAL_PATH := /data/media/0
-TW_INTERNAL_MOUNT := data
+TW_INTERNAL_MOUNT := /data
 TW_INTERNAL_STORAGE_PATH := /data/media/0
-TW_INTERNAL_STORAGE_MOUNT_POINT := /data
-
+TW_INTERNAL_STORAGE_MOUNT_POINT := data
+TW_EXTERNAL_LABEL := storage
 TW_EXTERNAL_PATH := /storage/udisk1
-TW_EXTERNAL_MOUNT := storage
+TW_EXTERNAL_MOUNT := /storage
 TW_EXTERNAL_STORAGE_PATH := /storage/udisk1
-TW_EXTERNAL_STORAGE_MOUNT_POINT := /storage
+TW_EXTERNAL_STORAGE_MOUNT_POINT := storage
 
 TW_HAS_MTP := true
 TW_MTP_DEVICE := /dev/mtp_usb

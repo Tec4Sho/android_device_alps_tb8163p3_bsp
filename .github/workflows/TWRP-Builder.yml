@@ -43,11 +43,6 @@ on:
         - boot
         - recovery
         - vendorboot
-      RECOVERY_TAR:
-        description: 'Release Recovery.tar For Samsung devices'
-        type: boolean
-        required: false
-        default: 'false'
       RECOVERY_INSTALLER:
         description: 'Include recovery installer.zip'
         type: boolean
@@ -290,14 +285,6 @@ jobs:
         fi
       continue-on-error: true
         
-    - name: Recovery to tar for Samsung devices
-      run: |
-        if [ ${{ github.event.inputs.RECOVERY_TAR }} = 'true' ]; then
-          cd workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/
-          tar -cvf ${{ env.RECOVERY_TYPE }}.tar ${{ env.RECOVERY_TYPE }}.img
-        fi
-      continue-on-error: true
-        
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
@@ -325,16 +312,3 @@ jobs:
           Commit: Most recent [commit](${{ env.DEVICE_TREE_URL }}/commit/${{ env.COMMIT_ID }}) during building.
           MD5 (img): ${{ env.MD5_IMG }}
           
-    - name: Checking For Missing Dependencies
-      run: |
-        cd workspace
-        if [ -n $(find ${{ github.event.inputs.DEVICE_PATH }} -name 'BoardConfig.mk' -maxdepth 2 -exec grep qcom {} \;) ]; then
-          mv -n ${{ github.event.inputs.DEVICE_PATH }}/tools/libneeds out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery/root/
-          mv -n ${{ github.event.inputs.DEVICE_PATH }}/tools/ldcheck out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery/root/
-          cd out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery/root
-          python3 ldcheck -p system/lib64:vendor/lib64:system/lib:vendor/lib -d system/bin/qseecomd
-          echo "Done checking missing dependencies. Review, and reconfigure your tree."
-        else
-          echo "No missing dependencies listed to check....Done!!!"
-        fi
-      continue-on-error: true

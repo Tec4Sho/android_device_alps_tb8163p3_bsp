@@ -10,9 +10,6 @@ LOCAL_PATH := device/alps/tb8163p3_bsp
 
 DEVICE_PATH := $(LOCAL_PATH)
 
-# ​TWRP FLAGS
-TW_OEM_BUILD := false
-
 # Enable reboot to Fastboot/D HAL
 TW_INCLUDE_FASTBOOTD := true
 

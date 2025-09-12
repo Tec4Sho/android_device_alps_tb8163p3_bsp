@@ -134,15 +134,15 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
-  BOARD_VNDK_VERSION := current
-  BOARD_VNDK_RUNTIME_DISABLE := true    # Disable the current VNDK runtime
+#  BOARD_VNDK_VERSION := current
+#  BOARD_VNDK_RUNTIME_DISABLE := true    # Disable the current VNDK runtime
   #TW_THEME := portrait_hdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := ofrp
 else
-  BOARD_VNDK_VERSION := current     # Use the current VNDK version
+#  BOARD_VNDK_VERSION := current     # Use the current VNDK version
   #TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)

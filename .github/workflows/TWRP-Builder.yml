@@ -1,4 +1,4 @@
-name: TWRP Recovery 2025
+name: TWRP Builder 2025
 
 on:
   workflow_dispatch:

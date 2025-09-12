@@ -197,6 +197,7 @@ jobs:
         export FOX_BUILD_DEVICE="tb8163p3_bsp"
         export OF_USE_LZMA_COMPRESSION=1
         export FOX_DRASTIC_SIZE_REDUCTION=1
+        export BOARD_VNDK_RUNTIME_DISABLE=1
         export LC_ALL=C
         set -e
         ninja -t restat

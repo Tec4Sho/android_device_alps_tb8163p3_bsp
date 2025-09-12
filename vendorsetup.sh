@@ -49,8 +49,8 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    #export OF_USE_LOCKSCREEN_BUTTON=0
    export OF_USE_LZMA_COMPRESSION=1
    export FOX_DRASTIC_SIZE_REDUCTION=1
-   export TARGET_SCREEN_HEIGHT="600"
-   export TARGET_SCREEN_WIDTH="1024"
+   export TARGET_SCREEN_HEIGHT="720"
+   export TARGET_SCREEN_WIDTH="1280"
    export TW_DEFAULT_LANGUAGE="en"
    export LC_ALL="C"
         
@@ -63,9 +63,9 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export BOARD_BOOTIMAGE_PARTITION_SIZE="16777216"
    export BOARD_RECOVERYIMAGE_PAITION_SIZE="16777216"
    export BOARD_SYSTEMIMAGE_PARTITION_SIZE="2147483648"
-   export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
+   #export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
    #export OF_DONT_PATCH_ENCRYPTED_DEVICE=1
-   export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
+   #export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
    export OF_HIDE_NOTCH=1
    
  # OrangeFox Addons
@@ -94,28 +94,28 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export FOX_BUILD_TYPE="Stable"
 
  # A/B partitioning
- export FOX_AB_DEVICE=0
- export FOX_VIRTUAL_AB_DEVICE=0
+   export FOX_AB_DEVICE=0
+   export FOX_VIRTUAL_AB_DEVICE=0
  
  # Store settings at /data/recovery instead of internal storage
  ##export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
 
  # Security (Disables MTP&ADB during password prompt)
  # no special MIUI stuff
-	export OF_NO_MIUI_PATCH_WARNING=1
+   export OF_NO_MIUI_PATCH_WARNING=1
  
  # Magisk
-	export FOX_USE_SPECIFIC_MAGISK_ZIP="~/Magisk/Magisk-v25.2.zip"
+   export FOX_USE_SPECIFIC_MAGISK_ZIP="~/Magisk/Magisk-v25.2.zip"
 
  # Debugging
  ##export FOX_RESET_SETTINGS=0
-   export FOX_INSTALLER_DEBUG_MODE=1
+ ##export FOX_INSTALLER_DEBUG_MODE=
 
 # run a process after formatting datato work-around MTP issues
    export OF_RUN_POST_FORMAT_PROCESS=1
 
 # fux screen height for tablets
-   export OF_SCREEN_H="600"
+   export OF_SCREEN_H="720"
  
 # Maintainer 
    export OF_MAINTAINER="Tec4Sho"

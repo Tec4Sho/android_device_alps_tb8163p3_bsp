@@ -289,10 +289,9 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ env.RECOVERY_TYPE }}.tar
           workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery-installer.zip
           workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ env.RECOVERY_TYPE }}.img
-        name: Unofficial TWRP for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        name: Unofficial TWRP for Alps ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
         
@@ -300,10 +299,9 @@ jobs:
       uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
       with:
         files: |
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/obj/PACKAGING/vendor_ramdisk_fragments_intermediates/recovery.*
           workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/ramdisk-recovery.*
           
-        name: Unofficial TWRP for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        name: Unofficial TWRP for Alps ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
           Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}

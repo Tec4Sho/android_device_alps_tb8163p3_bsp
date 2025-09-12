@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       MANIFEST_BRANCH:
-        description: 'TWRP Minimal-Manifest Branch'
+        description: 'MANIFEST BRANCH'
         required: true
         default: 'twrp-9.0'
         type: choice
@@ -14,28 +14,28 @@ on:
         - twrp-11
         - twrp-9.0
       DEVICE_TREE:
-        description: 'Custom Recovery Tree' 
+        description: 'DEVICE TREE' 
         required: true
         default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
       DEVICE_TREE_BRANCH:
-        description: 'Custom Recovery Tree Branch' 
+        description: 'DEVICE TREE BRANCH' 
         required: true
         default: 'android-9.0'
       DEVICE_PATH:
-        description: 'Specify your Device Path' 
+        description: 'DEVICE PATH' 
         required: true
         default: 'device/alps/tb8163p3_bsp'
       DEVICE_NAME:
-        description: 'Specify your Device Codename' 
+        description: 'DEVICE NAME' 
         required: true
         default: 'tb8163p3_bsp'
       USER_EMAIL:
-        description: 'Specify your User Email'
+        description: 'USER EMAIL'
         type: string
         required: true
         default: 'tec4sho@gmail.com'  
       BUILD_TARGET:
-        description: 'Specify your Build Target' 
+        description: 'BUILD TARGET' 
         required: true
         default: 'recovery'
         type: choice
@@ -44,12 +44,12 @@ on:
         - recovery
         - vendorboot
       RECOVERY_INSTALLER:
-        description: 'Include recovery installer.zip'
+        description: 'RECOVERY INSTALLER'
         type: boolean
         required: false
         default: 'true'
       MAXIMIZE_BUILD_SPACE:
-        description: 'Cleans and remap storage paths'
+        description: 'MAXIMIZE BUILD SPACE:'
         type: boolean
         required: false
         default: 'true'

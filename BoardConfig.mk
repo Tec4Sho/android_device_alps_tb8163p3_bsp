@@ -254,11 +254,11 @@ TW_INCLUDE_FASTBOOTD := true
 TW_EXCLUDE_APEX := true
 
 # Custom Recovery 
-BOARD_USE_DRM := true
+BOARD_USE_DRM := false
 TW_POWER_BUTTON := true
 TW_HAS_INTERNAL := true
 TW_HAS_EXTERNAL := true
-TW_HAS_INJECTTWRP := true
+TW_HAS_INJECTTWRP := false
 TW_HAS_DATA_MEDIA := true
 TW_HAS_USB_STORAGE := true
 TW_HAS_DUAL_STORAGE := true
@@ -378,7 +378,7 @@ TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
 # VINTF
-#DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
+DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
 #DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor-manifest.xml
 
 # Auto copy files into ramdisk-recovery

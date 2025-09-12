@@ -62,7 +62,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export BOARD_BOOTIMAGE_PARTITION_SIZE="16777216"
    export BOARD_RECOVERYIMAGE_PAITION_SIZE="16777216"
    export BOARD_SYSTEMIMAGE_PARTITION_SIZE="2147483648"
-   export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=0
+   export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES=1
    #export OF_DONT_PATCH_ENCRYPTED_DEVICE=1
    export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
    export OF_HIDE_NOTCH=1
@@ -93,8 +93,8 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export FOX_BUILD_TYPE="Stable"
 
  # A/B partitioning
- ##export FOX_AB_DEVICE=1
- ##export FOX_VIRTUAL_AB_DEVICE=1
+ export FOX_AB_DEVICE=0
+ export FOX_VIRTUAL_AB_DEVICE=0
  
  # Store settings at /data/recovery instead of internal storage
  ##export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1

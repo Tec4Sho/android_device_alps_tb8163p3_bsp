@@ -71,7 +71,7 @@ CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
 
 # Recovery LZMA Compression
 BOARD_RAMDISK_USE_LZMA := true
-LZMA_RAMDISK_TARGETS := recovery
+LZMA_RAMDISK_TARGETS := recovery boot
 BOARD_RAMDISK_COMPRESSED := lzma-9
 TARGET_FORCE_PREBUILT_KERNEL := true
 
@@ -134,7 +134,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
-  TW_OEM_BUILD := false
+  TW_OEM_BUILD := true
   #TW_THEME := portrait_hdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -153,10 +153,8 @@ endif
 BOARD_VNDK_VERSION := current
 BOARD_VNDK_RUNTIME_DISABLE := true
 
-# TWRP Configuration
-TW_EXTRA_LANGUAGES := true
-TW_SCREEN_BLANK_ON_BOOT := true
-TW_USE_TOOLBOX := true
+##### TWRP Configuration below #####
+
 
 # Uses Custom ARM Busybox w/ Toybox
 RECOVERY_BUSYBOX_SYMLINKS := false
@@ -212,6 +210,10 @@ TARGET_USES_AOSP := true
 BOARD_USES_MTK_HARDWARE := true
 BOARD_HAS_MTK_HARDWARE := true
 MTK_HARDWARE := true
+
+TW_EXTRA_LANGUAGES := false
+TW_SCREEN_BLANK_ON_BOOT := true
+TW_USE_TOOLBOX := true
 
 DEVICE_RESOLUTION := 720x1280                  # The Resolution of your Device
 BOARD_SCREEN_WIDTH := 1280                     # Device resolution width

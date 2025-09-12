@@ -134,7 +134,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
-  TW_OEM_BUILD := true
+  TW_OEM_BUILD := false
   #TW_THEME := portrait_hdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -275,7 +275,7 @@ TW_CUSTOM_TWRP_FLAGS := $(DEVICE_PATH)/recovery/root/etc/twrp.flags
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 
 # GPU MaliT720 support opengl aep
-BOARD_OPENGL_AEP := true
+BOARD_OPENGL_AEP := false
 
 # Copy your own init.rc file
 TARGET_PROVIDES_INIT_RC := false
@@ -354,11 +354,11 @@ TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_SUPPORT_INPUT_1_2_HAPTICS := false
 
 # Offset X Y
-#TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-#TW_X_OFFSET := -5
-#TW_Y_OFFSET := -5
-#TW_W_OFFSET := 5
-#TW_H_OFFSET := 5
+TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+TW_X_OFFSET := 0
+TW_Y_OFFSET := 0
+TW_W_OFFSET := 0
+TW_H_OFFSET := 0
 
 TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
@@ -369,8 +369,8 @@ BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
-TW_USE_FB2PNG := true
-TW_INCLUDE_NANO := true
+TW_USE_FB2PNG := false
+TW_INCLUDE_NANO := false
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
 

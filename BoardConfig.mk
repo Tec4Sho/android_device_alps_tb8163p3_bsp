@@ -362,6 +362,7 @@ TW_FRAMERATE := 30
 
 BOARD_RECOVERY_SWIPE := false
 RECOVERY_SDCARD_ON_DATA := false
+BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools

@@ -463,7 +463,7 @@
 
 			<button style="main_button">
 				<placement x="%col1_x_right%" y="%row15a_y%"/>
-				<text>{@zip_flash_btn=Flash}</text>
+				<text>{@zip_add_btn=Flash}</text>
 				<action function="flash">flash_zip</action>
 			</button>
 
@@ -3116,7 +3116,6 @@
 			</button>
 
 			<button style="main_button">
-				<condition var1="tw_allow_partition_sdcard" var2="1"/>
 				<placement x="%col1_x_left%" y="%row6a_y%"/>
 				<text>{@part_sd_btn=Partition SD Card}</text>
 				<actions>

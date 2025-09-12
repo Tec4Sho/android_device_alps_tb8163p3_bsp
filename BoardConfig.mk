@@ -145,6 +145,8 @@ else
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
+  TW_INTERNAL_LABEL := data
+  TW_EXTERNAL_LABEL := storage
 endif
 
 # TWRP Configuration
@@ -226,13 +228,11 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto
 TW_NO_USB_STORAGE := false
 
 TW_INTERNAL_PATH := /data/media/0
-TW_INTERNAL_LABEL := data
 TW_INTERNAL_MOUNT := /data
 TW_INTERNAL_STORAGE_PATH := /data/media/0
 TW_INTERNAL_STORAGE_MOUNT_POINT := /data
 
 TW_EXTERNAL_PATH := /storage/udisk1
-TW_EXTERNAL_LABEL := storage
 TW_EXTERNAL_MOUNT := /storage
 TW_EXTERNAL_STORAGE_PATH := /storage/udisk1
 TW_EXTERNAL_STORAGE_MOUNT_POINT := /storage

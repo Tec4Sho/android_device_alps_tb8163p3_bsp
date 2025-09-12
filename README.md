@@ -9,10 +9,15 @@
 #
 ```
 TWRP Build: ANDROID 9.0
+
 Name: ALPS
+
 Device: TB8163P3_BSP
-Model: FULL_TB8163P3_BSP 
+
+Model: FULL_TB8163P3_BSP
+
 Type: ANDROID RADIO
+
 
 Unofficial TWRP OEM Built with extended custom device flags.
 

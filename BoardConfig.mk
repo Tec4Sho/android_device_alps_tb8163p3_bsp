@@ -145,8 +145,6 @@ else
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
-  TW_INTERNAL_LABEL := data
-  TW_EXTERNAL_LABEL := storage
 endif
 
 # TWRP Configuration
@@ -228,12 +226,12 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto
 TW_NO_USB_STORAGE := false
 
 TW_INTERNAL_PATH := /data/media/0
-TW_INTERNAL_MOUNT := /data
+TW_INTERNAL_MOUNT := data
 TW_INTERNAL_STORAGE_PATH := /data/media/0
 TW_INTERNAL_STORAGE_MOUNT_POINT := /data
 
 TW_EXTERNAL_PATH := /storage/udisk1
-TW_EXTERNAL_MOUNT := /storage
+TW_EXTERNAL_MOUNT := storage
 TW_EXTERNAL_STORAGE_PATH := /storage/udisk1
 TW_EXTERNAL_STORAGE_MOUNT_POINT := /storage
 
@@ -338,7 +336,7 @@ BOARD_USB_ALLOW_DEFAULT_MTP := true
 # Force app can see udisk 
 BOARD_FORCE_UDISK_VISIBLE := true 
 BOARD_IS_SUPPORT_NTFS := true
-#USE_RECOVERY_INSTALLER := true
+USE_RECOVERY_INSTALLER := true
 
 # Auto update package from USB
 TWRP_EVENT_LOGGING := true
@@ -360,7 +358,7 @@ TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
 
 BOARD_RECOVERY_SWIPE := false
-RECOVERY_SDCARD_ON_DATA := true
+RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
@@ -381,4 +379,4 @@ DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
 #DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor-manifest.xml
 
 # Auto copy files into ramdisk-recovery
-TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/recovery/root
+#TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/recovery/root

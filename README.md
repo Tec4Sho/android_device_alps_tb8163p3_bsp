@@ -69,4 +69,4 @@ Custom Themes (OFRP)
 Small Issues:
 
 Lower buttons touch location offset is bad.
-So you have to press under some buttons or under and slightly to the right some othere but looks clean an awesome all features working an most important twrp touch on Android Radio.
+So you have to press a bit under some buttons or under and slightly to the right on some others but looks clean an awesome with all features working an most important twrp touch recovery on Android Radio.

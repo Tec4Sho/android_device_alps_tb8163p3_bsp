@@ -668,5 +668,14 @@
 		<string name="theme_ver_err">Custom theme version does not match TWRP version. Using stock theme.</string>
 		<string name="up_a_level">(Up A Level)</string>
 		<string name="install_reboot">Rebooting in 5 seconds</string>
+		<string name="zip_flash_btn">Flash</string>
+		<string name="flash_btn">Flash</string>
+		<string name="reset_data_btn">Factory Reset</string>
+		<string name="refresh_backup_btn">Backup</string>
+		<string name="restore_backup_btn">Restore</string>
+		<string name="sd_btn">Partition</string>
+		<string name="swipe_to_unlock_btn">Unlock</string>
+		<string name="confirm_btn">Confirm</string>
+		<string name="sideload_start_btn">Sideload</string>
 	</resources>
 </language>

@@ -3,8 +3,8 @@
 # Copyright (C) 2025 SebaUbuntu's TWRP device tree generator
 #
 # SPDX-License-Identifier: Apache-2.0
-# Custom twrp 9.0 build for alps tb8163p3_bsp 
-# Custom ofrp 9.0 build for alps tb8163p3_bsp 
+# Custom TWRP 9.0 build for alps tb8163p3_bsp 
+# Custom OFRP 9.0 build for alps tb8163p3_bsp 
 #
 
 DEVICE_PATH := device/alps/tb8163p3_bsp

@@ -13,8 +13,11 @@ DEVICE_PATH := $(LOCAL_PATH)
 # ​TWRP FLAGS
 TW_OEM_BUILD := false
 
+# Enable reboot to Fastboot/D HAL
+TW_INCLUDE_FASTBOOTD := true
+
 # This device does support fastboot boot, do *NOT* remove!
-TW_USE_FASTBOOT_BOOT := false
+TW_NO_FASTBOOT_BOOT := false
 
 # This device has dedicated recovery partition 
 TW_HAS_RECOVERY_PARTITION := true

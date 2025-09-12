@@ -134,12 +134,14 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
+  BOARD_VNDK_RUNTIME_DISABLE := true    # Disable the current VNDK runtime
   #TW_THEME := portrait_hdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := ofrp
 else
+  BOARD_VNDK_VERSION := current     # Use the current VNDK version
   #TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -240,9 +242,6 @@ TW_MTP_DEVICE := /dev/mtp_usb
 TW_DEVICE_VERSION := alps_tb8163p3-bsp
 TW_INCLUDE_RESETPROP := true
 TW_HAS_DOWNLOAD_MODE := false
-
-# Use the current VNDK version
-BOARD_VNDK_VERSION := current
 
 # Enable reboot to Fastboot/D HAL
 TW_INCLUDE_FASTBOOTD := true

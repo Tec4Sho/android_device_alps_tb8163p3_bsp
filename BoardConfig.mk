@@ -242,6 +242,7 @@ TW_EXTERNAL_STORAGE_PATH := /storage/udisk1
 TW_EXTERNAL_STORAGE_MOUNT_POINT := storage
 
 TW_HAS_MTP := true
+TW_INCLUDE_MTP := true
 TW_MTP_DEVICE := /dev/mtp_usb
 TW_DEVICE_VERSION := alps_tb8163p3-bsp
 TW_INCLUDE_RESETPROP := true

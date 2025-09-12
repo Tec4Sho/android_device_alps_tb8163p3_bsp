@@ -11,13 +11,13 @@ LOCAL_PATH := device/alps/tb8163p3_bsp
 DEVICE_PATH := $(LOCAL_PATH)
 
 # ​TWRP FLAGS
-TW_OEM_BUILD := true
+TW_OEM_BUILD := false
 
 # This device does support fastboot boot, do *NOT* remove!
-TW_NO_FASTBOOT_BOOT := false
+TW_USE_FASTBOOT_BOOT := false
 
 # This device has dedicated recovery partition 
-TW_HAS_NO_RECOVERY_PARTITION := false
+TW_HAS_RECOVERY_PARTITION := true
 
 PRODUCT_SHIPPING_API_LEVEL := 28
 

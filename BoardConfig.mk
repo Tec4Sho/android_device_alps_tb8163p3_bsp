@@ -3,6 +3,7 @@
 # Copyright (C) 2025 SebaUbuntu's TWRP device tree generator
 #
 # SPDX-License-Identifier: Apache-2.0
+#
 # Custom TWRP 9.0 build for alps tb8163p3_bsp 
 # Custom OFRP 9.0 build for alps tb8163p3_bsp 
 #
@@ -264,7 +265,7 @@ TW_HAS_EXTERNAL := true
 TW_HAS_INJECTTWRP := false
 TW_HAS_DATA_MEDIA := true
 TW_HAS_USB_STORAGE := true
-TW_HAS_DUAL_STORAGE := true
+#TW_HAS_DUAL_STORAGE := true
 TW_HAS_REPACK_TOOLS := true
 TW_HAS_BOOT_PARTITION := true
 TW_HAS_RECOVERY_PARTITION := true

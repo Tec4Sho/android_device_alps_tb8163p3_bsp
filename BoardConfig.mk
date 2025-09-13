@@ -385,6 +385,7 @@ TW_HAS_NO_RECOVERY_PARTITION := false
 # VINTF
 DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/device_system_manifest.xml
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor_manifest.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compatibility_matrix.xml
 
 # Auto copy files into ramdisk-recovery
 #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/recovery/root

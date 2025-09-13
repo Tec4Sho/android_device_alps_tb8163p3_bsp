@@ -309,6 +309,9 @@ TW_CUSTOM_POWER_BUTTON := 116
 # Vendor Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
+# System Properties
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+
 # For people whose screens were mounted the wrong side across
 BOARD_HAS_FLIPPED_SCREEN := false
 

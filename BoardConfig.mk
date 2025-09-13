@@ -238,9 +238,9 @@ TW_INTERNAL_MOUNT := /data
 TW_INTERNAL_STORAGE_PATH := /data/media/0
 TW_INTERNAL_STORAGE_MOUNT_POINT := data
 TW_EXTERNAL_LABEL := storage
-TW_EXTERNAL_PATH := /storage/udisk1
+TW_EXTERNAL_PATH := /storage/udisk*
 TW_EXTERNAL_MOUNT := /storage
-TW_EXTERNAL_STORAGE_PATH := /storage/udisk1
+TW_EXTERNAL_STORAGE_PATH := /storage/udisk*
 TW_EXTERNAL_STORAGE_MOUNT_POINT := storage
 
 TW_HAS_MTP := true

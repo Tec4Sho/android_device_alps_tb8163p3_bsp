@@ -50,12 +50,26 @@ TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 
 # Boot control HAL
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.1-service
+    android.hardware.boot@1.0
 
 # Fastbootd control HAL
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     fastbootd
+
+# Drm
+PRODUCT_PACKAGES += \
+    android.hardware.drm@1.0-impl
+
+# Graphics 
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.composer@2.1-impl \
+    android.hardware.graphics.mapper@2.0-impl
+
+# Keymaster 
+PRODUCT_PACKAGES += \
+   android.hardware.keymaster@3.0-impl
 
 # Soong Namespaces
 PRODUCT_SOONG_NAMESPACES += \

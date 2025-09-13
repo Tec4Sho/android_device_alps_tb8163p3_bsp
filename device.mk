@@ -10,6 +10,15 @@ LOCAL_PATH := device/alps/tb8163p3_bsp
 
 DEVICE_PATH := $(LOCAL_PATH)
 
+# API/SDK Version
+PRODUCT_SHIPPING_API_LEVEL := 28
+
+BOARD_SHIPPING_API_LEVEL := $(PRODUCT_SHIPPING_API_LEVEL)
+
+BOARD_API_LEVEL := $(PRODUCT_SHIPPING_API_LEVEL)
+
+SHIPPING_API_LEVEL := $(PRODUCT_SHIPPING_API_LEVEL)
+
 # Enable reboot to Fastboot/D HAL
 TW_INCLUDE_FASTBOOTD := true
 
@@ -18,8 +27,6 @@ TW_NO_FASTBOOT_BOOT := false
 
 # This device has dedicated recovery partition 
 TW_HAS_RECOVERY_PARTITION := true
-
-PRODUCT_SHIPPING_API_LEVEL := 28
 
 GIT_DISCOVERY_ACROSS_FILESYSTEM := 1
 
@@ -41,6 +48,11 @@ TARGET_COPY_OUT_VENDOR := vendor
 
 TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 
+# Boot control HAL
+PRODUCT_PACKAGES += \
+    android.hardware.boot@1.1-service
+
+# Fastbootd control HAL
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     fastbootd

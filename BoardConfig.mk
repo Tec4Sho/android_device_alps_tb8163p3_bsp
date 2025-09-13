@@ -128,17 +128,20 @@ BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 1
 BOARD_OS_VERSION := 9.0.0
 BOARD_OS_PATCH_LEVEL := 2021-09
 
-# Hack: prevent anti rollback
+# Hackless: Android 9 rollback
 PLATFORM_SECURITY_PATCH := 2021-09-05
 PLATFORM_VERSION := 9.0.0
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
+##### TWRP Configuration below #####
+
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_OEM_BUILD := false
-  #TW_THEME := portrait_hdpi
-  TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
-  TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  TW_THEME := portrait_hdpi
+  #TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
+  #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  #TARGET_RECOVERY_DEVICE_DIRS += $(TWRP_THEME_LOC)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := ofrp
 else
@@ -146,6 +149,7 @@ else
   #TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  TARGET_RECOVERY_DEVICE_DIRS += $(TWRP_THEME_LOC)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
 endif
@@ -153,9 +157,6 @@ endif
 # VNDK Fix
 BOARD_VNDK_VERSION := current
 BOARD_VNDK_RUNTIME_DISABLE := true
-
-##### TWRP Configuration below #####
-
 
 # Uses Custom ARM Busybox w/ Toybox
 RECOVERY_BUSYBOX_SYMLINKS := false
@@ -173,7 +174,7 @@ BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
 USE_OPENGL_RENDERER := true
 TARGET_DISABLE_TRIPLE_BUFFERING := false
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false 
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK :=false 
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := false
@@ -216,20 +217,17 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-DEVICE_RESOLUTION := 720x1280                  # The Resolution of your Device
-BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-TARGET_SCREEN_HEIGHT := 720                    # The height mdpi
-TARGET_SCREEN_WIDTH := 1280                    # The width mdpi
+DEVICE_RESOLUTION := 600x1024                 # The Resolution of your Device
+BOARD_SCREEN_WIDTH := 1024                     # Device resolution width
+BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
+TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+TARGET_SCREEN_WIDTH := 1024                    # The width mdpi
 TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
 TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
 TW_SECONDARY_BRIGHTNESS_PATH := /sys/devices/platform/leds-mt65xx/leds/lcd-backlight/brightness
-
-# Set the Path of Logical Units (LUNs) for Storage below (as per your chip/device)
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc/gadget/lun%d/file
 
 # Storage
 TW_NO_USB_STORAGE := false
@@ -388,4 +386,4 @@ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compatibility_matrix.xml
 
 # Auto copy files into ramdisk-recovery
-#TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/recovery/root
+#

@@ -19,6 +19,9 @@ BOARD_API_LEVEL := $(PRODUCT_SHIPPING_API_LEVEL)
 
 SHIPPING_API_LEVEL := $(PRODUCT_SHIPPING_API_LEVEL)
 
+# Product characteristics 
+PRODUCT_CHARACTERISTICS := tablet 
+
 # Enable reboot to Fastboot/D HAL
 TW_INCLUDE_FASTBOOTD := true
 

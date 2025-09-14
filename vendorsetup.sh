@@ -51,6 +51,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export FOX_DRASTIC_SIZE_REDUCTION=1
    export TARGET_SCREEN_HEIGHT="720"
    export TARGET_SCREEN_WIDTH="1280"
+   export FOX_NO_SAMSUNG_SPECIAL=1
    export TW_DEFAULT_LANGUAGE="en"
    export LC_ALL="C"
         
@@ -58,7 +59,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export OF_QUICK_BACKUP_LIST="/boot;/data"
    #export FOX_RECOVERY_INSTALL_PARTITION="/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/recovery"
   	#export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system"
-  	#export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor"
+  	#export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-n=1ame/vendor"
   	#export FOX_RECOVERY_BOOT_PARTITION="/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot"
    export BOARD_BOOTIMAGE_PARTITION_SIZE="16777216"
    export BOARD_RECOVERYIMAGE_PAITION_SIZE="16777216"

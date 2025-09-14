@@ -144,6 +144,12 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   #TARGET_RECOVERY_DEVICE_DIRS += $(TWRP_THEME_LOC)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := ofrp
+  # VNDK Fix
+  BOARD_VNDK_VERSION := current
+  BOARD_VNDK_RUNTIME_DISABLE := true
+  # Uses Custom ARM Busybox w/ Toybox
+  RECOVERY_BUSYBOX_SYMLINKS := false
+  RECOVERY_BUSYBOX_TOOLS := false
 else
   TW_OEM_BUILD := true
   #TW_THEME := landscape_mdpi
@@ -152,15 +158,13 @@ else
   TARGET_RECOVERY_DEVICE_DIRS += $(TWRP_THEME_LOC)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
+  # VNDK Fix
+  BOARD_VNDK_VERSION := current
+  BOARD_VNDK_RUNTIME_DISABLE := false
+  # Uses Custom ARM Busybox w/ Toybox
+  RECOVERY_BUSYBOX_SYMLINKS := true
+  RECOVERY_BUSYBOX_TOOLS := true
 endif
-
-# VNDK Fix
-BOARD_VNDK_VERSION := current
-BOARD_VNDK_RUNTIME_DISABLE := true
-
-# Uses Custom ARM Busybox w/ Toybox
-RECOVERY_BUSYBOX_SYMLINKS := false
-RECOVERY_BUSYBOX_TOOLS := false
 
 # twrp rotation for special devices
 TW_ROTATION := 270
@@ -263,7 +267,7 @@ TW_HAS_EXTERNAL := true
 TW_HAS_INJECTTWRP := false
 TW_HAS_DATA_MEDIA := true
 TW_HAS_USB_STORAGE := true
-#TW_HAS_DUAL_STORAGE := true
+TW_HAS_DUAL_STORAGE := true
 TW_HAS_REPACK_TOOLS := true
 TW_HAS_BOOT_PARTITION := true
 TW_HAS_RECOVERY_PARTITION := true
@@ -277,7 +281,7 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 BOARD_OPENGL_AEP := false
 
 # Copy your own init.rc file
-TARGET_PROVIDES_INIT_RC := false
+TARGET_PROVIDES_INIT_RC := true
 
 # Explicitly set the kernel version for depmod
 KERNEL_VERSION := 4.9.117+

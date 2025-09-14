@@ -141,7 +141,7 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
-  #TARGET_RECOVERY_DEVICE_DIRS += $(TWRP_THEME_LOC)
+  #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := ofrp
   # VNDK Fix
@@ -150,12 +150,23 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   # Uses Custom ARM Busybox w/ Toybox
   RECOVERY_BUSYBOX_SYMLINKS := false
   RECOVERY_BUSYBOX_TOOLS := false
+  DEVICE_RESOLUTION := 720x1280                 # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
+  TARGET_SCREEN_HEIGHT := 720                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1280
+  # OF Offset X Y
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  TW_X_OFFSET := 0
+  TW_Y_OFFSET := 10
+  TW_W_OFFSET := 0
+  TW_H_OFFSET := -10
 else
   TW_OEM_BUILD := true
   #TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
-  TARGET_RECOVERY_DEVICE_DIRS += $(TWRP_THEME_LOC)
+  TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
   TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
   # VNDK Fix
@@ -164,6 +175,17 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   RECOVERY_BUSYBOX_SYMLINKS := true
   RECOVERY_BUSYBOX_TOOLS := true
+  DEVICE_RESOLUTION := 600x1024                 # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1024                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
+  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1024         
+  # TW Offset X Y
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  TW_X_OFFSET := 0
+  TW_Y_OFFSET := 0
+  TW_W_OFFSET := 0
+  TW_H_OFFSET := 0
 endif
 
 # twrp rotation for special devices
@@ -221,11 +243,6 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-DEVICE_RESOLUTION := 600x1024                 # The Resolution of your Device
-BOARD_SCREEN_WIDTH := 1024                     # Device resolution width
-BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
-TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
-TARGET_SCREEN_WIDTH := 1024                    # The width mdpi
 TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
 TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
@@ -358,14 +375,6 @@ BOARD_USB_ACCESSORY_SUPPORT := true
 #TWRP_CUSTOM_KEYBOARD := $(DEVICE_PATH)/mtk-kpd.kl
 TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_SUPPORT_INPUT_1_2_HAPTICS := false
-
-# Offset X Y
-TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-TW_X_OFFSET := 0
-TW_Y_OFFSET := 0
-TW_W_OFFSET := 0
-TW_H_OFFSET := 0
-
 TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
 

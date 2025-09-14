@@ -106,7 +106,6 @@ jobs:
 
           # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Cleanup build space
-      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == 'true'
       uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps  
 
@@ -221,19 +220,10 @@ jobs:
         echo
         echo '### large files in workspace dir ###'
         sudo find . -type f -size +100M -exec du -ha {} +
-        # Make missing ninja_log
-        if [ !-d out/ ]; then
-            mkdir -p out
-            echo '# ninja_log' > out/.ninja_log
-        elif [ !-f out/.ninja_log ]; then
-            echo '### ninja_log ###' > out/.ninja_log
-        else
-            echo '# ninja_log file found continuing build'
-        fi
       continue-on-error: true
 
     - name: Check Workspace Contents
-      run: du ${GITHUB_WORKSPACE} -h -d 1
+      run: du ${GITHUB_WORKSPACE} -h -d 3
       
     - name: Building Image 
       run: |
@@ -271,7 +261,7 @@ jobs:
             echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
         else
             echo "No Recovery file found!"
-            cd Exit
+            exit 1
         fi
         
     - name: Include Recovery Installer
@@ -299,8 +289,7 @@ jobs:
       uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
       with:
         files: |
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/ramdisk-recovery.*
-          
+          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/ramdisk-recovery.*  
         name: Unofficial TWRP for Alps ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |

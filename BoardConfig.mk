@@ -175,11 +175,11 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   RECOVERY_BUSYBOX_SYMLINKS := true
   RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 600x1024                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1024                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1024         
+  DEVICE_RESOLUTION := 1200x1920 #600x1024                 # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1920                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 1200                     # Device resolution height
+  TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1920         
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0

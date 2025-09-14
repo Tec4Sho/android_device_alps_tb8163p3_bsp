@@ -198,7 +198,8 @@ subsystem sound
 /dev/stpwmt     0660     system      system
 /dev/stune*     0755      system      system
 /dev/trustzone     0660     system      drmrpc
-
+# Usb bus
+/dev/bus/usb*         0660     root      usb
 # add the read write right of ttyUSB*
 /dev/tty     0666     root      root
 /dev/ttyGS0     0600     root      root

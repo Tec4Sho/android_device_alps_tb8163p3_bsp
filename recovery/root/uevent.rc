@@ -34,7 +34,7 @@ parallel_restorecon enabled
 # Firmware directory Path
 # Below macro will be read by uevent and path will
 # be added to search path for firmware loading
-firmware_directories /etc/firmware/ /odm/firmware/ /vendor/firmware/ /firmware/image/
+firmware_directories /etc/firmware/ /odm/firmware/ /vendor/firmware/
 
 parallel_restorecon_dir /sys
 
@@ -54,6 +54,89 @@ subsystem sound
     devname uevent_devpath
     dirname /dev/snd
 
+
+# eMMC/Ext4 blockchain
+/dev/block/mmcblk0p1        0660      root      root
+/dev/block/mmcblk0p2        0600      root      root
+/dev/block/mmcblk0p3        0640      root      root
+/dev/block/mmcblk0p4        0660      root      root
+/dev/block/mmcblk0p5        0660      root      root
+/dev/block/mmcblk0p6        0600      root      root
+/dev/block/mmcblk0p7        0600      root      root
+/dev/block/mmcblk0p8        0600      root      root
+/dev/block/mmcblk0p9        0660      root      root
+/dev/block/mmcblk0p10       0600      root      root
+/dev/block/mmcblk0p11       0660      root      root
+/dev/block/mmcblk0p12       0660      root      root
+/dev/block/mmcblk0p13       0600      root      root
+/dev/block/mmcblk0p14       0600      root      root
+/dev/block/mmcblk0p15       0660      root      root
+/dev/block/mmcblk0p16       0660      root      root
+/dev/block/mmcblk0p17       0600      root      root
+/dev/block/mmcblk0p18       0600      root      root
+/dev/block/mmcblk0p19       0600      root      root
+/dev/block/mmcblk0p20       0600      root      root
+/dev/block/mmcblk0p21       0600      root      root
+/dev/block/mmcblk0p22       0600      root      root
+/dev/block/mmcblk0p23       0600      root      root
+/dev/block/mmcblk0p24       0600      root      root
+/dev/block/mmcblk0p25       0600      root      root
+/dev/block/mmcblk0p26       0660      root      root
+/dev/block/mmcblk0p27       0600      root      root
+/dev/block/mmcblk0p28       0600      root      root
+/dev/block/mmcblk0p29       0600      root      root
+
+
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd         0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot        0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache       0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dkb         0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dtbo        0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/expdb       0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/flashinfo   0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp         0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/kb          0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/lk          0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/lk2         0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/logo        0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/metadata    0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/nvram       0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/nvrom       0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/para        0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/persist     0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/proinfo     0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/protect1    0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/protect2    0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/recovery    0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/seccfg      0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/secro       0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system      0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/tee1        0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/tee2        0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/userdata    0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vbmeta      0777      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor      0777      root      root
+
+
+# Memory management 
+/dev/block/mmcblk0rpmb                           0660    root    system
+/dev/block/zram                                  0660    root    root
+
+
+# Change partition permission
+# eMMC only
+/dev/block/mmcblk0                               0600    root    root
+/dev/block/mmcblk0boot0                          0600    root    root
+/dev/block/mmcblk0boot1                          0600    root    root
+
+
+# MTP USB-OTG Storage
+/dev/block/sda                                   0600    root    root
+/dev/block/sdb                                   0600    root    root
+/dev/block/sdb1                                  0660    root    root
+/dev/block/sdb2                                  0660    root    root
+
+
 # ueventd can only set permissions on device nodes and their associated
 # sysfs attributes, not on arbitrary paths.
 #
@@ -62,32 +145,7 @@ subsystem sound
 # shortcut: "mtd@NN" expands to "/dev/mtd/mtdNN"
 
 
-
-# eMMC/Ext4 Common
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot        0640      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dkb         0640      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/kb          0640      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/logo        0660      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/misc2       0660      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/recovery    0640      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/seccfg      0640      root      root
-/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/secro       0640      root      root
-
-# Change partition permission
-# eMMC only
-/dev/block/mmcblk0                               0660    root    system
-/dev/block/mmcblk0boot0                          0660    root    system
-/dev/block/mmcblk0boot1                          0660    root    system
-
-# EXT only
-/dev/block/sda                                   0660    root    system
-/dev/block/sdb                                   0660    root    system
-/dev/block/sdc                                   0660    root    system
-
-# Full /dev Directory List
-/proc/self/fd            root      root
-/dev/.      0755      root      root
-/dev/..      0755      root      root
+# Full /dev Directory 
 /dev/BOOT     0600     root      root
 /dev/MTK_SMI     0660     media      media
 /dev/MT_pmic_adc_cali     0600     root      root
@@ -198,8 +256,7 @@ subsystem sound
 /dev/stpwmt     0660     system      system
 /dev/stune*     0755      system      system
 /dev/trustzone     0660     system      drmrpc
-# Usb bus
-/dev/bus/usb*         0660     root      usb
+
 # add the read write right of ttyUSB*
 /dev/tty     0666     root      root
 /dev/ttyGS0     0600     root      root
@@ -250,6 +307,12 @@ subsystem sound
 /dev/zjinnova_iap     0600     root      root
 
 
+# USB Storage 
+/sys/devices/platform/soc/11240000.mmc*       0664      root      root
+/sys/devices/platform/mt_usb*                 0664      root      root
+/sys/devices/platform/soc/11270000.usb*       0664      root      root
+
+
 /sys/devices/platform/leds-mt65xx/leds/green   delay_on      0664  system   system
 /sys/devices/platform/leds-mt65xx/leds/green   delay_off      0664  system   system
 /sys/devices/platform/leds-mt65xx/leds/red   delay_on      0664  system   system
@@ -265,9 +328,10 @@ subsystem sound
 
 
 # sysfs properties
+/sys/devices/platform/trusty.*      trusty_version        0440  root   log
 /sys/devices/virtual/input/input*   enable      0660  root   input
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
-/sys/devices/virtual/android_usb/*   enable      0664  root   system
+/sys/devices/virtual/usb_composite/*   enable      0664  root   system
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0664  system system
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0664  system system
 
@@ -275,7 +339,6 @@ subsystem sound
 # Touchscreen device nodes
 /sys/module/gt9xx_driver/parameters/calibration  0664   root       system
 /sys/module/hyn_cst3xx/parameters/calibration  0664   root       system
-/sys/module/kernel/parameters/alignment  0600   root       root
 
 
 # USB role switch
@@ -283,24 +346,11 @@ subsystem sound
 /sys/class/dual_role_usb/*	power_role	0660	system	system
 /sys/class/dual_role_usb/*	mode		0660	system	system
 
+#Memory Offline
+/sys/devices/system/memory/memory* state    0660 system system
 
-# Cortex A7 Online
-/sys/devices/armv7_cortex_a7* cpus    0444 system system
-
+/sys/devices/virtual/hdcp/msm_hdcp  min_level_change 0664    system  graphics
 
 # sys-fs display
-/sys/class/graphics/fb*     bits_per_pixel    0644    root  root
-/sys/class/graphics/fb*     blank             0644    root  root 
-/sys/class/graphics/fb*     console           0644    root  root
-/sys/class/graphics/fb*     cursor            0644    root  root 
-/sys/class/graphics/fb*     dev               0444    root  root
-/sys/class/graphics/fb*     mode              0644    root  root 
-/sys/class/graphics/fb*     modes             0644    root  root
-/sys/class/graphics/fb*     name              0444    root  root 
-/sys/class/graphics/fb*     pan               0644    root  root
-/sys/class/graphics/fb*     rotate            0644    root  root 
-/sys/class/graphics/fb*     state             0644    root  root
-/sys/class/graphics/fb*     stride            0444    root  root 
-/sys/class/graphics/fb*     uevent            0644    root  root
-/sys/class/graphics/fb*     virtual_size      0644    root  root 
-
+/sys/class/graphics/fb*     hpd                      0664    system  graphics
+/sys/class/graphics/fb*     res_info       

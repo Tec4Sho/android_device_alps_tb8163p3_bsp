@@ -111,7 +111,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export OF_RUN_POST_FORMAT_PROCESS=1
 
  # fux screen height for tablets
-   export OF_SCREEN_H="720"
+   export OF_SCREEN_H="1080"
  
  # Maintainer 
    export OF_MAINTAINER="Tec4Sho"

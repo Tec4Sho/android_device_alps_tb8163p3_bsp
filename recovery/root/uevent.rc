@@ -264,10 +264,9 @@ subsystem sound
 
 
 # sysfs properties
-/sys/devices/platform/trusty.*      trusty_version        0440  root   log
 /sys/devices/virtual/input/input*   enable      0660  root   input
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
-/sys/devices/virtual/usb_composite/*   enable      0664  root   system
+/sys/devices/virtual/android_usb/*   enable      0664  root   system
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0664  system system
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0664  system system
 
@@ -275,6 +274,7 @@ subsystem sound
 # Touchscreen device nodes
 /sys/module/gt9xx_driver/parameters/calibration  0664   root       system
 /sys/module/hyn_cst3xx/parameters/calibration  0664   root       system
+/sys/module/kernel/parameters/alignment  0600   root       root
 
 
 # USB role switch
@@ -282,11 +282,24 @@ subsystem sound
 /sys/class/dual_role_usb/*	power_role	0660	system	system
 /sys/class/dual_role_usb/*	mode		0660	system	system
 
-#Memory Offline
-/sys/devices/system/memory/memory* state    0660 system system
 
-/sys/devices/virtual/hdcp/msm_hdcp  min_level_change 0664    system  graphics
+# Cortex A7 Online
+/sys/devices/armv7_cortex_a7* cpus    0444 system system
+
 
 # sys-fs display
-/sys/class/graphics/fb*     hpd                      0664    system  graphics
-/sys/class/graphics/fb*     res_info       
+/sys/class/graphics/fb*     bits_per_pixel    0644    root  root
+/sys/class/graphics/fb*     blank             0644    root  root 
+/sys/class/graphics/fb*     console           0644    root  root
+/sys/class/graphics/fb*     cursor            0644    root  root 
+/sys/class/graphics/fb*     dev               0444    root  root
+/sys/class/graphics/fb*     mode              0644    root  root 
+/sys/class/graphics/fb*     modes             0644    root  root
+/sys/class/graphics/fb*     name              0444    root  root 
+/sys/class/graphics/fb*     pan               0644    root  root
+/sys/class/graphics/fb*     rotate            0644    root  root 
+/sys/class/graphics/fb*     state             0644    root  root
+/sys/class/graphics/fb*     stride            0444    root  root 
+/sys/class/graphics/fb*     uevent            0644    root  root
+/sys/class/graphics/fb*     virtual_size      0644    root  root 
+

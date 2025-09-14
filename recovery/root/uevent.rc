@@ -1,0 +1,292 @@
+# Copyright (c) 2012-2015, 2017-2025, The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * Neither the name of The Linux Foundation nor
+#       the names of its contributors may be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+#							
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NON-INFRINGEMENT ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#
+# DEVICE; Alps tb8163p3_bsp uevent.mt8163.rc for custom recovery
+#
+#
+parallel_restorecon enabled
+
+
+# Firmware directory Path
+# Below macro will be read by uevent and path will
+# be added to search path for firmware loading
+firmware_directories /etc/firmware/ /odm/firmware/ /vendor/firmware/ /firmware/image/
+
+parallel_restorecon_dir /sys
+
+subsystem graphics
+    devname uevent_devpath
+    dirname /dev/graphics
+
+subsystem drm
+    devname uevent_devpath
+    dirname /dev/dri
+
+subsystem input
+    devname uevent_devpath
+    dirname /dev/input
+
+subsystem sound
+    devname uevent_devpath
+    dirname /dev/snd
+
+# ueventd can only set permissions on device nodes and their associated
+# sysfs attributes, not on arbitrary paths.
+#
+# format for /dev rules: devname mode uid gid
+# format for /sys rules: nodename attr mode uid gid
+# shortcut: "mtd@NN" expands to "/dev/mtd/mtdNN"
+
+
+
+# eMMC/Ext4 Common
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot        0640      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dkb         0640      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/kb          0640      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/logo        0660      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/misc2       0660      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/recovery    0640      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/seccfg      0640      root      root
+/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/secro       0640      root      root
+
+# Change partition permission
+# eMMC only
+/dev/block/mmcblk0                               0660    root    system
+/dev/block/mmcblk0boot0                          0660    root    system
+/dev/block/mmcblk0boot1                          0660    root    system
+
+# EXT only
+/dev/block/sda                                   0660    root    system
+/dev/block/sdb                                   0660    root    system
+/dev/block/sdc                                   0660    root    system
+
+# Full /dev Directory List
+/proc/self/fd            root      root
+/dev/.      0755      root      root
+/dev/..      0755      root      root
+/dev/BOOT     0600     root      root
+/dev/MTK_SMI     0660     media      media
+/dev/MT_pmic_adc_cali     0600     root      root
+/dev/RT_Monitor     0600     root      root
+/dev/Vcodec     0660     media      system
+/dev/aed0     0600     root      root
+/dev/aed1     0600     root      root
+/dev/alarm     0664     system      radio
+/dev/apu_memory_bandwidth     0600     root      root
+/dev/ashmem     0666     root      root
+/dev/atf_log     0600     root      root
+/dev/audiomux     0664     root      system
+/dev/binder     0666     root      root
+/dev/block*      0755      root      root
+
+/dev/btif     0600     system      system
+/dev/bus*     0755      root      root
+/dev/camera-isp     0660     system      camera
+/dev/camera-pipemgr     0660     system      camera
+/dev/camera-sysram     0660     system      camera
+/dev/cam_freq     0600     root      root
+/dev/carstatus     0664     root      system
+/dev/cg2_bpf*     0600     root      root
+/dev/.coldboot_done      0      root      root
+/dev/console     0600     root      root
+/dev/cpuctl*    0555     system      system
+/dev/cpu_dma_latency     0600     root      root
+/dev/cpu_loading     0600     root      root
+/dev/cpu_memory_bandwidth     0600     root      root
+/dev/cpuset*     0755      system      system
+/dev/ddr_opp     0600     root      root
+/dev/device-mapper     0600     root      root
+/dev/devmap      444      root      media
+/dev/disp_freq     0600     root      root
+/dev/ebc     0660     media      media
+/dev/event-log-tags     0644     logd      logd
+/dev/flashlight     0660     system      camera
+/dev/fm     0664     root      system
+/dev/fnotify      444      root      system
+/dev/fscklogs*   0770      root      system
+/dev/full     0666     root      root
+/dev/fuse     0600     root      root
+/dev/gpiochip0     0600     root      root
+/dev/gpu_memory_bandwidth     0600     root      root
+/dev/graphics*  0755      root      root
+/dev/hdmitx     0660     media      system
+/dev/hwbinder     0666     root      root
+/dev/i2c-0     0600     root      root
+/dev/i2c-1     0600     root      root
+/dev/i2c-2     0664     system      system
+/dev/iio:device0     0600     root      root
+/dev/img_freq     0600     root      root
+/dev/input*      0755      root      root
+/dev/ion     0666     root      root
+/dev/isp_hrt_bandwidth     0600     root      root
+/dev/kd_camera_hw     0660     system      camera
+/dev/kd_camera_hw_bus2     0660     system      camera
+/dev/kmsg     0600     root      root
+/dev/loop-control     0600     root      root
+/dev/mali0     0666     root      root
+/dev/md32     0440     root      system
+/dev/mdp_freq     0600     root      root
+/dev/mdp_sync     0660     system      system
+/dev/memcg*     0555     root      root
+/dev/memory_bandwidth     0600     root      root
+/dev/mm_memory_bandwidth     0600     root      root
+/dev/mmp     0600     root      root
+/dev/mtk_cmdq     0644     system      system
+/dev/mtk_disp_mgr     0660     system      graphics
+/dev/mt_otg_test     0660     root      radio
+/dev/mtp_usb     0660     root      mtp
+/dev/network_latency     0600     root      root
+/dev/network_throughput     0600     root      root
+/dev/null     0666     root      root
+/dev/other_memory_bandwidth     0600     root      root
+/dev/power_model_ddr_req     0600     root      root
+/dev/power_model_vcore_req     0600     root      root
+/dev/ppp     0660     radio      vpn
+/dev/__properties__*      0711      root      root
+/dev/ptmx      0666     root      radio
+/dev/pts*      0755      root      root
+/dev/ptyp0     0600     root      root
+/dev/ptyp1     0600     root      root
+/dev/ptyp2     0600     root      root
+/dev/ptyp3     0600     root      root
+/dev/ptyp4     0600     root      root
+/dev/ptyp5     0600     root      root
+/dev/ptyp6     0600     root      root
+/dev/ptyp7     0600     root      root
+/dev/ptyp8     0600     root      root
+/dev/ptyp9     0600     root      root
+/dev/ptypa     0600     root      root
+/dev/ptypb     0600     root      root
+/dev/ptypc     0600     root      root
+/dev/ptypd     0600     root      root
+/dev/ptype     0600     root      root
+/dev/ptypf     0600     root      root
+/dev/radio*      0770      radio      radio
+/dev/random     0666     root      root
+/dev/rtc0     0640     system      system
+/dev/scp_vcore_req     0600     root      root
+/dev/sec     0660     root      system
+/dev/sensorlist     0600     root      root
+/dev/snd*      0755      root      root
+/dev/socket*      0755      root      root
+/dev/stpbt     0660     bluetooth      bluetooth
+/dev/stpgps     0660     gps      gps
+/dev/stpwmt     0660     system      system
+/dev/stune*     0755      system      system
+/dev/trustzone     0660     system      drmrpc
+
+# add the read write right of ttyUSB*
+/dev/tty     0666     root      root
+/dev/ttyGS0     0600     root      root
+/dev/ttyGS1     0600     root      root
+/dev/ttyGS2     0600     root      root
+/dev/ttyGS3     0600     root      root
+/dev/ttyS0     0600     root      root
+/dev/ttyS1     0666     system      system
+/dev/ttyS2     0660     system      system
+/dev/ttyS3     0660     system      system
+/dev/ttyp0     0600     root      root
+/dev/ttyp1     0600     root      root
+/dev/ttyp2     0600     root      root
+/dev/ttyp3     0600     root      root
+/dev/ttyp4     0600     root      root
+/dev/ttyp5     0600     root      root
+/dev/ttyp6     0600     root      root
+/dev/ttyp7     0600     root      root
+/dev/ttyp8     0600     root      root
+/dev/ttyp9     0600     root      root
+/dev/ttypa     0600     root      root
+/dev/ttypb     0600     root      root
+/dev/ttypc     0600     root      root
+/dev/ttypd     0600     root      root
+/dev/ttype     0600     root      root
+/dev/ttypf     0600     root      root
+/dev/tun     0660     system      vpn
+/dev/ubi_ctrl     0600     root      root
+/dev/uhid     0660     uhid      uhid
+/dev/uinput     0660     system      net_bt_admin
+/dev/urandom     0666     root      root
+/dev/usb_accessory     0660     root      usb
+/dev/usb-ffs*     0770     shell      shell
+/dev/vcore_dvfs_force_opp     0600     root      root
+/dev/vcore_opp     0600     root      root
+/dev/vdec_freq     0600     root      root
+/dev/venc_freq     0600     root      root
+/dev/videomux     0664     root      system
+/dev/vmdla_opp     0600     root      root
+/dev/vndbinder     0666     root      root
+/dev/vvpu_opp     0600     root      root
+/dev/watchdog     0600     root      root
+/dev/watchdog0     0600     root      root
+/dev/wmtWifi     0660     wifi      wifi
+/dev/wmtdetect     0660     system      system
+/dev/xt_qtaguid     0644     root      root
+/dev/zero     0666     root      root
+/dev/zjinnova_iap     0600     root      root
+
+
+/sys/devices/platform/leds-mt65xx/leds/green   delay_on      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/green   delay_off      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/red   delay_on      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/red   delay_off      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/blue   delay_on      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/blue   delay_off      0664  system   system
+/sys/class/leds/green   delay_on      0664  system   system
+/sys/class/leds/green   delay_off      0664  system   system
+/sys/class/leds/red   delay_on      0664  system   system
+/sys/class/leds/red   delay_off      0664  system   system
+/sys/class/leds/blue   delay_on      0664  system   system
+/sys/class/leds/blue   delay_off      0664  system   system
+
+
+# sysfs properties
+/sys/devices/platform/trusty.*      trusty_version        0440  root   log
+/sys/devices/virtual/input/input*   enable      0660  root   input
+/sys/devices/virtual/input/input*   poll_delay  0660  root   input
+/sys/devices/virtual/usb_composite/*   enable      0664  root   system
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0664  system system
+/sys/devices/system/cpu/cpu*   cpufreq/scaling_min_freq   0664  system system
+
+
+# Touchscreen device nodes
+/sys/module/gt9xx_driver/parameters/calibration  0664   root       system
+/sys/module/hyn_cst3xx/parameters/calibration  0664   root       system
+
+
+# USB role switch
+/sys/class/dual_role_usb/*	data_role	0660	system	system
+/sys/class/dual_role_usb/*	power_role	0660	system	system
+/sys/class/dual_role_usb/*	mode		0660	system	system
+
+#Memory Offline
+/sys/devices/system/memory/memory* state    0660 system system
+
+/sys/devices/virtual/hdcp/msm_hdcp  min_level_change 0664    system  graphics
+
+# sys-fs display
+/sys/class/graphics/fb*     hpd                      0664    system  graphics
+/sys/class/graphics/fb*     res_info       

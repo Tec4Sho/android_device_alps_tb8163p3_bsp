@@ -150,17 +150,17 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   # Uses Custom ARM Busybox w/ Toybox
   RECOVERY_BUSYBOX_SYMLINKS := false
   RECOVERY_BUSYBOX_TOOLS := false
-  DEVICE_RESOLUTION := 720x1280                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 720                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1280
+  DEVICE_RESOLUTION := 1200x1920                 # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1920                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 1200                     # Device resolution height
+  TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1920
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
-  TW_Y_OFFSET := 10
+  TW_Y_OFFSET := 0
   TW_W_OFFSET := 0
-  TW_H_OFFSET := -10
+  TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
   #TW_THEME := landscape_mdpi

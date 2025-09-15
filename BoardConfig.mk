@@ -138,7 +138,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_OEM_BUILD := false
-  TW_THEME := portrait_hdpi
+  #TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -156,11 +156,11 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
   TARGET_SCREEN_WIDTH := 1920
   # OF Offset X Y
-  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
-  TW_W_OFFSET := 0
-  TW_H_OFFSET := 0
+  #TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  #TW_X_OFFSET := 0
+  #TW_Y_OFFSET := 0
+  #TW_W_OFFSET := 0
+  #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
   #TW_THEME := landscape_mdpi
@@ -186,6 +186,8 @@ else
   TW_Y_OFFSET := 0
   TW_W_OFFSET := 0
   TW_H_OFFSET := 0
+  # Define custom paths for battery.
+  TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/
 endif
 
 # twrp rotation for special devices
@@ -199,8 +201,8 @@ TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
 USE_OPENGL_RENDERER := true
-TARGET_DISABLE_TRIPLE_BUFFERING := false
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK :=false 
+TARGET_DISABLE_TRIPLE_BUFFERING := true
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := false
@@ -228,8 +230,8 @@ TW_USE_EXTERNAL_STORAGE := true
 
 # This allows for customization of the Android system's behavior, often used to work around device-specific
 # issues or to enable advanced features.
-TW_OVERRIDE_SYSTEM_PROPS := \
-"ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
+#TW_OVERRIDE_SYSTEM_PROPS := \
+#"ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
 BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
 TARGET_USES_AOSP := true
@@ -315,9 +317,6 @@ TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
 TW_GRAPHICS_FORCE_USE_LINELENGTH := true
-
-# Define custom paths for battery.
-TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly

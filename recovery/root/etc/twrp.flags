@@ -1,36 +1,44 @@
+# Custom build fstab for Alps tb8163p3_bsp mt8163 
+#
 /system_root     ext4     /dev/block/mmcblk0p26       flags=display=system;backup=1;flashimg=1
 /vendor          ext4     /dev/block/mmcblk0p15       flags=display=vendor;backup=1;flashimg=1
-/cache           ext4     /dev/block/mmcblk0p27       flags=display=cache;backup=1;flashimg=1
-/data            ext4     /dev/block/mmcblk0p28       flags=display=userdata;backup=1;flashimg=1;wipeingui
-/apd             ext4     /dev/block/mmcblk0p16       flags=display=apd;backup=1;flashimg=1
-auto             vfat     /devices/platform/soc/11240000.mmc*       flags=display=auto;backup=1;flashimg=1
-auto             vfat     /devices/platform/mt_usb*                 flags=display=auto;backup=1;flashimg=1
-auto             vfat     /devices/platform/soc/11270000.usb*       flags=display=auto;backup=1;flashimg=1
-/dtbo            emmc     /dev/block/mmcblk0p14       flags=display=dtbo;backup=1;flashimg=1
-/nvram           emmc     /dev/block/mmcblk0p2        flags=display=nvram;backup=1;flashimg=1
-/proinfo         emmc     /dev/block/mmcblk0p1        flags=display=proinfo;backup=1;flashimg=1
-/bootloader      emmc     /dev/block/mmcblk0p7        flags=display=bootloader;backup=1;flashimg=1
-/bootloader2     emmc     /dev/block/mmcblk0p8        flags=display=bootloader2;backup=1;flashimg=1
-/misc            emmc     /dev/block/mmcblk0p12       flags=display=misc;backup=1;flashimg=1
-/boot            emmc     /dev/block/mmcblk0p9        flags=display=boot;backup=1;flashimg=1
-/recovery        emmc     /dev/block/mmcblk0p10       flags=display=recovery;backup=1;flashimg=1
-/logo            emmc     /dev/block/mmcblk0p13       flags=display=logo;backup=1;flashimg=1
-/expdb           emmc     /dev/block/mmcblk0p18       flags=display=expdb;backup=1;flashimg=1
-/secro           emmc     /dev/block/mmcblk0p11       flags=display=secro;backup=1;flashimg=1
-/seccfg          emmc     /dev/block/mmcblk0p6        flags=display=seccfg;backup=1;flashimg=1
-/vbmeta          emmc     /dev/block/mmcblk0p25       flags=display=vbmeta;backup=1;flashimg=1
-/tee1            emmc     /dev/block/mmcblk0p20       flags=display=tee1;backup=1;flashimg=1
-/tee2            emmc     /dev/block/mmcblk0p21       flags=display=tee2;backup=1;flashimg=1
-/kb              emmc     /dev/block/mmcblk0p22       flags=display=kb;backup=1;flashimg=1
-/dkb             emmc     /dev/block/mmcblk0p23       flags=display=dkb;backup=1;flashimg=1
-/protect_f       emmc     /dev/block/mmcblk0p3        flags=display=protect_f;backup=1;flashimg=1
-/protect_s       emmc     /dev/block/mmcblk0p4        flags=display=protect_s;backup=1;flashimg=1
+/userdata        ext4     /dev/block/mmcblk0p28       flags=display=data;backup=1;flashimg=1;wipeingui
+/cache           ext4     /dev/block/mmcblk0p27        flags=display=cache;backup=1;flashimg=1;wipeingui
+/apd             ext4     /dev/block/mmcblk0p16        flags=display=apd;backup=1;flashimg=1
+/boot            emmc     /dev/block/mmcblk0p9         flags=display=boot;backup=1;flashimg=1
+/dkb             emmc     /dev/block/mmcblk0p23        flags=display=dkb;backup=1;flashimg=1
+/dtbo            emmc     /dev/block/mmcblk0p14        flags=display=dtbo;backup=1;flashimg=1
+/expdb           emmc     /dev/block/mmcblk0p18        flags=display=expdb;backup=1;flashimg=1
+/flashinfo       emmc     /dev/block/mmcblk0p29        flags=display=flashinfo;backup=1;flashimg=1
+/frp             emmc     /dev/block/mmcblk0p19        flags=display=frp;backup=1;flashimg=1
+/kb              emmc     /dev/block/mmcblk0p22        flags=display=kb;backup=1;flashimg=1
+/lk              emmc     /dev/block/mmcblk0p7         flags=display=bootloader;backup=1;flashimg=1
+/lk2             emmc     /dev/block/mmcblk0p8         flags=display=bootloader2;backup=1;flashimg=1
+/logo            emmc     /dev/block/mmcblk0p13        flags=display=logo;backup=1;flashimg=1
+/metadata        emmc     /dev/block/mmcblk0p24        flags=display=metadata;backup=1;flashimg=1
+/nvram           emmc     /dev/block/mmcblk0p2         flags=display=nvram;backup=1;flashimg=1
+/nvrom           emmc     /dev/block/mmcblk0p17        flags=display=nvrom;backup=1;flashimg=1
+/para            emmc     /dev/block/mmcblk0p12        flags=display=para;backup=1;flashimg=1
+/persist         emmc     /dev/block/mmcblk0p5         flags=display=persist;backup=1;flashimg=1
+/proinfo         emmc     /dev/block/mmcblk0p1         flags=display=proinfo;backup=1;flashimg=1
+/protect1        emmc     /dev/block/mmcblk0p3         flags=display=protect_f;backup=1;flashimg=1
+/protect2        emmc     /dev/block/mmcblk0p4         flags=display=protect_s;backup=1;flashimg=1
+/recovery        emmc     /dev/block/mmcblk0p10        flags=display=recovery;backup=1;flashimg=1
+/seccfg          emmc     /dev/block/mmcblk0p6         flags=display=seccfg;backup=1;flashimg=1
+/secro           emmc     /dev/block/mmcblk0p11        flags=display=secro;backup=1;flashimg=1
+/tee1            emmc     /dev/block/mmcblk0p20        flags=display=tee1;backup=1;flashimg=1
+/tee2            emmc     /dev/block/mmcblk0p21        flags=display=tee2;backup=1;flashimg=1
+/vbmeta          emmc     /dev/block/mmcblk0p25        flags=display=vbmeta;backup=1;flashimg=1
 
 # Partition backup 
-/system_root     emmc     /dev/block/mmcblk0p26       flags=display=system_root;backup=1;flashimg=1
-/vendor_root     emmc     /dev/block/mmcblk0p15       flags=display=vendor_root;backup=1;flashimg=1
+/system_root     emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system       flags=display=system_root;backup=1;flashimg=1
+/vendor          emmc     /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor       flags=display=vendor_root;backup=1;flashimg=1
+
+# USB
+auto             vfat     /devices/platform/soc/11240000.mmc*                                flags=display=auto;backup=1;flashimg=1
+auto             vfat     /devices/platform/mt_usb*                                          flags=display=auto;backup=1;flashimg=1
+auto             vfat     /devices/platform/soc/11270000.usb*                                flags=display=auto;backup=1;flashimg=1
 
 #OTG
 /usb-otg    	   auto     /dev/block/sda              flags=display="USB-OTG 1";backup=0;storage;wipeingui;removable;fsflags="utf8"
 /usb-otg    	   auto     /dev/block/sdb              flags=display="USB-OTG 2";backup=0;storage;wipeingui;removable;fsflags="utf8"
-

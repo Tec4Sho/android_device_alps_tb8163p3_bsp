@@ -156,7 +156,7 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
   TARGET_SCREEN_WIDTH := 1920
   # OF Offset X Y
-  #TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   #TW_X_OFFSET := 0
   #TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
@@ -200,9 +200,11 @@ TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Su
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
+TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
-TARGET_DISABLE_TRIPLE_BUFFERING := true
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+TW_DISABLE_DOUBLE_BUFFERING := true
+TARGET_DISABLE_TRIPLE_BUFFERING := false
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := false

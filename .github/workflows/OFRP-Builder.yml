@@ -177,11 +177,11 @@ jobs:
 
     - name: Workspace Contents
       run: |
-        du ${GITHUB_WORKSPACE} -h -d 4
+        du ${GITHUB_WORKSPACE} -h -d 3
         mkdir -p ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/
         #cp -Rf ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/ofrp/twres ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/recovery/root/
-        cp -f ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/recovery/root/default.prop ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/
-        ls ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/default.prop
+        #cp -f ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/${{ github.event.inputs.DEVICE_PATH }}/recovery/root/prop ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/
+        #ls ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/tb8163p3_bsp/recovery/root/default.prop
       continue-on-error: true
         
     - name: Building recovery

@@ -143,7 +143,8 @@ ro.dalvik.vm.native.bridge=0
 
 # Usb check
 persist.hcn.fsckexternaldevice=true
-ro.vndk.version=28
+ro.vendor.vndk.version=28
+ro.board.first_api_level=30
 ro.zygote=zygote32
 ro.logd.size.stats=64K
 log.tag.stats_log=V

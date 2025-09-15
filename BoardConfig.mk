@@ -138,7 +138,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_OEM_BUILD := false
-  #TW_THEME := portrait_hdpi
+  TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -202,8 +202,8 @@ BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
 #TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
-RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
-TW_DISABLE_DOUBLE_BUFFERING := true
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
+TW_DISABLE_DOUBLE_BUFFERING := false
 TARGET_DISABLE_TRIPLE_BUFFERING := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
@@ -216,8 +216,8 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-#TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
-TW_LOAD_VENDOR_MODULES := "*"
+TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+#TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
 TW_LOAD_VENDOR_BOOT_MODULES := true
@@ -402,7 +402,7 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
-TW_IGNORE_ABS_MT_TRACKING_ID := false
+TW_IGNORE_ABS_MT_TRACKING_ID := true
 TW_IGNORE_MAJOR_AXIS_0 := false
 TW_IGNORE_MT_POSITION_0 := false
 

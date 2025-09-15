@@ -148,8 +148,8 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   BOARD_VNDK_VERSION := current
   BOARD_VNDK_RUNTIME_DISABLE := true
   # Uses Custom ARM Busybox w/ Toybox
-  RECOVERY_BUSYBOX_SYMLINKS := false
-  RECOVERY_BUSYBOX_TOOLS := false
+  #RECOVERY_BUSYBOX_SYMLINKS := false
+  #RECOVERY_BUSYBOX_TOOLS := false
   DEVICE_RESOLUTION := 1200x1920                 # The Resolution of your Device
   BOARD_SCREEN_WIDTH := 1920                     # Device resolution width
   BOARD_SCREEN_HEIGHT := 1200                     # Device resolution height
@@ -157,8 +157,8 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TARGET_SCREEN_WIDTH := 1920
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  #TW_X_OFFSET := 0
-  #TW_Y_OFFSET := 0
+  TW_X_OFFSET := 0
+  TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 else
@@ -173,8 +173,8 @@ else
   BOARD_VNDK_VERSION := current
   BOARD_VNDK_RUNTIME_DISABLE := false
   # Uses Custom ARM Busybox w/ Toybox
-  RECOVERY_BUSYBOX_SYMLINKS := true
-  RECOVERY_BUSYBOX_TOOLS := true
+  #RECOVERY_BUSYBOX_SYMLINKS := true
+  #RECOVERY_BUSYBOX_TOOLS := true
   DEVICE_RESOLUTION := 1200x1920 #600x1024                 # The Resolution of your Device
   BOARD_SCREEN_WIDTH := 1920                     # Device resolution width
   BOARD_SCREEN_HEIGHT := 1200                     # Device resolution height
@@ -200,11 +200,12 @@ TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Su
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
-TW_BOARD_CUSTOM_GRAPHICS := 
+#TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
 TW_DISABLE_DOUBLE_BUFFERING := true
-TARGET_DISABLE_TRIPLE_BUFFERING := false
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
+TARGET_DISABLE_TRIPLE_BUFFERING := true
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := false
@@ -217,6 +218,7 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
 #TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
 TW_LOAD_VENDOR_MODULES := "*"
+
 # to use TWRP module loader code for vendor_boot module loading.
 TW_LOAD_VENDOR_BOOT_MODULES := true
 TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
@@ -232,8 +234,8 @@ TW_USE_EXTERNAL_STORAGE := true
 
 # This allows for customization of the Android system's behavior, often used to work around device-specific
 # issues or to enable advanced features.
-#TW_OVERRIDE_SYSTEM_PROPS := \
-#"ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
+TW_OVERRIDE_SYSTEM_PROPS := \
+"ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
 BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
 TARGET_USES_AOSP := true
@@ -304,6 +306,9 @@ BOARD_OPENGL_AEP := false
 # Copy your own init.rc file
 TARGET_PROVIDES_INIT_RC := false
 
+# exclude recovery.USB.rc
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+
 # Explicitly set the kernel version for depmod
 KERNEL_VERSION := 4.9.117+
 BOARD_VENDOR_KERNEL_MODULES_DEPMOD_VERSION := $(KERNEL_VERSION)
@@ -318,7 +323,7 @@ TWRP_INCLUDE_LOGCAT := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
-TW_GRAPHICS_FORCE_USE_LINELENGTH := true
+TW_GRAPHICS_FORCE_USE_LINELENGTH := false
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly
@@ -379,7 +384,7 @@ TW_SUPPORT_INPUT_1_2_HAPTICS := false
 TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
 
-BOARD_RECOVERY_SWIPE := false
+BOARD_RECOVERY_SWIPE := true
 RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
@@ -398,8 +403,8 @@ TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
 TW_IGNORE_ABS_MT_TRACKING_ID := true
-TW_IGNORE_MAJOR_AXIS_0 := 
-TW_IGNORE_MT_POSITION_0 := 
+TW_IGNORE_MAJOR_AXIS_0 := true
+TW_IGNORE_MT_POSITION_0 := true
 
 # VINTF
 DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/device_system_manifest.xml

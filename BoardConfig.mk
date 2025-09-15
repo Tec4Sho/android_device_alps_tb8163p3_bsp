@@ -300,7 +300,7 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 BOARD_OPENGL_AEP := false
 
 # Copy your own init.rc file
-TARGET_PROVIDES_INIT_RC := true
+TARGET_PROVIDES_INIT_RC := false
 
 # Explicitly set the kernel version for depmod
 KERNEL_VERSION := 4.9.117+

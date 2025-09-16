@@ -4,11 +4,12 @@
 # Errors logging on recovery startup saved in cache/logs
 
 
-log='/cache/logs/twrp-recovery.log';
-file='/data/media/0/TWRP/log'
-driver='/cache/logs/modules.log';
-vendor='/vendor/lib/modules';
-modules='focaltech.ko gsl37xx.ko hxchipset-i2c.ko hyn-cst3xx.ko ilitek.ko jadard_touch.ko sitronix_ts.ko synaptics_dsx.ko';
+log='/cache/logs/custom-recovery.log';
+file1='/data/media/0/TWRP/log';
+file2='/data/media/0/Fox/log';
+file3='/data/media/0/TWRP/tw-recovery.log';
+file4='/data/media/0/Fox/of-recovery.log';
+
 
 resetprop ro.sf.hwrotation 270 >/dev/null 2>&1;
 resetprop ro.build.characteristics tablet >/dev/null 2>&1;
@@ -17,7 +18,6 @@ setprop windowsmgr.support_rotation_270 true >/dev/null 2>&1;
 setprop modules.loaded 1 
 setprop vendor.all.modules.ready 1
 
-    
 	 
 	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
 
@@ -26,8 +26,7 @@ setprop vendor.all.modules.ready 1
 	fi;
 
 	
-	
-	if [[ -f ${file} ]]; then
+	if [ -f ${file1} ] || [ -f ${file2} ]; then
 		setprop persist.log.tag V
 		setprop persist.logd.logpersistd true
 		setprop ro.logd.kernel true
@@ -56,8 +55,13 @@ setprop vendor.all.modules.ready 1
 		sleep 50
 		dmesg -r >> $log;
 	fi;
-	
-	
+
+    if [ -f ${file1} ]; then
+	    cp -f ${log} ${file3} 2>/dev/null;
+    elif [ -f ${file2} ]; then
+	    cp -f ${log} ${file4} 2>/dev/null;
+	fi;
+  
 	## Get your device's block path where "system", "recovery", etc. lives.
 	# That can be "/dev/block/bootdevice/by-name" or something like that.
 	mkdir -p /dev/block/platform/mtk-msdc.0/by-name/
@@ -92,7 +96,7 @@ setprop vendor.all.modules.ready 1
 	touch /dev/block/platform/mtk-msdc.0/by-name/vbmeta
 	touch /dev/block/platform/mtk-msdc.0/by-name/vendor
 
-if [[ -n `which busybox` ]]; then
+if [[ -n `busybox` ]]; then
    (
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd /dev/block/platform/mtk-msdc.0/by-name/apd          
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot /dev/block/platform/mtk-msdc.0/by-name/boot

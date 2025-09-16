@@ -163,11 +163,11 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  #TW_THEME := landscape_mdpi
-  TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
-  TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  TW_THEME := landscape_mdpi
+  #TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
+  #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := false
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -175,17 +175,17 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1080         
+  #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
+  #BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
+  #BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
+  #TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  #TARGET_SCREEN_WIDTH := 1080         
   # TW Offset X Y
-  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
-  TW_W_OFFSET := 0
-  TW_H_OFFSET := 0
+  #TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  #TW_X_OFFSET := 0
+  #TW_Y_OFFSET := 0
+  #TW_W_OFFSET := 0
+  #TW_H_OFFSET := 0
   # Define custom paths for battery.
   TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/
 endif

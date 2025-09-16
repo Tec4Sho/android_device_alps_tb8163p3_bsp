@@ -150,11 +150,11 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := false
   #RECOVERY_BUSYBOX_TOOLS := false
-  DEVICE_RESOLUTION := 1200x1920                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1920                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 1200                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1920
+  DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
+  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1080
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
@@ -175,11 +175,11 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1200x1920 #600x1024                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1920                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 1200                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1920         
+  DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
+  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1080         
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
@@ -402,8 +402,8 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
-TW_IGNORE_ABS_MT_TRACKING_ID := true
-TW_IGNORE_MAJOR_AXIS_0 := false
+TW_IGNORE_ABS_MT_TRACKING_ID := false
+TW_IGNORE_MAJOR_AXIS_0 := true
 TW_IGNORE_MT_POSITION_0 := false
 
 # VINTF

@@ -6,11 +6,11 @@ on:
       MANIFEST:
         description: 'SHRP Manifest (For old SHRP manifest, use v3_9.0, v3_11.0)'
         required: true
-        default: 'https://github.com/SHRP-Reborn/manifest.git'
+        default: 'https://github.com/SHRP/manifest.git'
       MANIFEST_BRANCH:
         description: 'MANIFEST BRANCH'
         required: true
-        default: 'shrp-9.0'
+        default: 'v3_9.0'
         type: choice
         options:
         - v3_9.0
@@ -58,7 +58,7 @@ on:
         
 jobs:
   build:
-    name: Build TWRP by ${{ github.actor }}
+    name: Build SHRP by ${{ github.actor }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:
@@ -177,11 +177,11 @@ jobs:
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
         #repo init --depth=1 -u https://github.com/SHRP/manifest.git -b ${{ inputs.MANIFEST_BRANCH }}
           
-        
     - name: Repo Sync
       run: |
         cd workspace
-        repo sync -j$(nproc --all) --force-sync
+        repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+        # repo sync -j$(nproc --all) --force-sync
         # repo sync -j 1 --fail-fast
 
     - name: Clone Device Tree

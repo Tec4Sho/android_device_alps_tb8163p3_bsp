@@ -54,7 +54,22 @@ PRODUCT_PACKAGES += \
 
 # Drm
 PRODUCT_PACKAGES += \
-    android.hardware.drm@1.0-impl
+    android.hardware.drm@1.1-service-clearkey \
+    android.hardware.drm@1.1-service.widevine \
+    android.hardware.drm@1.0-impl \
+    android.hardware.drm@1.0 \
+    android.hardware.drm@1.1 \
+    libdrmmtkplugin \
+    libdrmframework_jni \
+    libdrmframework \
+    libdrmmtkutil \
+    libdrmmtkwhitelist \
+    libfw_drmutils \
+    libmediadrm \
+    libmediadrmmetrics \
+    libdrmclearkeyplugin \
+    libmockdrmcrytoplugin \
+    libwvdrmengine
 
 # Graphics 
 PRODUCT_PACKAGES += \

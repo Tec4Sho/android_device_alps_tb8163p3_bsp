@@ -199,11 +199,11 @@ TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
 #TW_BOARD_CUSTOM_GRAPHICS := 
-USE_OPENGL_RENDERER := true
+USE_OPENGL_RENDERER := false
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 TW_DISABLE_DOUBLE_BUFFERING := false
-TARGET_DISABLE_TRIPLE_BUFFERING := true
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+TARGET_DISABLE_TRIPLE_BUFFERING := false
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := false

@@ -1,0 +1,313 @@
+name: SHRP Builder 2025
+
+on:
+  workflow_dispatch:
+    inputs:
+      MANIFEST:
+        description: 'SHRP Manifest (For old SHRP manifest, use v3_9.0, v3_11.0)'
+        required: true
+        default: 'https://github.com/SHRP-Reborn/manifest.git'
+      MANIFEST_BRANCH:
+        description: 'MANIFEST BRANCH'
+        required: true
+        default: 'shrp-9.0'
+        type: choice
+        options:
+        - v3_9.0
+        - shrp-12.0
+      DEVICE_TREE:
+        description: 'DEVICE TREE' 
+        required: true
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
+      DEVICE_TREE_BRANCH:
+        description: 'DEVICE TREE BRANCH' 
+        required: true
+        default: 'android-9.0'
+      DEVICE_PATH:
+        description: 'DEVICE PATH' 
+        required: true
+        default: 'device/alps/tb8163p3_bsp'
+      DEVICE_NAME:
+        description: 'DEVICE NAME' 
+        required: true
+        default: 'tb8163p3_bsp'
+      USER_EMAIL:
+        description: 'USER EMAIL'
+        type: string
+        required: true
+        default: 'tec4sho@gmail.com'  
+      BUILD_TARGET:
+        description: 'BUILD TARGET' 
+        required: true
+        default: 'recovery'
+        type: choice
+        options:
+        - boot
+        - recovery
+        - vendorboot
+      RECOVERY_INSTALLER:
+        description: 'RECOVERY INSTALLER'
+        type: boolean
+        required: false
+        default: 'true'
+      MAXIMIZE_BUILD_SPACE:
+        description: 'MAXIMIZE BUILD SPACE:'
+        type: boolean
+        required: false
+        default: 'true'
+        
+jobs:
+  build:
+    name: Build TWRP by ${{ github.actor }}
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+      GITHUB_TOKEN: ${{ secrets.TWRP }}
+    permissions:
+      contents: write
+    steps:
+    - name: Display Inputs
+      run: |
+        echo "::group::User Environment Variables"
+        echo "Displaying main variables/inputs."
+        echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
+        echo "Device Tree: ${{ github.event.inputs.DEVICE_TREE }}"
+        echo "Device Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
+        echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
+        echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}image"     
+        echo "::endgroup::"
+
+    - name: Run Ninja_log Stats
+      run: ninja -t restat
+      continue-on-error: true
+
+    - name: Identify Vendor
+      run: echo -e "prefix=$(awk -F_ '{print $1}' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
+      id: vendorname
+
+    - name: Identify Device
+      run: echo -e "device=$(grep -oP '(?<=_).*' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
+      id: devicename
+        
+    - name: Checkout
+      uses: actions/checkout@v3
+
+     # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Check Space & Pkg Cleanup
+      run: |
+        echo "Listing 100 largest packages"
+        dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
+        echo
+        df -h
+        echo
+        echo "Removing large packages"
+        sudo apt-get autoremove -y
+        sudo apt-get clean
+        df -h
+        # echo "Removing large directories"
+        # deleting 15GB
+        # rm -rf /usr/share/dotnet/ >/dev/null
+        # df -h
+        # uses: rokibhasansagar/slimhub_actions@main
+        # That's it! Now use your normal steps
+        # sudo rm -rf ${GITHUB_WORKSPACE}/.git
+      continue-on-error: true
+
+          # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup build space
+      uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps  
+
+    - name: Maximize build space
+      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == 'true'
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 11000 # Example: Reserve 12 GB for the root directory
+        swap-size-mb: 2048 # Example: Reserve 4 GB for swap file
+        remove-dotnet: 'true' # Example: Remove the .NET SDK to free space 
+      continue-on-error: true
+        
+    - name: Prepare The Environment
+      run: |
+        sudo apt-get update
+        sudo apt-get -y upgrade
+        sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
+        # sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig git repo liblzma-dev m4 libstdc++
+        sudo apt-get -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev
+        sudo add-apt-repository universe
+        sudo apt-get -y install libncurses5
+      continue-on-error: true
+
+    - name: Install OpenJDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: zulu
+        java-version: 8
+
+    - name: Install Git-Repo
+      run: |
+        mkdir ~/bin
+        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+        chmod a+x ~/bin/repo
+        sudo ln -sf ~/bin/repo /usr/bin/repo
+        
+    - name: Check Build Tree
+      uses: haya14busa/action-cond@v1.2.1
+      id: buildtree
+      with:
+        cond: ${{ inputs.MANIFEST_BRANCH == '11' || inputs.MANIFEST_BRANCH == '12.1' }}
+        if_true: aosp
+        if_false: omni    
+
+    - name: Check Manifest Branch
+      uses: haya14busa/action-cond@v1
+      id: manifest
+      with:
+        cond: ${{ github.event.inputs.MANIFEST_BRANCH == 'shrp-11.0' || github.event.inputs.MANIFEST_BRANCH == 'shrp-12.1'  || github.event.inputs.MANIFEST_BRANCH == 'shrp-14.1' }}
+        if_true: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git
+        if_false: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git 
+
+    - name: Initialize Repo
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/workspace
+        cd workspace
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.event.inputs.USER_EMAIL }}"
+        repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+        #repo init --depth=1 -u https://github.com/SHRP/manifest.git -b ${{ inputs.MANIFEST_BRANCH }}
+          
+        
+    - name: Repo Sync
+      run: |
+        cd workspace
+        repo sync -j$(nproc --all) --force-sync
+        # repo sync -j 1 --fail-fast
+
+    - name: Clone Device Tree
+      run: |
+        cd workspace
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+        mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
+        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+        # cd ${{ github.event.inputs.DEVICE_PATH }}
+        echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        
+    - name: Check Build Makefile
+      run: |
+        cd workspace
+        if [ -f ${{ github.event.inputs.DEVICE_PATH }}/twrp_${{ github.event.inputs.DEVICE_NAME}}.mk ]; then
+            echo "DEVICE_MAKEFILE=twrp_${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
+        elif [ -f ${{ github.event.inputs.DEVICE_PATH }}/omni_${{ github.event.inputs.DEVICE_NAME}}.mk ]; then
+            echo "DEVICE_MAKEFILE=omni_${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
+        else
+            echo "No recovery makefile file found!"
+        fi
+      continue-on-error: false
+      
+    - name: Install Python 2
+      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14'
+      run: |
+        # sudo apt-get -y remove python
+        sudo apt-get -y install python2
+        cd /usr/bin
+        sudo ln -sf python2 python
+      continue-on-error: true
+
+    - name: Check Build Space 
+      run: |
+        echo '### Before clean ###'
+        sudo df -h
+        echo
+        echo '### cleaning build environment space ###'
+        # clean build environment space
+        sudo apt-get remove -y kubectl powershell firefox dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli docker-ce libllvm13 libllvm14 libllvm15
+        sudo rm -vrf /usr/share/dotnet/ >/dev/null
+        echo '### After clean ###' 
+        sudo df -h
+        cd workspace
+        echo
+        echo '### Workspace directory ###'
+        sudo df . -h
+        echo
+        echo '### large files in workspace dir ###'
+        sudo find . -type f -size +100M -exec du -ha {} +
+      continue-on-error: true
+
+    - name: Check Workspace Contents
+      run: du ${GITHUB_WORKSPACE} -h -d 3
+      
+    - name: Building Image 
+      run: |
+        cd workspace
+        source build/envsetup.sh
+        export ALLOW_MISSING_DEPENDENCIES=true
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+        export LC_ALL=C
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+      
+    - name: Set Build Date # Output will be use in Release
+      run: |
+        echo "Done building your ${{ github.event.inputs.BUILD_TARGET }}.img"
+        echo "BUILD_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+        DEVICE_TREE_URL="${{ github.event.inputs.DEVICE_TREE }}"
+        if [[ "${DEVICE_TREE_URL}" == *.git ]]; then
+          DEVICE_TREE_URL="${DEVICE_TREE_URL%.git}"
+        fi
+        echo "DEVICE_TREE_URL=${DEVICE_TREE_URL}" >> $GITHUB_ENV
+        
+    - name: Check if Recovery Exist
+      run: |
+        cd workspace
+        if [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery.img ]; then
+            echo "RECOVERY_TYPE=recovery" >> $GITHUB_ENV
+            echo "recovery.img file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        elif [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/boot.img ]; then
+            echo "RECOVERY_TYPE=boot" >> $GITHUB_ENV
+            echo "boot.img file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        elif [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img ]; then
+            echo "RECOVERY_TYPE=vendor_boot" >> $GITHUB_ENV
+            echo "vendor_boot.img file found!"
+            echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        else
+            echo "No Recovery file found!"
+            exit 1
+        fi
+        
+    - name: Include Recovery Installer
+      run: |
+        if [ ${{ github.event.inputs.RECOVERY_INSTALLER }} = 'true' ]; then
+          export USE_RECOVERY_INSTALLER=true
+          export RECOVERY_INSTALLER_PATH=bootable/recovery/installer
+          cd workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/
+          wget https://github.com/kinguser981/recovery-installer/releases/download/zip/recovery-installer.zip
+          zip -ur recovery-installer.zip ${{ env.RECOVERY_TYPE }}.img
+        fi
+      continue-on-error: true
+        
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery-installer.zip
+          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ env.RECOVERY_TYPE }}.img
+        name: Unofficial SHRP for Alps ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        tag_name: ${{ github.run_id }}
+        body: |
+        
+    - name: Release ramdisk-recovery
+      uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
+      with:
+        files: |
+          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/ramdisk-recovery.*  
+        name: Unofficial SHRP for Alps ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
+          Target: ${{ github.event.inputs.BUILD_TARGET}}.img
+          Device: [Device Tree/Branch](${{ env.DEVICE_TREE_URL }}/${{ github.eventinputs.DEVICE_TREE_BRANCH }})
+          Commit: Most recent [commit](${{ env.DEVICE_TREE_URL }}/commit/${{ env.COMMIT_ID }}) during building.
+          MD5 (img): ${{ env.MD5_IMG }}
+          

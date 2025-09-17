@@ -186,8 +186,6 @@ else
   #TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
-  # Define custom paths for battery.
-  TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/
 endif
 
 # twrp rotation for special devices
@@ -352,7 +350,7 @@ TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_SUPERSU := true
 
 # twrp touch
-RECOVERY_TOUCHSCREEN_SWAP_XY := false
+RECOVERY_TOUCHSCREEN_SWAP_XY := true
 RECOVERY_TOUCHSCREEN_FLIP_X := false
 RECOVERY_TOUCHSCREEN_FLIP_Y := false
 
@@ -403,13 +401,16 @@ TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
 TW_IGNORE_ABS_MT_TRACKING_ID := false
-TW_IGNORE_MAJOR_AXIS_0 := true
-TW_IGNORE_MT_POSITION_0 := false
+TW_IGNORE_MAJOR_AXIS_0 := false
+TW_IGNORE_MT_POSITION_0 := true
 
 # VINTF
 DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/device_system_manifest.xml
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compatibility_matrix.xml
+
+# Define custom paths for battery.
+#TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
 
 # Auto copy files into ramdisk-recovery
 #

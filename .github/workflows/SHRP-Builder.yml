@@ -170,12 +170,12 @@ jobs:
 
     - name: Initialize Repo
       run: |
-        mkdir -p $GITHUB_WORKSPACE/workspace
+        mkdir -p ${GITHUB_WORKSPACE}/workspace
         cd workspace
         git config --global user.name "${{ github.actor }}"
         git config --global user.email "${{ github.event.inputs.USER_EMAIL }}"
-        repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
-        #repo init --depth=1 -u https://github.com/SHRP/manifest.git -b ${{ inputs.MANIFEST_BRANCH }}
+        #repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+        repo init --depth=1 -u https://github.com/SHRP/manifest.git -b ${{ inputs.MANIFEST_BRANCH }}
           
     - name: Repo Sync
       run: |

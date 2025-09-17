@@ -309,6 +309,7 @@ subsystem sound
 /sys/devices/platform/soc/11270000.usb*       0664      root      root
 
 
+# Lights 
 /sys/devices/platform/leds-mt65xx/leds/green   delay_on      0664  system   system
 /sys/devices/platform/leds-mt65xx/leds/green   delay_off      0664  system   system
 /sys/devices/platform/leds-mt65xx/leds/red   delay_on      0664  system   system
@@ -326,8 +327,7 @@ subsystem sound
 # sysfs properties
 /sys/devices/virtual/input/input*   enable      0660  root   input
 /sys/devices/virtual/input/input*   poll_delay  0660  root   input
-/sys/devices/virtual/usb_composite/*   enable      0664  root   system
-
+/sys/devices/virtual/usb_composite/*   enable      0664  root   input
 
 # Cpu Min/Max Scaling Frequency 
 /sys/devices/system/cpu/cpu*   cpufreq/scaling_max_freq   0664  system system
@@ -342,9 +342,18 @@ subsystem sound
 /sys/devices/armv7_cortex_a7/*   runtime_usage  0444   root      root
 
 
-# Touchscreen device drivers 
+# Touchscreen
 /sys/module/gt9xx_driver/parameters/calibration  0644   system       system
+/sys/module/gt9xx_driver/parameters/finger_num  0644   root       root
+/sys/module/gt9xx_driver/parameters/irq_edge  0640   system       system
+/sys/module/gt9xx_driver/parameters/screen_inch  0444   root       root
+/sys/module/gt9xx_driver/parameters/screen_size  0644   root       root
 /sys/module/hyn_cst3xx/parameters/calibration  0644   system       system
+/sys/module/hyn_cst3xx/parameters/screen_inch  0444   root       root
+/sys/module/hyn_cst3xx/parameters/calibration  0644   root       root
+/sys/board_properties/fw_resolution.TS_GT9xx 0666   root       system 
+/sys/board_properties/fw_update.TS_GT9xx.TS_GT9xx 0664   root       root 
+/sys/board_properties/virtualkeys.TS_GT9xx 0444   root       root 
 
 
 # USB role switch
@@ -352,6 +361,7 @@ subsystem sound
 /sys/class/dual_role_usb/*    power_role  0444  root        root
 /sys/class/dual_role_usb/*    mode  0444  system         system
 /sys/devices/virtual/android_usb/*    mtp_server   0444     root        root
+
 
 #Battery Meter
 /sys/devices/platform/battery_memory/*    uevent   0660   system       system

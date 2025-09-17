@@ -14,7 +14,7 @@ on:
         type: choice
         options:
         - v3_9.0
-        - shrp-12.0
+        - shrp-9.0
       DEVICE_TREE:
         description: 'DEVICE TREE' 
         required: true
@@ -82,13 +82,13 @@ jobs:
       run: ninja -t restat
       continue-on-error: true
 
-    - name: Identify Vendor
-      run: echo -e "prefix=$(awk -F_ '{print $1}' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
-      id: vendorname
+    #- name: Identify Vendor
+      #run: echo -e "prefix=$(awk -F_ '{print $1}' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
+      #id: vendorname
 
-    - name: Identify Device
-      run: echo -e "device=$(grep -oP '(?<=_).*' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
-      id: devicename
+    #- name: Identify Device
+      #run: echo -e "device=$(grep -oP '(?<=_).*' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
+      #id: devicename
         
     - name: Checkout
       uses: actions/checkout@v3

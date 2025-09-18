@@ -10,28 +10,25 @@ file2='/data/media/0/Fox/log';
 file3='/data/media/0/TWRP/tw-recovery.log';
 file4='/data/media/0/Fox/of-recovery.log';
 
-
 resetprop ro.sf.hwrotation 270 >/dev/null 2>&1;
 resetprop ro.build.characteristics tablet >/dev/null 2>&1;
 resetprop ro.mtk_is_tablet 1 >/dev/null 2>&1;
-setprop windowsmgr.support_rotation_270 true >/dev/null 2>&1;
+resetprop windowsmgr.support_rotation_270 true >/dev/null 2>&1;
 setprop modules.loaded 1 
 setprop vendor.all.modules.ready 1
-
 	 
 	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
 
 	if [ -f $log ]; then
 		mv -f $log ${log}.old;
 	fi;
-
 	
-	if [ -f ${file1} ] || [ -f ${file2} ]; then
-		setprop persist.log.tag V
-		setprop persist.logd.logpersistd true
-		setprop ro.logd.kernel true
+	if [ -f $file1 ] || [ -f $file2 ]; then
+		resetprop persist.log.tag V
+		resetprop persist.logd.logpersistd true
+		resetprop ro.logd.kernel true
 		setprop logcat.live true
-		setprop ro.boot.meta_log_disable 0
+		resetprop ro.boot.meta_log_disable 0
 		echo '#' >> $log;
 		echo 'PROC MODULES ?' >> $log;
 		echo '#' >> $log;
@@ -43,7 +40,7 @@ setprop vendor.all.modules.ready 1
 		echo '#' >> $log;
 		echo 'LOGCAT FULLY LOGGED ?' >> $log;
 		echo '#' >> $log;
-		/sbin/logcat -d -b 'all' -f $log 2>&1 || echo 'logcat not running' >> $log;
+		logcat -d -b 'all' -f $log 2>&1 || echo 'logcat not running' >> $log;
 		echo '#' >> $log;
 		echo 'DMESG RECOVERY LOGGED ?' >> $log;
 		echo '#' >> $log;
@@ -51,14 +48,11 @@ setprop vendor.all.modules.ready 1
 		echo '#' >> $log;
 		echo 'DMESG RECOVERY NEW 50-SEC LOGGED ?' >> $log;
 		echo '#' >> $log;
-		echo -e "                    <!# Dmesg live kernel logging in recovery mode started #!>" >> $driver;
-		sleep 50
-		dmesg -r >> $log;
 	fi;
 
-    if [ -f ${file1} ]; then
+    if [ -f $file1 ]; then
 	    cp -f ${log} ${file3} 2>/dev/null;
-    elif [ -f ${file2} ]; then
+    elif [ -f $file2 ]; then
 	    cp -f ${log} ${file4} 2>/dev/null;
 	fi;
   

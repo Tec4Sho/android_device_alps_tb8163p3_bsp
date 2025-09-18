@@ -158,7 +158,7 @@ jobs:
       with:
         cond: ${{ github.event.inputs.MANIFEST_BRANCH == 'shrp-11.0' || github.event.inputs.MANIFEST_BRANCH == 'shrp-12.1'  || github.event.inputs.MANIFEST_BRANCH == 'shrp-14.1' }}
         if_true: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git
-        if_false: ${{ github.event.inputs.MANIFEST_BRANCH }}
+        if_false: ${{ github.event.inputs.MANIFEST }}
 
     - name: Initialize Repo
       run: |

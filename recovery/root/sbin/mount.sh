@@ -46,7 +46,7 @@ setprop vendor.all.modules.ready 1
 		echo '#' >> $log;
 		dmesg -c >> $log;
 		echo '#' >> $log;
-		echo 'DMESG RECOVERY NEW 50-SEC LOGGED ?' >> $log;
+		log 'TWRP RECOVERY LOG WAS STARTED';
 		echo '#' >> $log;
 	fi;
 

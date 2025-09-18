@@ -6,7 +6,7 @@ on:
       MANIFEST:
         description: 'PBRP MANIFEST'
         required: true
-        default: 'https://github.com/PitchBlackRecoveryProject/manifest_pb.git'
+        default: 'https://github.com/Tec4Sho/manifest_pb.git'
       MANIFEST_BRANCH:
         description: 'MANIFEST BRANCH'
         required: true

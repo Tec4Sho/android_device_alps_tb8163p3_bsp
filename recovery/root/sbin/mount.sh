@@ -16,6 +16,9 @@ resetprop ro.mtk_is_tablet 1 >/dev/null 2>&1;
 resetprop windowsmgr.support_rotation_270 true >/dev/null 2>&1;
 setprop modules.loaded 1 
 setprop vendor.all.modules.ready 1
+
+# Check for twrp auto logging
+log 'mount.sh was started successfully';
 	 
 	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
 

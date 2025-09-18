@@ -163,11 +163,11 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  #TW_THEME := landscape_mdpi
-  TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
-  TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  TW_THEME := landscape_mdpi
+  #TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
+  #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  #TWRP_NEW_THEME := true
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -176,8 +176,8 @@ else
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
   #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
+  #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
+  #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
   TARGET_SCREEN_WIDTH := 1080         
   # TW Offset X Y
@@ -197,10 +197,10 @@ TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-GRAPHIC_MEMORY_PROVIDER := uma
+#GRAPHIC_MEMORY_PROVIDER := uma
 #TW_BOARD_CUSTOM_GRAPHICS := 
-USE_OPENGL_RENDERER := false
-RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
+USE_OPENGL_RENDERER := true
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
 TW_DISABLE_DOUBLE_BUFFERING := false
 TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
@@ -321,7 +321,7 @@ TWRP_INCLUDE_LOGCAT := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
-TW_GRAPHICS_FORCE_USE_LINELENGTH := false
+TW_GRAPHICS_FORCE_USE_LINELENGTH := true
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly

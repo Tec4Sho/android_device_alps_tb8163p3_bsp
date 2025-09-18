@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:
-      GITHUB_TOKEN: ${{ secrets.TWRP }}
+      GITHUB_TOKEN: ${{ secrets.PBRP }}
     permissions:
       contents: write
     steps:
@@ -81,14 +81,6 @@ jobs:
     - name: Run Ninja_log Stats
       run: ninja -t restat
       continue-on-error: true
-
-    - name: Identify Vendor
-      run: echo -e "prefix=$(awk -F_ '{print $1}' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
-      id: vendorname
-
-    - name: Identify Device
-      run: echo -e "device=$(grep -oP '(?<=_).*' <<< ${{ inputs.DEVICE_MAKEFILE }})" >> ${GITHUB_OUTPUT}
-      id: devicename
         
     - name: Checkout
       uses: actions/checkout@v3

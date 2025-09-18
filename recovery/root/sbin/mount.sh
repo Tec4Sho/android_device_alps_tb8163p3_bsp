@@ -61,37 +61,9 @@ log 'mount.sh was started successfully';
   
 	## Get your device's block path where "system", "recovery", etc. lives.
 	# That can be "/dev/block/bootdevice/by-name" or something like that.
-	mkdir -p /dev/block/platform/mtk-msdc.0/by-name/
-	
-	touch /dev/block/platform/mtk-msdc.0/by-name/apd
-	touch /dev/block/platform/mtk-msdc.0/by-name/boot
-	touch /dev/block/platform/mtk-msdc.0/by-name/cache
-	touch /dev/block/platform/mtk-msdc.0/by-name/dkb
-	touch /dev/block/platform/mtk-msdc.0/by-name/dtbo
-	touch /dev/block/platform/mtk-msdc.0/by-name/expdb
-	touch /dev/block/platform/mtk-msdc.0/by-name/flashinfo
-	touch /dev/block/platform/mtk-msdc.0/by-name/frp
-	touch /dev/block/platform/mtk-msdc.0/by-name/kb
-	touch /dev/block/platform/mtk-msdc.0/by-name/lk
-	touch /dev/block/platform/mtk-msdc.0/by-name/lk2
-	touch /dev/block/platform/mtk-msdc.0/by-name/logo
-	touch /dev/block/platform/mtk-msdc.0/by-name/metadata
-	touch /dev/block/platform/mtk-msdc.0/by-name/nvram
-	touch /dev/block/platform/mtk-msdc.0/by-name/nvrom
-	touch /dev/block/platform/mtk-msdc.0/by-name/para
-	touch /dev/block/platform/mtk-msdc.0/by-name/persist
-	touch /dev/block/platform/mtk-msdc.0/by-name/proinfo
-	touch /dev/block/platform/mtk-msdc.0/by-name/protect1
-	touch /dev/block/platform/mtk-msdc.0/by-name/protect2
-	touch /dev/block/platform/mtk-msdc.0/by-name/recovery
-	touch /dev/block/platform/mtk-msdc.0/by-name/seccfg
-	touch /dev/block/platform/mtk-msdc.0/by-name/secro
-	touch /dev/block/platform/mtk-msdc.0/by-name/system
-	touch /dev/block/platform/mtk-msdc.0/by-name/tee1
-	touch /dev/block/platform/mtk-msdc.0/by-name/tee2
-	touch /dev/block/platform/mtk-msdc.0/by-name/userdata
-	touch /dev/block/platform/mtk-msdc.0/by-name/vbmeta
-	touch /dev/block/platform/mtk-msdc.0/by-name/vendor
+mkdir -p /dev/block/platform/mtk-msdc.0/by-name/
+cd /dev/block/platform/mtk-msdc.0/by-name/
+touch apd boot cache dkb dtbo expdb flashinfo frp kb lk lk2 logo metadata nvram nvrom para persist proinfo protect1 protect2 recovery seccfg secro system tee1 tee2 userdata vbmeta vendor
 
 if [[ -n `busybox` ]]; then
    (

@@ -20,9 +20,9 @@
 #
 
 ## Device Build Ccache. If you want your subsequent builds to be faster, then use ccache - eg
-export USE_CCACHE=1
-export CCACHE_EXEC=/usr/bin/ccache
-ccache -M 35G # this sets aside 50GB disk space for the cache
+#export USE_CCACHE=1
+#export CCACHE_EXEC=/usr/bin/ccache
+#ccache -M 35G # this sets aside 50GB disk space for the cache
 
 if [ "$RECOVERY_VARIANT" == "ofrp" ]; then
 FDEVICE="tb8163p3_bsp"

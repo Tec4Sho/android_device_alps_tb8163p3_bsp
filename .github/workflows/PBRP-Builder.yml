@@ -229,6 +229,7 @@ jobs:
     - name: Building Image 
       run: |
         cd workspace
+        export RECOVERY_VARIANT="pbrp"
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1

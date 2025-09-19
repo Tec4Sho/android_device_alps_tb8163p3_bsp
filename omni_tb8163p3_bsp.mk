@@ -14,6 +14,9 @@ $(call inherit-product, vendor/omni/config/common.mk)
 # Inherit from tb8163p3_bsp device
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
 
+BOARD_VENDOR := tb8163p3_bsp
+TARGET_VENDOR := tb8163p3_bsp
+
 PRODUCT_DEVICE := tb8163p3_bsp
 PRODUCT_NAME := omni_tb8163p3_bsp
 PRODUCT_BRAND := alps

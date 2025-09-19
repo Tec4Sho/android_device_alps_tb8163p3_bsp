@@ -118,8 +118,9 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
  
  # Maintainer 
    export OF_MAINTAINER="Tec4Sho"
-
- # Let's see our build VARs ZZZ
+   export FOX_MAINTAINER_PATCH_VERSION="Android Radio 9.0"
+   
+   # Let's see our build VARs ZZZ
    if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then
       export | grep "FOX" >> $FOX_BUILD_LOG_FILE
       export | grep "OF_" >> $FOX_BUILD_LOG_FILE

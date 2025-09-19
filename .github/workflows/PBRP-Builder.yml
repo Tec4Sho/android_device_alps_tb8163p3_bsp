@@ -106,9 +106,9 @@ jobs:
         # sudo rm -rf ${GITHUB_WORKSPACE}/.git
       continue-on-error: true
 
-          # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    #- name: Cleanup build space
-    #  uses: rokibhasansagar/slimhub_actions@main
+      # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup build space
+      uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps  
 
     - name: Maximize build space

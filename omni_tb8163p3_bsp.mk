@@ -6,17 +6,21 @@
 #
 
 # Inherit from those products. Most specific first.
-# $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
-ifneq ($(RECOVERY_VARIANT),pbrp)
-# Inherit some common Omni stuff.
-$(call inherit-product, vendor/omni/config/common.mk)
-
-# $(call inherit-product, vendor/pb/config/common.mk)
+ifeq ($(RECOVERY_VARIANT),pbrp)
+  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
+
+# Inherit some common Omni stuff.
+$(call inherit-product-if-exists, vendor/omni/config/common.mk)
 
 # Inherit from tb8163p3_bsp device
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
+
+PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
+
+PRODUCT_NEXT_RELEASE_HIDE_FLAGGED_API := true
 
 BOARD_VENDOR := tb8163p3_bsp
 TARGET_VENDOR := tb8163p3_bsp

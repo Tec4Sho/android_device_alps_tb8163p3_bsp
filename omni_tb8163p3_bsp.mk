@@ -9,7 +9,7 @@
 $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 ifeq ($(RECOVERY_VARIANT),pbrp)
-  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
+  #$(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
 
 # Inherit some common Omni stuff.

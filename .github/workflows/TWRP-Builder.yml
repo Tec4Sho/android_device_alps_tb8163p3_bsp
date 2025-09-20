@@ -101,8 +101,8 @@ jobs:
       continue-on-error: true
 
           # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Cleanup build space
-      uses: rokibhasansagar/slimhub_actions@main
+    #- name: Cleanup build space
+    #  uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps  
 
     - name: Maximize build space
@@ -161,10 +161,10 @@ jobs:
         # git config --global user.name "${{ github.actor }}"
         # git config --global user.email "${{ github.event.inputs.USER_EMAIL }}"
         # Set GitAuth Infos"
-        git config --global user.email $GitHubMail
-        git config --global user.name $GitHubName
+        git config --global user.email "${GitHubMail}"
+        git config --global user.name "${GitHubName}"
         git config --global credential.helper store
-        git config --global color.ui true
+        # git config --global color.ui true
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
         
     - name: Repo Sync

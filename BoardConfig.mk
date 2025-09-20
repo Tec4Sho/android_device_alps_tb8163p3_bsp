@@ -161,13 +161,13 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
-elifeq ($(RECOVERY_VARIANT),pbrp)
+elsifeq ($(RECOVERY_VARIANT),pbrp)
   TW_OEM_BUILD := true
   #TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := false
+  #TWRP_NEW_THEME := false
   RECOVERY_VARIANT := pbrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current

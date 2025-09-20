@@ -111,7 +111,7 @@ TARGET_BOARD_HARDWARE_EGL := mali
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := false
+TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 
 # Security patch level
@@ -223,7 +223,7 @@ TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-#GRAPHIC_MEMORY_PROVIDER := uma
+GRAPHIC_MEMORY_PROVIDER := uma
 #TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
@@ -273,7 +273,7 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-TARGET_RECOVERY_FORCE_PIXEL_FORMAT := RGB_565
+TARGET_RECOVERY_PIXEL_FORMAT := RGB_565
 TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
@@ -307,7 +307,7 @@ TW_INCLUDE_FASTBOOTD := true
 TW_EXCLUDE_APEX := true
 
 # Custom Recovery 
-BOARD_USE_DRM := false
+BOARD_USE_DRM := true
 TW_POWER_BUTTON := true
 TW_HAS_INTERNAL := true
 TW_HAS_EXTERNAL := true
@@ -347,7 +347,7 @@ TWRP_INCLUDE_LOGCAT := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
-TW_GRAPHICS_FORCE_USE_LINELENGTH := true
+TW_GRAPHICS_USE_LINELENGTH := true
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly

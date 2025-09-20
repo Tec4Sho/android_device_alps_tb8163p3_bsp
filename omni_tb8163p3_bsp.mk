@@ -15,7 +15,7 @@ $(call inherit-product-if-exists, vendor/omni/config/common.mk)
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
 
 ifeq ($(RECOVERY_VARIANT),pbrp)
-  #$(call inherit-product-if-exists, vendor/pb/config/common.mk)
+  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
 
 PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
@@ -31,9 +31,9 @@ PRODUCT_BRAND := alps
 PRODUCT_MODEL := tb8163p3_bsp
 PRODUCT_MANUFACTURER := alps
 
-PRODUCT_GMS_CLIENTID_BASE := alps-full_tb8163p3_bsp-{country}
+PRODUCT_GMS_CLIENTID_BASE := android-google
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="full_tb8163p3_bsp-user 9 PPR1.180610.011 eng.linhr.20250523.004808 release-keys"
-
-BUILD_FINGERPRINT := DIGILAND/DL1023/DL1023:9/PPR1.180610.011/linhr05230047:user/release-keys
+    PRIVATE_BUILD_DESC="full_tb8163p3_bsp-user 9 PPR1.180610.011 eng.linhr.20250523.004808 release-keys" \
+    BUILD_UTC_DATE=0 \
+    BUILD_FINGERPRINT="DIGILAND/DL1023/DL1023:9/PPR1.180610.011/linhr05230047:user/release-keys"

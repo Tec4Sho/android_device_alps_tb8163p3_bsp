@@ -161,7 +161,7 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
-elsifeq ($(RECOVERY_VARIANT),pbrp)
+else ifeq ($(RECOVERY_VARIANT),pbrp)
   TW_OEM_BUILD := true
   #TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres

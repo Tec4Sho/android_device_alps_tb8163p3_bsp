@@ -29,11 +29,6 @@ on:
         description: 'DEVICE NAME' 
         required: true
         default: 'tb8163p3_bsp'
-      USER_EMAIL:
-        description: 'USER EMAIL'
-        type: string
-        required: true
-        default: 'tec4sho@gmail.com'  
       BUILD_TARGET:
         description: 'BUILD TARGET' 
         required: true
@@ -47,12 +42,17 @@ on:
         description: 'RECOVERY INSTALLER'
         type: boolean
         required: false
-        default: 'true'
+        default: true
+      CLEAN_ENVIRONMENT:
+        description: 'CLEAN ENVIRONMENT'
+        type: boolean
+        required: false
+        default: true  
       MAXIMIZE_BUILD_SPACE:
         description: 'MAXIMIZE BUILD SPACE:'
         type: boolean
         required: false
-        default: 'true'
+        default: true
         
 jobs:
   build:
@@ -101,12 +101,13 @@ jobs:
       continue-on-error: true
 
           # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Cleanup build space
+    - name: Cleanup environment 
+      if: github.event.inputs.CLEAN_ENVIRONMENT == true
       uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps  
 
     - name: Maximize build space
-      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == 'true'
+      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == true
       uses: easimon/maximize-build-space@master
       with:
         root-reserve-mb: 11000 # Example: Reserve 12 GB for the root directory
@@ -156,15 +157,11 @@ jobs:
 
     - name: Initialize Repo
       run: |
-        mkdir -p $GITHUB_WORKSPACE/workspace
+        mkdir -p ${GITHUB_WORKSPACE}/workspace
         cd workspace
-        # git config --global user.name "${{ github.actor }}"
-        # git config --global user.email "${{ github.event.inputs.USER_EMAIL }}"
-        # Set GitAuth Infos"
         git config --global user.email "${GitHubMail}"
         git config --global user.name "${GitHubName}"
         git config --global credential.helper store
-        # git config --global color.ui true
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
         
     - name: Repo Sync

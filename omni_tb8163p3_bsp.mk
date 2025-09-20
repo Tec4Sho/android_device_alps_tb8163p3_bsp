@@ -8,15 +8,15 @@
 # Inherit from those products. Most specific first.
 $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
-ifeq ($(RECOVERY_VARIANT),pbrp)
-  #$(call inherit-product-if-exists, vendor/pb/config/common.mk)
-endif
-
 # Inherit some common Omni stuff.
 $(call inherit-product-if-exists, vendor/omni/config/common.mk)
 
 # Inherit from tb8163p3_bsp device
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
+
+ifeq ($(RECOVERY_VARIANT),pbrp)
+  #$(call inherit-product-if-exists, vendor/pb/config/common.mk)
+endif
 
 PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
 

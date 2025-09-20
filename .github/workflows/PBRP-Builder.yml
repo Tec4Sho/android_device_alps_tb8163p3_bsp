@@ -233,6 +233,7 @@ jobs:
         cd workspace
         export RECOVERY_VARIANT="pbrp"
         source build/envsetup.sh
+        export USE_NINJA=false
         export ALLOW_MISSING_DEPENDENCIES=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export LC_ALL=C

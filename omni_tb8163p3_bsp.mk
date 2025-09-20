@@ -8,10 +8,12 @@
 # Inherit from those products. Most specific first.
 # $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
+ifneq ($(RECOVERY_VARIANT),pbrp)
 # Inherit some common Omni stuff.
 $(call inherit-product, vendor/omni/config/common.mk)
 
 # $(call inherit-product, vendor/pb/config/common.mk)
+endif
 
 # Inherit from tb8163p3_bsp device
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)

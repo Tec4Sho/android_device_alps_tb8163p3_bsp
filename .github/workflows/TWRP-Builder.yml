@@ -42,17 +42,17 @@ on:
         description: ': RECOVERY INSTALLER'
         type: boolean
         required: false
-        default: true
+        default: 'true'
       CLEAN_ENVIRONMENT:
         description: ': CLEAN ENVIRONMENT'
         type: boolean
         required: false
-        default: true  
+        default: 'true'
       MAXIMIZE_BUILD_SPACE:
         description: ': MAXIMIZE BUILD SPACE'
         type: boolean
         required: false
-        default: true
+        default: 'true'
         
 jobs:
   build:
@@ -102,12 +102,12 @@ jobs:
 
           # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Cleanup environment 
-      if: github.event.inputs.CLEAN_ENVIRONMENT == true
+      if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps  
 
     - name: Maximize build space
-      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == true
+      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == 'true'
       uses: easimon/maximize-build-space@master
       with:
         root-reserve-mb: 11000 # Example: Reserve 12 GB for the root directory

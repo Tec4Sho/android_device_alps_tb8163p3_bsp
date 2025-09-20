@@ -15,12 +15,8 @@ $(call inherit-product-if-exists, vendor/omni/config/common.mk)
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
 
 ifeq ($(RECOVERY_VARIANT),pbrp)
-  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
+#  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
-
-PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := false
-
-PRODUCT_NEXT_RELEASE_HIDE_FLAGGED_API := true
 
 BOARD_VENDOR := tb8163p3_bsp
 TARGET_VENDOR := tb8163p3_bsp

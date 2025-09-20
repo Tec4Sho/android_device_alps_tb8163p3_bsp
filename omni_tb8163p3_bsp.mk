@@ -18,7 +18,7 @@ ifeq ($(RECOVERY_VARIANT),pbrp)
   $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
 
-PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
+PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := false
 
 PRODUCT_NEXT_RELEASE_HIDE_FLAGGED_API := true
 

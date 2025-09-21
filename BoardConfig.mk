@@ -204,8 +204,8 @@ else
   #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
   #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1080         
+  TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1920         
   # TW Offset X Y
   #TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   #TW_X_OFFSET := 0

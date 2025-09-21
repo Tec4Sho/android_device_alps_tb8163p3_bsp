@@ -164,7 +164,7 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   #TW_H_OFFSET := 0
 else ifeq ($(RECOVERY_VARIANT),pbrp)
   PB_BUILD_TYPE := UNOFFICIAL
-  TW_OEM_BUILD := false
+  TW_OEM_BUILD := true
   TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -173,7 +173,7 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   RECOVERY_VARIANT := pbrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
-  BOARD_VNDK_RUNTIME_DISABLE := false
+  BOARD_VNDK_RUNTIME_DISABLE := true
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := false
   #RECOVERY_BUSYBOX_TOOLS := false
@@ -195,7 +195,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
   #TWRP_NEW_THEME := false
-  RECOVERY_VARIANT := pbrp
+  RECOVERY_VARIANT := shrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
   BOARD_VNDK_RUNTIME_DISABLE := false
@@ -258,7 +258,7 @@ TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
-TW_ENABLE_ALL_PARTITION_TOOLS := false
+TW_ENABLE_ALL_PARTITION_TOOLS := true
 
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
 BOARD_USES_GENERIC_KERNEL_IMAGE := false

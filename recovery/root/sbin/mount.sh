@@ -1,8 +1,9 @@
 #!/sbin/sh
-# Touchscreen drivers (backup only) modules loader!!! 
-# Drivers are auto loaded by patched kernel for this.
-# Errors logging on recovery startup saved in cache/logs
-
+##
+## LEGACY Partitions binder.
+## Logging on recovery startup saved in cache/logs & data/media/0/TWRP - Fox. 
+## Runs logging by creating empty file name (log) placed in TWRP or Fox folder.
+##
 
 log='/cache/logs/custom-recovery.log';
 file1='/data/media/0/TWRP/log';

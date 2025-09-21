@@ -18,7 +18,7 @@ setprop modules.loaded 1
 setprop vendor.all.modules.ready 1
 
 # Check log for twrp mount.sh started
-log 'MOUNT.SH was started successfully';
+log 'MOUNT.SH was started successfully' >/dev/null 2>&1;
 	 
 	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
 
@@ -32,7 +32,7 @@ log 'MOUNT.SH was started successfully';
 		resetprop ro.logd.kernel true
 		setprop logcat.live true
 		resetprop ro.boot.meta_log_disable 0
-		log 'TWRP CUSTOM RECOVERY LOGGING WAS STARTED';
+		log 'TWRP CUSTOM RECOVERY LOGGING WAS STARTED' >/dev/null 2>&1;
 		echo '#' >> $log;
 		echo 'PROC MODULES ?' >> $log;
 		echo '#' >> $log;
@@ -50,7 +50,7 @@ log 'MOUNT.SH was started successfully';
 		echo '#' >> $log;
 		dmesg -c >> $log;
 		echo '#' >> $log;
-        log 'TWRP CUSTOM RECOVERY LOGGING WAS STOPPED.... LOG BUFFER CLEANED';
+        log 'TWRP CUSTOM RECOVERY LOGGING WAS STOPPED.... LOG BUFFER CLEANED' >/dev/null 2>&1;
 	fi;
 
     if [ -f $file1 ]; then

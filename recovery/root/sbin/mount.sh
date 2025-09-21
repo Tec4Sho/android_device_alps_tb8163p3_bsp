@@ -17,8 +17,8 @@ resetprop windowsmgr.support_rotation_270 true >/dev/null 2>&1;
 setprop modules.loaded 1 
 setprop vendor.all.modules.ready 1
 
-# Check for twrp auto logging
-log 'mount.sh was started successfully';
+# Check log for twrp mount.sh started
+log 'MOUNT.SH was started successfully';
 	 
 	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
 
@@ -32,6 +32,7 @@ log 'mount.sh was started successfully';
 		resetprop ro.logd.kernel true
 		setprop logcat.live true
 		resetprop ro.boot.meta_log_disable 0
+		log 'TWRP CUSTOM RECOVERY LOGGING WAS STARTED';
 		echo '#' >> $log;
 		echo 'PROC MODULES ?' >> $log;
 		echo '#' >> $log;
@@ -49,8 +50,7 @@ log 'mount.sh was started successfully';
 		echo '#' >> $log;
 		dmesg -c >> $log;
 		echo '#' >> $log;
-		log 'TWRP RECOVERY LOG WAS STARTED';
-		echo '#' >> $log;
+        log 'TWRP CUSTOM RECOVERY LOGGING WAS STOPPED.... LOG BUFFER CLEANED';
 	fi;
 
     if [ -f $file1 ]; then
@@ -59,12 +59,14 @@ log 'mount.sh was started successfully';
 	    cp -f ${log} ${file4} 2>/dev/null;
 	fi;
   
-	## Get your device's block path where "system", "recovery", etc. lives.
-	# That can be "/dev/block/bootdevice/by-name" or something like that.
+## Get your device's block path where "system", "recovery", etc. lives.
+# That can be "/dev/block/bootdevice/by-name" or something like that.
+
 mkdir -p /dev/block/platform/mtk-msdc.0/by-name/
-cd /dev/block/platform/mtk-msdc.0/by-name/
+cd /dev/block/platform/tk-msdc.0/by-name/
 touch apd boot cache dkb dtbo expdb flashinfo frp kb lk lk2 logo metadata nvram nvrom para persist proinfo protect1 protect2 recovery seccfg secro system tee1 tee2 userdata vbmeta vendor
 
+# Full device partition MOUNT list
 if [[ -n `busybox` ]]; then
    (
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd /dev/block/platform/mtk-msdc.0/by-name/apd          
@@ -72,7 +74,7 @@ if [[ -n `busybox` ]]; then
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache /dev/block/platform/mtk-msdc.0/by-name/cache 
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dkb /dev/block/platform/mtk-msdc.0/by-name/dkb
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dtbo /dev/block/platform/mtk-msdc.0/by-name/dtbo
-	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/expdb /dev/block/platform/mtk-msdc.0/by-name/expdb
+	busybox mount -o bind/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/expdb /dev/block/platform/mtk-msdc.0/by-name/expdb
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/flashinfo /dev/block/platform/mtk-msdc.0/by-name/flashinfo
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp /dev/block/platform/mtk-msdc.0/by-name/frp
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/kb /dev/block/platform/mtk-msdc.0/by-name/kb

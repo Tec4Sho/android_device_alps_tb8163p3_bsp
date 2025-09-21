@@ -76,11 +76,7 @@ jobs:
         echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
         echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
         echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}image"     
-        echo "::endgroup::"
-
-    - name: Run Ninja_log Stats
-      run: ninja -t restat
-      continue-on-error: true
+        echo "::endgroup::";
         
     - name: Checkout
       uses: actions/checkout@v3
@@ -107,7 +103,8 @@ jobs:
       continue-on-error: true
 
       # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Cleanup build space
+    - name: Cleanup environment 
+      if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps  
 
@@ -237,6 +234,7 @@ jobs:
         export ALLOW_MISSING_DEPENDENCIES=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export LC_ALL=C
+        ninja -t restat
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       
     - name: Set Build Date # Output will be use in Release

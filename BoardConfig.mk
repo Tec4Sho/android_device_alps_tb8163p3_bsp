@@ -163,6 +163,32 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 else ifeq ($(RECOVERY_VARIANT),pbrp)
+  PB_BUILD_TYPE := UNOFFICIAL
+  TW_OEM_BUILD := false
+  TW_THEME := portrait_hdpi
+  #TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres
+  #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
+  #TWRP_NEW_THEME := false
+  RECOVERY_VARIANT := pbrp
+  # VNDK Fix
+  BOARD_VNDK_VERSION := current
+  BOARD_VNDK_RUNTIME_DISABLE := false
+  # Uses Custom ARM Busybox w/ Toybox
+  #RECOVERY_BUSYBOX_SYMLINKS := false
+  #RECOVERY_BUSYBOX_TOOLS := false
+  #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
+  #BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
+  #BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
+  #TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  #TARGET_SCREEN_WIDTH := 1080
+  # OF Offset X Y
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  TW_X_OFFSET := 0
+  TW_Y_OFFSET := 0
+  #TW_W_OFFSET := 0
+  #TW_H_OFFSET := 0
+else ifeq ($(RECOVERY_VARIANT),shrp)
   TW_OEM_BUILD := false
   TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres

@@ -159,12 +159,11 @@ jobs:
 
     - name: Initialize Repo
       run: |
-        mkdir -p $GITHUB_WORKSPACE/workspace
+        mkdir -p ${GITHUB_WORKSPACE}/workspace
         cd workspace
         git config --global user.email "${GitHubMail}"
         git config --global user.name "${GitHubName}"
-        #git config --global user.name "${{ github.actor }}"
-        #git config --global user.email "${{ github.event.inputs.USER_EMAIL }}"
+        git config --global credential.helper store
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
         
     - name: Repo Sync

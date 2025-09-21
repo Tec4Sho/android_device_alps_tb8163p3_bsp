@@ -31,11 +31,6 @@ on:
         description: 'DEVICE NAME' 
         required: true
         default: 'tb8163p3_bsp'
-      USER_EMAIL:
-        description: 'USER EMAIL'
-        type: string
-        required: true
-        default: 'tec4sho@gmail.com'  
       BUILD_TARGET:
         description: 'BUILD TARGET' 
         required: true
@@ -46,12 +41,17 @@ on:
         - recovery
         - vendorboot
       RECOVERY_INSTALLER:
-        description: 'RECOVERY INSTALLER'
+        description: ': RECOVERY INSTALLER'
+        type: boolean
+        required: false
+        default: 'true'
+      CLEAN_ENVIRONMENT:
+        description: ': CLEAN ENVIRONMENT'
         type: boolean
         required: false
         default: 'true'
       MAXIMIZE_BUILD_SPACE:
-        description: 'MAXIMIZE BUILD SPACE:'
+        description: ': MAXIMIZE BUILD SPACE'
         type: boolean
         required: false
         default: 'true'

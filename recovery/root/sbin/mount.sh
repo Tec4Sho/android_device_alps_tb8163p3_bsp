@@ -10,15 +10,15 @@ file2='/data/media/0/Fox/log';
 file3='/data/media/0/TWRP/tw-recovery.log';
 file4='/data/media/0/Fox/of-recovery.log';
 
-resetprop ro.sf.hwrotation 270 >/dev/null 2>&1;
-resetprop ro.build.characteristics tablet >/dev/null 2>&1;
-resetprop ro.mtk_is_tablet 1 >/dev/null 2>&1;
-resetprop windowsmgr.support_rotation_270 true >/dev/null 2>&1;
+resetprop ro.sf.hwrotation 270 2>/dev/null;
+resetprop ro.build.characteristics tablet 2>/dev/null;
+resetprop ro.mtk_is_tablet 1 2>/dev/null;
+resetprop windowsmgr.support_rotation_270 true 2>/dev/null;
 setprop modules.loaded 1 
 setprop vendor.all.modules.ready 1
 
 # Check log for twrp mount.sh started
-log 'MOUNT.SH was started successfully' >/dev/null 2>&1;
+log 'MOUNT.SH was started successfully' 2>/dev/null;
 	 
 	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
 
@@ -27,12 +27,12 @@ log 'MOUNT.SH was started successfully' >/dev/null 2>&1;
 	fi;
 	
 	if [ -f $file1 ] || [ -f $file2 ]; then
-		resetprop persist.log.tag V
-		resetprop persist.logd.logpersistd true
-		resetprop ro.logd.kernel true
-		setprop logcat.live true
-		resetprop ro.boot.meta_log_disable 0
-		log 'TWRP CUSTOM RECOVERY LOGGING WAS STARTED' >/dev/null 2>&1;
+		resetprop persist.log.tag V 2>/dev/null;
+		resetprop persist.logd.logpersistd true 2>/dev/null;
+		resetprop ro.logd.kernel true 2>/dev/null;
+		setprop logcat.live true 2>/dev/null;
+		resetprop ro.boot.meta_log_disable 0 2>/dev/null;
+		log 'TWRP CUSTOM RECOVERY LOGGING WAS STARTED' 2>/dev/null;
 		echo '#' >> $log;
 		echo 'PROC MODULES ?' >> $log;
 		echo '#' >> $log;
@@ -50,7 +50,7 @@ log 'MOUNT.SH was started successfully' >/dev/null 2>&1;
 		echo '#' >> $log;
 		dmesg -c >> $log;
 		echo '#' >> $log;
-        log 'TWRP CUSTOM RECOVERY LOGGING WAS STOPPED.... LOG BUFFER CLEANED' >/dev/null 2>&1;
+        log 'TWRP CUSTOM RECOVERY LOGGING WAS STOPPED.... LOG BUFFER CLEANED' 2>/dev/null;
 	fi;
 
     if [ -f $file1 ]; then

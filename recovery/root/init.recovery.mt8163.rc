@@ -43,7 +43,22 @@ on fs
     chmod 0644 /dev/event-log-tags
     start logd
     start init_mount
-    setprop modules.loaded 1 
+    start drm
+    start mediadrm
+    setprop modules.loaded 1
+
+service drm /system/bin/drmserver
+    class main
+    user drm
+    group drm system inet drmrpc readproc sdcard_rw media_rw root
+    writepid /dev/cpuset/foreground/tasks
+
+service mediadrm /system/bin/mediadrmserver
+    class main
+    user media
+    group mediadrm drmrpc
+    ioprio rt 4
+    write /dev/cpuset/foreground/tasks
 
 service init_mount /sbin/mount.sh
     oneshot
@@ -78,3 +93,9 @@ service logd-reinit /sbin/logd --reinit
     user logd
     group logd
     writepid /dev/cpuset/system-background/tasks
+
+on post-fs-data
+    mkdir /data/drm 0770 drm drm
+    mkdir /data/mediadrm 0770 mediadrm mediadrm
+    mkdir /data/drm/wv 0770 drm system
+

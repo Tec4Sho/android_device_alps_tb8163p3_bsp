@@ -47,20 +47,6 @@ TARGET_COPY_OUT_VENDOR := vendor
 
 #TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 
-
-export BRANCH=android-4.4
-export CROSS_COMPILE=arm-linux-androidkernel-
-export DEFCONFIG=tb8163p3_bsp_defconfig
-export EXTRA_CMDS=''
-export KERNEL_DIR=common
-export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
-export FILES="
-arch/arm/boot/zImage
-vmlinux
-System.map
-"
-export STOP_SHIP_TRACEPRINTK=1
-
 # Boot control HAL
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.0

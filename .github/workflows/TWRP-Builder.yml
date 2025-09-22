@@ -244,6 +244,8 @@ jobs:
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+        export ARCH=arm 
+        export CROSS_COMPILE=arm-linux-gnueabihf-
         export LC_ALL=C
         ninja -t restat
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)

@@ -245,11 +245,17 @@ jobs:
         set -eo pipefail
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        export LLVM_ENABLE_THREADS=OFF
+        export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        export ARCH=arm 
-        #export CROSS_COMPILE=arm-linux-gnueabihf-
+        export BRANCH=android-9.0
+        export CROSS_COMPILE=arm-linux-androidkernel-
+        export DEFCONFIG=tb8163p3_bsp_defconfig
+        export EXTRA_CMDS='bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000'
+        export KERNEL_DIR=common
+        export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
+        export FILES="arch/arm/boot/zImage vmlinux System.map"
+        export STOP_SHIP_TRACEPRINTK=1
         export CONFIG_INIT_ENV_ARG_LIMIT=32
         export CONFIG_CROSS_COMPILE="arm-eabi-"
         export LC_ALL=C

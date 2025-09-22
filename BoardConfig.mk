@@ -32,6 +32,10 @@ TARGET_SUPPORTS_32_BIT_APPS := true
 TARGET_SUPPORTS_64_BIT_APPS := false
 TARGET_IS_32_BIT := true
 
+TARGET_KERNEL_HEADER_ARCH := arm
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
+TARGET_USES_UNCOMPRESSED_KERNEL := false
+
 # APEX
 OVERRIDE_TARGET_FLATTEN_APEX := true
 
@@ -464,5 +468,39 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compa
 # Define custom paths for battery.
 #TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
 
+# In BoardConfig.mk, the Android build defines a BOARD_VENDOR_KERNEL_MODULES variable that provides a full list of the kernel modules intended for the vendor image. The modules listed in this variable are copied into the vendor image at /lib/modules/, and, after being mounted in Android, appear in /vendor/lib/modules (in accordance with the above requirements). Example configuration of the vendor kernel modules:
+vendor_lkm_dir := vendor/lib/modules
+BOARD_VENDOR_KERNEL_MODULES := \
+  $(vendor_lkm_dir)/ilitek.ko \
+  $(vendor_lkm_dir)/wlan_drv_gen2.ko \
+  $(vendor_lkm_dir)/sitronix-ts.ko \
+  $(vendor_lkm_dir)/hxchipset-i2c.ko \
+  $(vendor_lkm_dir)/focaltech.ko \
+  $(vendor_lkm_dir)/wmt_drv.ko \
+  $(vendor_lkm_dir)/synaptics_dsx.ko \
+  $(vendor_lkm_dir)/jadard_touch.ko \
+  $(vendor_lkm_dir)/gsl37xx.ko \
+  $(vendor_lkm_dir)/tda7708LX.ko \
+  $(vendor_lkm_dir)/betterlife_ts.ko \
+  $(vendor_lkm_dir)/qn8035.ko \
+  $(vendor_lkm_dir)/si475x.ko \
+  $(vendor_lkm_dir)/atmel_mxt_ts.ko \
+  $(vendor_lkm_dir)/ak7604.ko \
+  $(vendor_lkm_dir)/fy7604.ko \
+  $(vendor_lkm_dir)/hyn_cst3xx.ko \
+  $(vendor_lkm_dir)/fmradio_drv.ko \
+  $(vendor_lkm_dir)/tp9951.ko \
+  $(vendor_lkm_dir)/tp9950.ko \
+  $(vendor_lkm_dir)/carstatus.ko \
+  $(vendor_lkm_dir)/tp2825.ko \
+  $(vendor_lkm_dir)/cd3313.ko \
+  $(vendor_lkm_dir)/f_iap_zj.ko \
+  $(vendor_lkm_dir)/f_iap_lt.ko \
+  $(vendor_lkm_dir)/qn8027.ko \
+  $(vendor_lkm_dir)/met.ko \
+  $(vendor_lkm_dir)/bt_drv.ko \
+  $(vendor_lkm_dir)/gps_drv.ko \
+  $(vendor_lkm_dir)/wmt_chrdev_wifi.ko
+  
 # Auto copy files into ramdisk-recovery
 #

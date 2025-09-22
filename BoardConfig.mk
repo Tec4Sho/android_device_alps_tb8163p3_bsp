@@ -74,7 +74,7 @@ CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
 BOARD_RAMDISK_USE_LZMA := true
 LZMA_RAMDISK_TARGETS := recovery boot
 BOARD_RAMDISK_COMPRESSED := lzma-9
-TARGET_FORCE_PREBUILT_KERNEL := true
+TARGET_FORCE_PREBUILT_KERNEL := false
 
 # Kernel - prebuilt
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
@@ -214,7 +214,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 else
-  TW_OEM_BUILD := true
+  TW_OEM_BUILD := false
   #TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -230,10 +230,10 @@ else
   #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
   #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 1200                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 1920         
+  TARGET_SCREEN_HEIGHT := 720                    # The height mdpi
+  TARGET_SCREEN_WIDTH := 1280         
   # TW Offset X Y
-  #TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   #TW_X_OFFSET := 0
   #TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
@@ -252,7 +252,7 @@ BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
 #TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
-RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
 TW_DISABLE_DOUBLE_BUFFERING := false
 TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
@@ -261,7 +261,7 @@ TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 TW_ENABLE_ALL_PARTITION_TOOLS := true
 
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
-BOARD_USES_GENERIC_KERNEL_IMAGE := false
+BOARD_USES_GENERIC_KERNEL_IMAGE := true
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules

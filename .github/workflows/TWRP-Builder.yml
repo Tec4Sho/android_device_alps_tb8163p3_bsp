@@ -223,7 +223,7 @@ jobs:
         echo
         echo '### cleaning build environment space ###'
         # clean build environment space
-        sudo apt-get remove -y kubectl powershell firefox dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli docker-ce libllvm13 libllvm14 libllvm15
+        sudo apt-get remove -y kubectl powershell firefox dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli docker-ce libllvm13
         sudo rm -vrf /usr/share/dotnet/ >/dev/null
         echo '### After clean ###' 
         sudo df -h
@@ -245,9 +245,13 @@ jobs:
         set -eo pipefail
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
+        export LLVM_ENABLE_THREADS=OFF
+        export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export ARCH=arm 
-        export CROSS_COMPILE=arm-linux-gnueabihf-
+        #export CROSS_COMPILE=arm-linux-gnueabihf-
+        export CONFIG_INIT_ENV_ARG_LIMIT=32
+        export CONFIG_CROSS_COMPILE="arm-eabi-"
         export LC_ALL=C
         ninja -t restat
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)

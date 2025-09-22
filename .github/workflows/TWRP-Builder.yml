@@ -175,7 +175,8 @@ jobs:
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-        # cd ${{ github.event.inputs.DEVICE_PATH }}
+        mkdir -p kernel/alps/tb8163p3_bsp 
+        git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
         
     - name: Check Build Makefile

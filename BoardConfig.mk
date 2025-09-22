@@ -223,7 +223,7 @@ else
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
-  BOARD_VNDK_RUNTIME_DISABLE := false
+  BOARD_VNDK_RUNTIME_DISABLE := true
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true

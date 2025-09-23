@@ -265,7 +265,7 @@ TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 TW_ENABLE_ALL_PARTITION_TOOLS := true
 
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
-BOARD_USES_GENERIC_KERNEL_IMAGE := true
+BOARD_USES_GENERIC_KERNEL_IMAGE := false
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules
@@ -350,6 +350,7 @@ TW_HAS_BOOT_PARTITION := true
 TW_HAS_RECOVERY_PARTITION := true
 TW_ALLOW_PARTITION_SDCARD := true
 BOARD_SUPPRESS_SECURE_ERASE := true
+TWRP_INCLUDE_CRYPTO := false 
 
 TW_CUSTOM_TWRP_FLAGS := $(DEVICE_PATH)/recovery/root/etc/twrp.flags
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
@@ -450,7 +451,7 @@ TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
 
 # Metadata
-BOARD_USES_METADATA_PARTITION := true
+BOARD_USES_METADATA_PARTITION := false
 BOARD_ROOT_EXTRA_FOLDERS += metadata
 
 TW_HAS_NO_BOOT_PARTITION := false

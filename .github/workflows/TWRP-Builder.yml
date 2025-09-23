@@ -244,9 +244,9 @@ jobs:
         cd workspace
         set -eo pipefail
         source build/envsetup.sh
-        export USE_NINJA=false
+        export USE_NINJA=true
         export ALLOW_MISSING_DEPENDENCIES=true
-        export LLVM_ENABLE_THREADS=ON
+        export LLVM_ENABLE_THREADS=OFF
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export BRANCH=android-9.0

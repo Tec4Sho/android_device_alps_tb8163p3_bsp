@@ -245,6 +245,7 @@ jobs:
         cd workspace
         set -eo pipefail
         source build/envsetup.sh
+        export USE_NINJA=false
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=true

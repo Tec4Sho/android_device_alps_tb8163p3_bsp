@@ -242,7 +242,7 @@ jobs:
     - name: Building Image 
       run: |
         cd workspace
-        set -e
+        set +e
         source build/envsetup.sh
         export USE_NINJA=false
         export ALLOW_MISSING_DEPENDENCIES=true
@@ -262,7 +262,7 @@ jobs:
         export CONFIG_FS_ENCRYPTION=N
         export LC_ALL=C
         ninja -t restat
-        set +e
+        set -e
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       
     - name: Set Build Date # Output will be use in Release

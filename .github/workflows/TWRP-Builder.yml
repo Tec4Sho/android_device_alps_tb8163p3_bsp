@@ -259,6 +259,7 @@ jobs:
         export STOP_SHIP_TRACEPRINTK=1
         export CONFIG_INIT_ENV_ARG_LIMIT=32
         export CONFIG_CROSS_COMPILE="arm-eabi-"
+        export CONFIG_FS_ENCRYPTION=N
         export LC_ALL=C
         ninja -t restat
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)

@@ -119,6 +119,17 @@ jobs:
         swap-size-mb: 2048 # Example: Reserve 4 GB for swap file
         remove-dotnet: 'true' # Example: Remove the .NET SDK to free space 
       continue-on-error: true
+
+    - name: Caching Enabled 
+      run: |
+        if [ ${{ github.event.inputs.CACHE_ENABLED }} == 'true' ]; then
+          export USE_CCACHE=1
+          export CCACHE_EXEC=/usr/bin/ccache
+          ccache -M 35G # this sets aside 35GB disk space for the cache
+        else
+          echo "Caching is Disabled"
+        fi
+      continue-on-error: true
         
     - name: Prepare The Environment
       run: |
@@ -169,17 +180,6 @@ jobs:
         git config --global user.name "${GitHubName}"
         git config --global credential.helper store
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
-
-    - name: Caching Enabled 
-      run: |
-        if [ ${{ github.event.inputs.CACHE_ENABLED }} == 'true' ]; then
-          export USE_CCACHE=1
-          export CCACHE_EXEC=/usr/bin/ccache
-          ccache -M 35G # this sets aside 35GB disk space for the cache
-        else
-          echo "Caching is Disabled"
-        fi
-      continue-on-error: true
       
     - name: Repo Sync
       run: |

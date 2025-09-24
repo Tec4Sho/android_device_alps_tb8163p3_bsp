@@ -172,7 +172,7 @@ jobs:
 
     - name: Caching Enabled 
       run: |
-        if [ ${{ github.event.inputs.CACHE_ENABLED }} = 'true' ]; then
+        if [ ${{ github.event.inputs.CACHE_ENABLED }} == 'true' ]; then
           export USE_CCACHE=1
           export CCACHE_EXEC=/usr/bin/ccache
           ccache -M 35G # this sets aside 35GB disk space for the cache
@@ -298,7 +298,7 @@ jobs:
         
     - name: Include Recovery Installer
       run: |
-        if [ ${{ github.event.inputs.RECOVERY_INSTALLER }} = 'true' ]; then
+        if [ ${{ github.event.inputs.RECOVERY_INSTALLER }} == 'true' ]; then
           export USE_RECOVERY_INSTALLER=true
           export RECOVERY_INSTALLER_PATH=bootable/recovery/installer
           cd workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/

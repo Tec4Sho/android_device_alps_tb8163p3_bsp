@@ -189,6 +189,7 @@ jobs:
     - name: Clone Device Tree
       run: |
         cd workspace
+        git init
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}

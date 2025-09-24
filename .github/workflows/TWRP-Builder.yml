@@ -122,7 +122,7 @@ jobs:
 
     - name: Caching Enabled 
       run: |
-        if [ ${{ github.event.inputs.CACHE_ENABLED }} == 'true' ]; then
+        if [ ${{ github.event.inputs.CACHING_ENABLED }} == 'true' ]; then
           export USE_CCACHE=1
           export CCACHE_EXEC=/usr/bin/ccache
           ccache -M 35G # this sets aside 35GB disk space for the cache

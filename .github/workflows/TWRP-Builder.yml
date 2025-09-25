@@ -258,6 +258,10 @@ jobs:
         source build/envsetup.sh
         export USE_NINJA=false
         export CPU_SSE42=false
+        export ARCH=arm
+        export CC=clang
+        export CLANG_TRIPLE=arm-linux-gnu-
+        export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=OFF
         export BOARD_VNDK_RUNTIME_DISABLE=true

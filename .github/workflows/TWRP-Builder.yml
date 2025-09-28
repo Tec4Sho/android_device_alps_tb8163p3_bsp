@@ -160,28 +160,6 @@ jobs:
         cond: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-11' || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'  || github.event.inputs.MANIFEST_BRANCH == 'twrp-14.1' }}
         if_true: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git
         if_false: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git
-
-    - name: Restore cached Build
-      if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-primes-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          ${GITHUB_WORKSPACE}/workspace/device/alps/tb8163p3_bsp
-          ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ runner.os }}-primes
-      continue-on-error: true
-    
-    - name: Save Build
-      if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-primes-save
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          ${GITHUB_WORKSPACE}/workspace/device/alps/tb8163p3_bsp
-          ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
-      continue-on-error: true
       
     - name: Initialize Repo
       run: |
@@ -197,6 +175,17 @@ jobs:
         git config --global user.name "${GitHubName}"
         git config --global credential.helper store
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+            
+    - name: Restore cached Build
+      if: github.event.inputs.CACHING_ENABLED == 'true'
+      id: cache-primes-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${GITHUB_WORKSPACE}/workspace/device/alps/tb8163p3_bsp
+          ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        key: ${{ runner.os }}-primes
+      continue-on-error: true
       
     - name: Repo Sync
       run: |
@@ -212,6 +201,17 @@ jobs:
         mkdir -p kernel/alps/tb8163p3_bsp 
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         echo "COMMIT_ID=$(git rev-parse --verify HEAD)" >> $GITHUB_ENV
+
+    - name: Save Build
+      if: github.event.inputs.CACHING_ENABLED == 'true'
+      id: cache-primes-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ${GITHUB_WORKSPACE}/workspace/device/alps/tb8163p3_bsp
+          ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+      continue-on-error: true
         
     - name: Check Build Makefile
       run: |

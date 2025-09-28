@@ -82,7 +82,7 @@ jobs:
         echo "::endgroup::";
         
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
      # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Check Space & PKG Remover 
@@ -161,21 +161,26 @@ jobs:
         if_true: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git
         if_false: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git
 
-    - name: Caching Enabled 
-      run: |
-        if [ ${{ github.event.inputs.CACHING_ENABLED }} == 'true' ]; then
-          export USE_CCACHE=1
-          export CCACHE_EXEC=/usr/bin/ccache
-          export PATH="/usr/lib/ccache:$PATH"
-          ccache -M 35G # this sets aside 35GB disk space for the cache
-          echo 'export PATH="/usr/lib/ccache:$PATH"' >> ~/.bashrc
-          source ~/.bashrc
-          echo $PATH
-        else
-          ccache --version
-          ccache -s
-          echo "Caching is Disabled"
-        fi
+    - name: Restore cached Build
+      if: github.event.inputs.CACHING_ENABLED == 'true'
+      id: cache-primes-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${GITHUB_WORKSPACE}/workspace/device/alps/tb8163p3_bsp
+          ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        key: ${{ runner.os }}-primes
+      continue-on-error: true
+    
+    - name: Save Build
+      if: github.event.inputs.CACHING_ENABLED == 'true'
+      id: cache-primes-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ${GITHUB_WORKSPACE}/workspace/device/alps/tb8163p3_bsp
+          ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
       continue-on-error: true
       
     - name: Initialize Repo

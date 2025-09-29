@@ -185,13 +185,13 @@ jobs:
             
     - name: Restore cached Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-primes-restore
+      id: cache-repos-restore
       uses: actions/cache/restore@v4
       with:
         path: |
-          ./device/alps/tb8163p3_bsp
-          ./kernel/alps/tb8163p3_bsp
-        key: ${{ runner.os }}-primes
+          ~/.device/alps/tb8163p3_bsp
+          ~/.kernel/alps/tb8163p3_bsp
+        key: ${{ runner.os }}-repos
         enableCrossOsArchive: true
       continue-on-error: true
 
@@ -205,13 +205,13 @@ jobs:
 
     - name: Save Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-primes-save
+      id: cache-repos-save
       uses: actions/cache/save@v4
       with:
         path: |
-          ./device/alps/tb8163p3_bsp
-          ./kernel/alps/tb8163p3_bsp
-        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+          ~/.device/alps/tb8163p3_bsp
+          ~/.kernel/alps/tb8163p3_bsp
+        key: ${{ steps.cache-repos-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true
         

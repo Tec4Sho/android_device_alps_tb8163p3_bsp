@@ -192,6 +192,7 @@ jobs:
           ./device/alps/tb8163p3_bsp
           ./kernel/alps/tb8163p3_bsp
         key: ${{ runner.os }}-primes
+        enableCrossOsArchive: true
       continue-on-error: true
 
     - name: Clone Device Tree
@@ -211,6 +212,7 @@ jobs:
           ./device/alps/tb8163p3_bsp
           ./kernel/alps/tb8163p3_bsp
         key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+        enableCrossOsArchive: true
       continue-on-error: true
         
     - name: Check Build Makefile

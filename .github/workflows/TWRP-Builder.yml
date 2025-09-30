@@ -68,6 +68,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
     permissions:
       contents: write
+    outputs:
+      should_run_next_step: ${{ steps.cache-repos-restore.outputs.result }}  
     steps:
     - name: Display Inputs
       run: |
@@ -194,10 +196,11 @@ jobs:
       continue-on-error: true
       
     - name: Repo Sync
+      if: ${{ steps.step12.outcome == 'error' }} # Run Step 13 only if Step 12 failed
       run: |
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Clone Device Tree
       run: |

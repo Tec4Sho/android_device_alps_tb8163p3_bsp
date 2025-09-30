@@ -176,7 +176,6 @@ jobs:
         git config --global user.email "${GitHubMail}"
         git config --global user.name "${GitHubName}"
         git config --global credential.helper store
-        git init
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
 
     - name: Restore Build
@@ -196,7 +195,7 @@ jobs:
     - name: Repo Sync
       run: |
         cd workspace
-        repo sync -j$(nproc --all) --smart-sync
+        repo sync -c -j$(nproc --all) --smart-sync
       continue-on-error: true
 
     - name: Clone Device Tree

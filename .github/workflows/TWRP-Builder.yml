@@ -183,7 +183,7 @@ jobs:
         cd workspace
         repo sync -j$(nproc --all) --force-sync     
             
-    - name: Restore cached Build
+    - name: Restore Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
       id: cache-repos-restore
       uses: actions/cache/restore@v4
@@ -246,7 +246,7 @@ jobs:
         echo
         echo '### cleaning build environment space ###'
         # clean build environment space
-        sudo apt-get remove -y kubectl powershell firefox dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli docker-ce
+        sudo apt-get remove -y kubectl powershell firefox docker-ce # dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli 
         sudo rm -vrf /usr/share/dotnet/ >/dev/null
         echo '### After clean ###' 
         sudo df -h
@@ -261,20 +261,32 @@ jobs:
 
     - name: Check Workspace Contents
       run: du ${GITHUB_WORKSPACE} -h -d 3
-      
-    - name: Building Image 
+
+    - name: Cppcheck Build Files
+      uses: deep5050/cppcheck-action@main
+      with:
+        github_token: ${{ secrets.TWRP }}
+      continue-on-error: false
+
+    - name: Publish Cppcheck Report
+      uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TWRP }}
+        BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here    
+        
+    - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
       run: |
         cd workspace
         set +e
         source build/envsetup.sh
-        export USE_NINJA=false
+        export USE_NINJA=true
         export CPU_SSE42=false
         export ARCH=arm
         export CC=clang
         export CLANG_TRIPLE=arm-linux-gnu-
         export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
         export ALLOW_MISSING_DEPENDENCIES=true
-        export LLVM_ENABLE_THREADS=OFF
+        # export LLVM_ENABLE_THREADS=OFF
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export BRANCH=android-9.0
@@ -303,7 +315,7 @@ jobs:
         fi
         echo "DEVICE_TREE_URL=${DEVICE_TREE_URL}" >> $GITHUB_ENV
         
-    - name: Check if Recovery Exist
+    - name: Check if ${{ github.event.inputs.BUILD_TARGET }} Exist
       run: |
         cd workspace
         if [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery.img ]; then
@@ -323,7 +335,7 @@ jobs:
             exit 1
         fi
         
-    - name: Include Recovery Installer
+    - name: Include ${{ github.event.inputs.BUILD_TARGET }} Installer
       run: |
         if [ ${{ github.event.inputs.RECOVERY_INSTALLER }} == 'true' ]; then
           export USE_RECOVERY_INSTALLER=true
@@ -334,7 +346,7 @@ jobs:
         fi
       continue-on-error: true
         
-    - name: Upload to Release
+    - name: Upload ${{ github.event.inputs.BUILD_TARGET }} Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
@@ -344,7 +356,7 @@ jobs:
         tag_name: ${{ github.run_id }}
         body: |
         
-    - name: Release ramdisk-recovery
+    - name: Release ramdisk-${{ github.event.inputs.BUILD_TARGET }}
       uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
       with:
         files: |

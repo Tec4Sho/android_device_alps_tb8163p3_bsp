@@ -178,11 +178,6 @@ jobs:
         git init
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
 
-    - name: Repo Sync
-      run: |
-        cd workspace
-        repo sync -j$(nproc --all) --force-sync     
-            
     - name: Restore Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
       id: cache-repos-restore
@@ -190,10 +185,17 @@ jobs:
       with:
         path: |
           ~/opt/hostedtoolcache
+          ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ runner.os }}-repos
         enableCrossOsArchive: true
+      continue-on-error: true
+      
+    - name: Repo Sync
+      run: |
+        cd workspace
+        repo sync -c -j$(nproc --all) --smart-sync
       continue-on-error: true
 
     - name: Clone Device Tree
@@ -212,6 +214,7 @@ jobs:
       with:
         path: |
           ~/opt/hostedtoolcache
+          ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ steps.cache-repos-restore.outputs.cache-primary-key }}

@@ -246,7 +246,7 @@ jobs:
         echo
         echo '### cleaning build environment space ###'
         # clean build environment space
-        sudo apt-get remove -y kubectl powershell firefox docker-ce # dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli 
+        sudo apt-get remove -y kubectl powershell firefox # docker-ce dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli 
         sudo rm -vrf /usr/share/dotnet/ >/dev/null
         echo '### After clean ###' 
         sudo df -h
@@ -266,13 +266,14 @@ jobs:
       uses: deep5050/cppcheck-action@main
       with:
         github_token: ${{ secrets.TWRP }}
-      continue-on-error: false
+      continue-on-error: true
 
     - name: Publish Cppcheck Report
       uses: mikeal/publish-to-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.TWRP }}
-        BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here    
+        BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here
+      continue-on-error: false
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
       run: |

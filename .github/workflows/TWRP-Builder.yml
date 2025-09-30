@@ -169,6 +169,7 @@ jobs:
         mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p kernel/alps/tb8163p3_bsp
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        git init
         git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config set advice.defaultBranchName false
         git config set advice.diverging false

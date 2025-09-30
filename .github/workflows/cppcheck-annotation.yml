@@ -1,8 +1,7 @@
 name: cppcheck-annotations
 
 on:
-  pull_request:
-  push:
+ workflow_dispatch:
 
 jobs:
   build:

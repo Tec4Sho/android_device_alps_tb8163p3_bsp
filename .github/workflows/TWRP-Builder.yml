@@ -124,7 +124,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -y upgrade
-        sudo apt-get -y install git-lfs libelf-dev libxml2 rsync adb fastboot libx32stdc++6-11-dbg ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg lib32stdc++6-11-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc
+        sudo apt-get -y install git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc
         sudo apt-get -y install bc git repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev
         sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
         sudo apt-get -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev
@@ -169,7 +169,7 @@ jobs:
         mkdir -p kernel/alps/tb8163p3_bsp
         git init
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        git branch -m "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config set advice.defaultBranchName false
         git config set advice.diverging false
         git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
@@ -191,7 +191,7 @@ jobs:
         path: |
           ~/opt/hostedtoolcache
           ./workspace/device/alps/tb8163p3_bsp
-          ./kernel/alps/tb8163p3_bsp
+          ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ runner.os }}-repos
         enableCrossOsArchive: true
       continue-on-error: true
@@ -203,6 +203,7 @@ jobs:
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}  
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
+      continue-on-error: true
 
     - name: Save Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
@@ -212,7 +213,7 @@ jobs:
         path: |
           ~/opt/hostedtoolcache
           ./workspace/device/alps/tb8163p3_bsp
-          ./kernel/alps/tb8163p3_bsp
+          ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ steps.cache-repos-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true

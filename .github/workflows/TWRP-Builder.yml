@@ -266,6 +266,8 @@ jobs:
       uses: deep5050/cppcheck-action@main
       with:
         github_token: ${{ secrets.TWRP }}
+        path: ./kernel/alps/tb8163p3_bsp
+        level: 'warning,error,failure'
       continue-on-error: true
 
     - name: Publish Cppcheck Report
@@ -282,8 +284,6 @@ jobs:
         source build/envsetup.sh
         export USE_NINJA=true
         export CPU_SSE42=false
-        export ARCH=arm
-        export CC=clang
         export CLANG_TRIPLE=arm-linux-gnu-
         export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
         export ALLOW_MISSING_DEPENDENCIES=true
@@ -301,6 +301,8 @@ jobs:
         export CONFIG_INIT_ENV_ARG_LIMIT=32
         export CROSS_COMPILE="arm-eabi-"
         export CONFIG_FS_ENCRYPTION=N
+        export ARCH=arm
+        export CC=clang
         export LC_ALL=C
         ninja -t restat
         set -e

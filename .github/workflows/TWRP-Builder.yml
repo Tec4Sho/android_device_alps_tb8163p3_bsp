@@ -271,7 +271,8 @@ jobs:
         pull_request_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         target_repository: https://github.com/Tec4Sho/android_kernel_mt8163.git
         pull_request_repository: ${{ github.event.inputs.DEVICE_TREE }}
-        level: 'warning,error,failure'
+        enable: true
+        force: true
       continue-on-error: true
 
     - name: Publish Cppcheck Report
@@ -279,7 +280,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.TWRP }}
         BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here
-      continue-on-error: false
+      continue-on-error: true
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
       run: |

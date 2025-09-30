@@ -196,7 +196,7 @@ jobs:
     - name: Repo Sync
       run: |
         cd workspace
-        repo sync -c -j$(nproc --all) --smart-sync
+        repo sync -c -j$(nproc --all) --force-sync
       continue-on-error: true
 
     - name: Clone Device Tree

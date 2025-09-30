@@ -163,6 +163,7 @@ jobs:
       
     - name: Initialize Repo
       run: |
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         mkdir -p ${GITHUB_WORKSPACE}/workspace   
         cd workspace
         mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
@@ -195,13 +196,12 @@ jobs:
     - name: Repo Sync
       run: |
         cd workspace
-        repo sync -c -j$(nproc --all) --smart-sync
+        repo sync -j$(nproc --all) --smart-sync
       continue-on-error: true
 
     - name: Clone Device Tree
       run: |
-        cd workspace
-        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1    
+        cd workspace    
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}  
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV

@@ -276,7 +276,7 @@ jobs:
       uses: deep5050/cppcheck-action@main
       with:
         github_token: ${{ secrets.TWRP }}
-        entryPoint: ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        #entryPoint: ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         target_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         pull_request_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         target_repository: https://github.com/Tec4Sho/android_kernel_mt8163.git

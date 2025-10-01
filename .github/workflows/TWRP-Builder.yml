@@ -236,13 +236,13 @@ jobs:
             echo "DEVICE_MAKEFILE=omni_${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
         else
             echo "No recovery makefile file found!"
+            exit 1
         fi
       continue-on-error: false
       
     - name: Install Python 2
       if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14'
       run: |
-        # sudo apt-get -y remove python
         sudo apt-get -y install python2
         cd /usr/bin
         sudo ln -sf python2 python
@@ -274,13 +274,10 @@ jobs:
     - name: Cppcheck Build Files
       uses: deep5050/cppcheck-action@main
       with:
-        enable: true
-        force: true
         github_token: "${{ secrets.TWRP }}"
-        entryPoint: ~/home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/kernel/alps/tb8163p3_bsp
         target_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         pull_request_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        target_repository: https://github.com/Tec4Sho/android_kernel_mt8163
+        target_repository: 'https://github.com/Tec4Sho/android_kernel_mt8163'
         pull_request_repository: "${{ github.event.inputs.DEVICE_TREE }}"
       continue-on-error: true
 

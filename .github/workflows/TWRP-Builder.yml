@@ -70,8 +70,8 @@ jobs:
     steps:
     - run: echo "RELEVANT_SHA=$RELEVANT_SHA\nBUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
       env:
-          RELEVANT_SHA: "${{ github.event.pull_request.head.sha || github.sha }}"
-          BUILD_DATE: "$(date +%Y%m%d)"
+          RELEVANT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          BUILD_DATE: $(date +%Y%m%d)
 
     - name: Display Inputs
       run: |

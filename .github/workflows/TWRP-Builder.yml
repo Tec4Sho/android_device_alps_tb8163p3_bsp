@@ -181,9 +181,9 @@ jobs:
           ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
-        key: "${{ runner.os }}-repos-${{ RELEVANT_SHA }}-${{ BUILD_DATE }}"
+        key: "${{ runner.os }}-repos-${{ env.RELEVANT_SHA }}-${{ env.BUILD_DATE }}"
         restore-keys: |
-          "${{ runner.os }}-repos-${{ RELEVANT_SHA }}"
+          "${{ runner.os }}-repos-${{ env.RELEVANT_SHA }}"
           ${{ runner.os }}-repos
           ${{ runner.os }}
         enableCrossOsArchive: true
@@ -275,7 +275,7 @@ jobs:
       if: github.event.inputs.CPPCHECK_ENABLED == 'true'
       uses: deep5050/cppcheck-action@main
       with:
-        github_token: "${{ GITHUB_TOKEN }}"
+        github_token: "${{ env.GITHUB_TOKEN }}"
         entryPiont: '/home/runner/work/_actions/deep5050/cppcheck-action/main/Dockerfile'
         target_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         pull_request_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
@@ -287,7 +287,7 @@ jobs:
       if: github.event.inputs.CPPCHECK_ENABLED == 'true'
       uses: mikeal/publish-to-github-action@master
       env:
-        GITHUB_TOKEN: "${{ GITHUB_TOKEN }}"
+        GITHUB_TOKEN: "${{ env.GITHUB_TOKEN }}"
         BRANCH_NAME: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}" # your branch name goes here
       continue-on-error: true
         

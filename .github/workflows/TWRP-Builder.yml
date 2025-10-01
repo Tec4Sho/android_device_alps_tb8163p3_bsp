@@ -195,7 +195,7 @@ jobs:
       continue-on-error: true
       
     - name: Repo Sync
-      if: ${{ inputs.status != 'success' || inputs.status == 'failure' }}
+      if: ${{ job.status != 'success' }}
       run: |
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync

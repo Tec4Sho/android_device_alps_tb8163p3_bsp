@@ -191,15 +191,16 @@ jobs:
           ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ runner.os }}-repos
         enableCrossOsArchive: true
-        status: ${{ job.status }}
+        #status: ${{ job.status }}
       continue-on-error: true
       
     - name: Repo Sync
-      if: ${{ job.status != 'success' }}
+      #if: ${{ job.status != 'success' }}
       run: |
         cd workspace
-        repo sync -c -j$(nproc --all) --force-sync
-      continue-on-error: false
+        repo sync -c -j$(nproc --all) 
+      #### --force-sync
+      continue-on-error: true
 
     - name: Clone Device Tree
       run: |

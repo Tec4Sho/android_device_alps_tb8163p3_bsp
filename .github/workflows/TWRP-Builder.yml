@@ -196,8 +196,7 @@ jobs:
       continue-on-error: true
       
     - name: Repo Sync
-      if: ${{ steps.step12.outcome == 'error' }} # Run Step 13 only if Step 12 failed
-      run: |
+      if: ${{ failure() || steps.cache-repos-restore.conclusion == 'failure' }}
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
       continue-on-error: false

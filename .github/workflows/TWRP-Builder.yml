@@ -68,7 +68,7 @@ jobs:
     permissions:
       contents: write
     steps:
-    - run: echo #"RELEVANT_SHA=$RELEVANT_SHA\nBUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
+    - run: echo "RELEVANT_SHA=$RELEVANT_SHA\nBUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
       env:
           RELEVANT_SHA: "${{ github.event.pull_request.head.sha || github.sha }}"
           BUILD_DATE: "$(date +%Y%m%d)"
@@ -354,7 +354,7 @@ jobs:
         
     - name: Include ${{ github.event.inputs.BUILD_TARGET }} Installer
       run: |
-        if [ ${{ github.event.inputs.RECOVERY_INSTALLER }} == 'true' ]; then
+        if [ ${{ github.event.inputs.BUILD_TARGET }} == 'recovery' ]; then
           export USE_RECOVERY_INSTALLER=true
           export RECOVERY_INSTALLER_PATH=bootable/recovery/installer
           cd workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/

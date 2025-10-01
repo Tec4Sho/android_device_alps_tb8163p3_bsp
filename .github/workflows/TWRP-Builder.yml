@@ -68,7 +68,7 @@ jobs:
     permissions:
       contents: write
     steps:
-    - run: echo "RELEVANT_SHA=$RELEVANT_SHA" >> GITHUB_ENV | echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
+    - run: echo "RELEVANT_SHA=$RELEVANT_SHA\nBUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
       env:
           RELEVANT_SHA: "${{ github.event.pull_request.head.sha || github.sha }}"
           BUILD_DATE: "$(date +%Y%m%d)"

@@ -42,11 +42,11 @@ on:
         type: boolean
         required: false
         default: 'false'
-      RECOVERY_INSTALLER:
-        description: ': RECOVERY INSTALLER'
+      CPPCHECK_ENABLED:
+        description: ': ENABLE CPPCHECK'
         type: boolean
         required: false
-        default: 'true'
+        default: 'false'
       CLEAN_ENVIRONMENT:
         description: ': CLEAN ENVIRONMENT'
         type: boolean
@@ -68,10 +68,10 @@ jobs:
     permissions:
       contents: write
     steps:
-    - run: echo "Relevant commit SHA:$RELEVANT_SHA"
+    - run: echo "RELEVANT_SHA=$RELEVANT_SHA" >> GITHUB_ENV | echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
       env:
-          RELEVANT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          BUILD_DATE: $(date +%Y%m%d)
+          RELEVANT_SHA: "${{ github.event.pull_request.head.sha || github.sha }}"
+          BUILD_DATE: "$(date +%Y%m%d)"
 
     - name: Display Inputs
       run: |
@@ -181,9 +181,9 @@ jobs:
           ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ runner.os }}-repos-${{ env.RELEVANT_SHA }}-${{ env.BUILD_DATE }}
+        key: "${{ runner.os }}-repos-${{ RELEVANT_SHA }}-${{ BUILD_DATE }}"
         restore-keys: |
-          ${{ runner.os }}-repos-${{ env.RELEVANT_SHA }}
+          "${{ runner.os }}-repos-${{ RELEVANT_SHA }}"
           ${{ runner.os }}-repos
           ${{ runner.os }}
         enableCrossOsArchive: true
@@ -272,9 +272,10 @@ jobs:
       run: du ${GITHUB_WORKSPACE} -h -d 3
 
     - name: Cppcheck Build Files
+      if: github.event.inputs.CPPCHECK_ENABLED == 'true'
       uses: deep5050/cppcheck-action@main
       with:
-        github_token: "${{ secrets.TWRP }}"
+        github_token: "${{ GITHUB_TOKEN }}"
         entryPiont: '/home/runner/work/_actions/deep5050/cppcheck-action/main/Dockerfile'
         target_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         pull_request_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
@@ -283,9 +284,10 @@ jobs:
       continue-on-error: true
 
     - name: Publish Cppcheck Report
+      if: github.event.inputs.CPPCHECK_ENABLED == 'true'
       uses: mikeal/publish-to-github-action@master
       env:
-        GITHUB_TOKEN: "${{ secrets.TWRP }}"
+        GITHUB_TOKEN: "${{ GITHUB_TOKEN }}"
         BRANCH_NAME: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}" # your branch name goes here
       continue-on-error: true
         
@@ -299,7 +301,7 @@ jobs:
         export CLANG_TRIPLE=arm-linux-gnu-
         export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
         export ALLOW_MISSING_DEPENDENCIES=true
-        # export LLVM_ENABLE_THREADS=OFF
+        export LLVM_ENABLE_THREADS=OFF
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export BRANCH=android-9.0
@@ -381,7 +383,7 @@ jobs:
         body: |
           Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
           Target: ${{ github.event.inputs.BUILD_TARGET}}.img
-          Device: [Device Tree/Branch](${{ env.DEVICE_TREE_URL }}/${{ github.eventinputs.DEVICE_TREE_BRANCH }})
+          Device: [Device Tree/Branch](${{ env.DEVICE_TREE_URL }}/${{ github.event.inputs.DEVICE_TREE_BRANCH }})
           Commit: Most recent [commit](${{ env.DEVICE_TREE_URL }}/commit/${{ env.COMMIT_ID }}) during building.
           MD5 (img): ${{ env.MD5_IMG }}
           

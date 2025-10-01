@@ -14,23 +14,23 @@ on:
         - twrp-11
         - twrp-9.0
       DEVICE_TREE:
-        description: 'DEVICE TREE' 
+        description: 'DEVICE TREE'
         required: true
         default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
       DEVICE_TREE_BRANCH:
-        description: 'DEVICE TREE BRANCH' 
+        description: 'DEVICE TREE BRANCH'
         required: true
         default: 'android-9.0'
       DEVICE_PATH:
-        description: 'DEVICE PATH' 
+        description: 'DEVICE PATH'
         required: true
         default: 'device/alps/tb8163p3_bsp'
       DEVICE_NAME:
-        description: 'DEVICE NAME' 
+        description: 'DEVICE NAME'
         required: true
         default: 'tb8163p3_bsp'
       BUILD_TARGET:
-        description: 'BUILD TARGET' 
+        description: 'BUILD TARGET'
         required: true
         default: 'recovery'
         type: choice
@@ -67,7 +67,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
     permissions:
-      actions: read
       contents: write 
     steps:
     - name: Display Inputs

@@ -194,7 +194,7 @@ jobs:
       continue-on-error: true
       
     - name: Repo Sync
-      if: ${{ steps.cache-repos-restore.outputs.result == 'failure' || steps.cache-repos-restore.outputs.result == 'error' || steps.cache-repos-restore.conclusion == 'failure' || steps.cache-repos-restore.conclusion == 'error' }}
+      if: ${{ steps.cache-repos-restore.outcome != 'success' || steps.cache-repos-restore.conclusion != 'success' }}
       run: |
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
@@ -203,8 +203,10 @@ jobs:
     - name: Clone Device Tree
       run: |
         cd workspace    
-        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}  
+        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
+        git add .
+        git commit -m "updating build files"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
       continue-on-error: true
 
@@ -264,13 +266,13 @@ jobs:
       continue-on-error: true
 
     - name: Check Workspace Contents
-      run: du ${GITHUB_WORKSPACE} -h -d 2
+      run: du ${GITHUB_WORKSPACE} -h -d 3
 
     - name: Cppcheck Build Files
       uses: deep5050/cppcheck-action@main
       with:
         github_token: ${{ secrets.TWRP }}
-        entryPoint: ~${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        entryPoint: ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         target_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         pull_request_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         target_repository: https://github.com/Tec4Sho/android_kernel_mt8163.git
@@ -282,7 +284,7 @@ jobs:
     - name: Publish Cppcheck Report
       uses: mikeal/publish-to-github-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.ALPS }}
+        GITHUB_TOKEN: ${{ secrets.TWRP }}
         BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here
       continue-on-error: true
         

@@ -16,7 +16,7 @@ on:
       DEVICE_TREE:
         description: 'DEVICE TREE'
         required: true
-        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE TREE BRANCH'
         required: true
@@ -67,7 +67,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
     permissions:
-      contents: write-all 
+      contents: write
     steps:
     - name: Display Inputs
       run: |
@@ -186,7 +186,7 @@ jobs:
       continue-on-error: true
       
     - name: Repo Sync
-      if: ${{ steps.cache-repos-restore.outputs.cache-hit != 'true' }}
+      if: steps.cache-repos-restore.outputs.cache-hit != 'true'
       run: |
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
@@ -273,7 +273,7 @@ jobs:
         #entryPoint: ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         target_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         pull_request_branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
-        target_repository: https://github.com/Tec4Sho/android_kernel_mt8163.git
+        target_repository: https://github.com/Tec4Sho/android_kernel_mt8163
         pull_request_repository: ${{ github.event.inputs.DEVICE_TREE }}
         enable: true
         force: true

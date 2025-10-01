@@ -204,7 +204,9 @@ jobs:
 
     - name: Clone Device Tree
       run: |
-        cd workspace    
+        cd workspace
+        git config --global user.email "${GitHubMail}"
+        git config --global user.name "${GitHubName}"
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         git submodule add https://github.com/Tec4Sho/android_kernel_mt8163.git .repo/manifests

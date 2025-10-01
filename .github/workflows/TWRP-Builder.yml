@@ -40,7 +40,6 @@ on:
         - recovery
         - vendorboot
       CACHING_ENABLED:
-        status:
         description: ': ENABLE CACHING'
         type: boolean
         required: false

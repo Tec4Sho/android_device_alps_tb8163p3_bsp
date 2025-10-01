@@ -67,7 +67,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
     permissions:
-      contents: write 
+      contents: write-all 
     steps:
     - name: Display Inputs
       run: |
@@ -90,19 +90,10 @@ jobs:
         echo "Listing 100 largest packages"
         dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
         echo
-        df -h
-        echo
-        echo "Removing large packages"
+        echo "Removing some large packages"
         sudo apt-get autoremove -y
         sudo apt-get clean
         df -h
-        # echo "Removing large directories"
-        # deleting 15GB
-        # rm -rf /usr/share/dotnet/ >/dev/null
-        # df -h
-        # uses: rokibhasansagar/slimhub_actions@main
-        # That's it! Now use your normal steps
-        # sudo rm -rf ${GITHUB_WORKSPACE}/.git
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions
@@ -124,12 +115,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -y upgrade
-        sudo apt-get -y install git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc
-        sudo apt-get -y install bc git repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev cppcheck
-        sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
-        sudo apt-get -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev
+        sudo apt-get -y install g++ ccache git git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev cppcheck git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev
         sudo add-apt-repository universe
-        sudo apt-get -y install g++ ccache libncurses5 libtinfo5
+        sudo apt-get -y install libncurses5 libtinfo5
       continue-on-error: true
 
     - name: Install OpenJDK
@@ -189,27 +177,33 @@ jobs:
           ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ runner.os }}-repos
+        key: ${{ runner.os }}-repos-${GITHUB_SHA::8}
+        restore-keys: |
+          ${{ runner.os }}-repos-${GITHUB_SHA::8}
+          ${{ runner.os }}-repos
+          ${{ runner.os }}
         enableCrossOsArchive: true
-        #status: ${{ job.status }}
       continue-on-error: true
       
     - name: Repo Sync
       if: ${{ steps.cache-repos-restore.outputs.cache-hit != 'true' }}
       run: |
         cd workspace
-        repo sync -c -j$(nproc --all) 
-      #### --force-sync
-      continue-on-error: true
+        repo sync -c -j$(nproc --all) --force-sync
+      continue-on-error: false
 
     - name: Clone Device Tree
       run: |
         cd workspace
-        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-        git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
+        if [ ${{ steps.cache-repos-restore.outputs.cache-hit != 'true' }} }; then
+          git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+          git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
+        else
+          echo "### NOTE:  Building From Stored Cache Files  ###"
+        fi
+        git config user.email "${GitHubMail}"
+        git config user.name "${GitHubName}"
         git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
-        git config --global user.email "${GitHubMail}"
-        git config --global user.name "${GitHubName}"
         git commit -m "updating build files"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
       continue-on-error: true

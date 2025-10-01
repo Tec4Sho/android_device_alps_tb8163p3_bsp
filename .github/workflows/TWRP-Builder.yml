@@ -196,6 +196,7 @@ jobs:
       
     - name: Repo Sync
       if: ${{ steps.cache-repos-restore.outcome != 'success' }}
+      run: |
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
       continue-on-error: false

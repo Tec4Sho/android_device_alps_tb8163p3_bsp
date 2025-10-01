@@ -275,6 +275,7 @@ jobs:
       uses: deep5050/cppcheck-action@main
       with:
         github_token: "${{ secrets.TWRP }}"
+        entryPiont: '/home/runner/work/_actions/deep5050/cppcheck-action/main/Dockerfile'
         target_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         pull_request_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         target_repository: 'https://github.com/Tec4Sho/android_kernel_mt8163'

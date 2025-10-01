@@ -207,7 +207,7 @@ jobs:
         cd workspace    
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
-        git add .
+        git submodule add https://github.com/Tec4Sho/android_kernel_mt8163.git .repo/manifests
         git commit -m "updating build files"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
       continue-on-error: true

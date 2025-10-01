@@ -3,7 +3,6 @@ name: TWRP Builder 2025
 on:
   workflow_dispatch:
     inputs:
-      status:
       MANIFEST_BRANCH:
         description: 'MANIFEST BRANCH'
         required: true

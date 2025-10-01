@@ -3,7 +3,6 @@ name: TWRP Builder 2025
 on:
   workflow_dispatch:
     inputs:
-      status:
       MANIFEST_BRANCH:
         description: 'MANIFEST BRANCH'
         required: true
@@ -192,12 +191,12 @@ jobs:
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ runner.os }}-repos
-        status: ${{ job.status }}
+        workflow-status: ${{ steps.cache-repos-restore.outcome }}
         enableCrossOsArchive: true
       continue-on-error: true
       
     - name: Repo Sync
-      if: ${{ inputs.status == 'failure' || inputs.status != 'success' }}
+      if: ${{ steps.cache-repos-restore.outcome != 'success' }}
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
       continue-on-error: false

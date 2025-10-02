@@ -270,7 +270,7 @@ jobs:
       with:
         path: "${GITHUB_WORKSPACE}"
         level: 'warning,failure,error'
-        opts: -v --force --enable=all -j 2 --xml workflow_build/ -I ${{ github.event.inputs.CPPCHECK_DIRS }}
+        opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report -I ${{ github.event.inputs.CPPCHECK_DIRS }}
       continue-on-error: true
 
     - name: Publish Cppcheck Report

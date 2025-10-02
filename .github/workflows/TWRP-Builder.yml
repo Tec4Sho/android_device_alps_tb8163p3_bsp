@@ -207,7 +207,7 @@ jobs:
       continue-on-error: true
 
     - name: Save Build
-      if: github.event.inputs.CACHING_ENABLED == 'true'
+      if: github.event.inputs.CACHING_ENABLED == 'true' && steps.cache-build-restore.outputs.cache-hit != 'true'
       id: cache-build-save
       uses: actions/cache/save@v4
       with:

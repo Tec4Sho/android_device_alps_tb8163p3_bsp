@@ -282,17 +282,8 @@ jobs:
         BRANCH_NAME: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}" # your branch name goes here
       continue-on-error: true
 
-    - name: Install Clang Compiler
-      uses: rlalik/setup-cpp-compiler@master
-      with:
-        compiler: 'clang-12'
-      continue-on-error: true
-        
-    - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
+    - name: Export Build Settings
       run: |
-        cd workspace
-        set +e
-        source build/envsetup.sh
         export USE_NINJA=true
         export CPU_SSE42=false
         export CLANG_TRIPLE=arm-linux-gnu-
@@ -315,6 +306,19 @@ jobs:
         export ARCH=arm
         export CC=clang
         export LC_ALL=C
+      continue-on-error: true
+    
+    - name: Install Clang Compiler
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: 'clang-12'
+      continue-on-error: true
+        
+    - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
+      run: |
+        cd workspace
+        set +e
+        source build/envsetup.sh
         ninja -t restat
         set -e
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)

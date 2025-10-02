@@ -185,7 +185,7 @@ jobs:
       continue-on-error: true
       
     - name: Repo Sync
-      if: steps.cache-repos-restore.outputs.cache-hit != 'true'
+      if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         cd workspace
         repo sync -c -j$(nproc --all) --force-sync
@@ -194,7 +194,7 @@ jobs:
     - name: Clone Device Tree
       run: |
         cd workspace
-        if [ ${{ steps.cache-repos-restore.outputs.cache-hit != 'true' }} ]; then
+        if [ ${{ steps.cache-build-restore.outputs.cache-hit != 'true' }} ]; then
           git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
           git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         else
@@ -266,14 +266,11 @@ jobs:
 
     - name: Cppcheck Build Files
       if: github.event.inputs.CPPCHECK_PATH != ''
-      uses: deep5050/cppcheck-action@main
+      uses: tonybaloney/cppcheck-action@master
       with:
-        github_token: "${{ secrets.TWRP }}"
-        entryPiont: "${{ github.event.inputs.CPPCHECK_PATH }}"
-        target_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        pull_request_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        #target_repository: 'https://github.com/Tec4Sho/android_kernel_mt8163'
-        #pull_request_repository: "${{ github.event.inputs.DEVICE_TREE }}"
+        path: "${{ github.event.inputs.CPPCHECK_PATH }}"
+        level: 'warning,failure,error'
+        opt: ''
       continue-on-error: true
 
     - name: Publish Cppcheck Report

@@ -118,10 +118,12 @@ jobs:
         path: |
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
+          ./workspace/prebuilts
+          ./workspace/device
+          ./workspace/kernel
+          ./workspace/tools
           ./workspace/.repo
-          ./workspace/device/alps/tb8163p3_bsp
-          ./workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
+          key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
           ${{ runner.os }}-build
@@ -215,9 +217,11 @@ jobs:
         path: |
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
+          ./workspace/prebuilts
+          ./workspace/device
+          ./workspace/kernel
+          ./workspace/tools
           ./workspace/.repo
-          ./workspace/device/alps/tb8163p3_bsp
-          ./workspace/kernel/alps/tb8163p3_bsp
         key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true

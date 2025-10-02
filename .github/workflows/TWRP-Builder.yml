@@ -268,9 +268,8 @@ jobs:
       if: github.event.inputs.CPPCHECK_DIRS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: "${GITHUB_WORKSPACE}"
-        level: 'warning,failure,error'
-        opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report -I ${{ github.event.inputs.CPPCHECK_DIRS }}
+        path: ${GITHUB_WORKSPACE}
+        opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report --report-progress -I ${{ github.event.inputs.CPPCHECK_DIRS }}
       continue-on-error: true
 
     - name: Publish Cppcheck Report

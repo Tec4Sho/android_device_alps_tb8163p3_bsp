@@ -68,11 +68,6 @@ jobs:
     permissions:
       contents: write
     steps:
-    - run: echo "GITHUB_TOKEN=$GITHUB_TOKEN\nRELEVANT_SHA=$RELEVANT_SHA\nBUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
-      env:
-          RELEVANT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          BUILD_DATE: $(date +%Y%m%d)
-
     - name: Display Inputs
       run: |
         echo "::group::User Environment Variables"
@@ -173,7 +168,7 @@ jobs:
 
     - name: Restore Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-repos-restore
+      id: cache-build-restore
       uses: actions/cache/restore@v4
       with:
         path: |
@@ -181,10 +176,10 @@ jobs:
           ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
-        key: "${{ runner.os }}-repos-${{ env.RELEVANT_SHA }}-${{ env.BUILD_DATE }}"
+        key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
-          "${{ runner.os }}-repos-${{ env.RELEVANT_SHA }}"
-          ${{ runner.os }}-repos
+          ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
+          ${{ runner.os }}-build
           ${{ runner.os }}
         enableCrossOsArchive: true
       continue-on-error: true
@@ -213,7 +208,7 @@ jobs:
 
     - name: Save Build
       if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-repos-save
+      id: cache-build-save
       uses: actions/cache/save@v4
       with:
         path: |
@@ -221,7 +216,7 @@ jobs:
           ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ steps.cache-repos-restore.outputs.cache-primary-key }}
+        key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true
         

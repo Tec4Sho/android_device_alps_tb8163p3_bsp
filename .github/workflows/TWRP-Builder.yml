@@ -37,16 +37,16 @@ on:
         - boot
         - recovery
         - vendorboot
+      CPPCHECK_DIRS:
+        description: ': CPPCHECK DIRS'
+        type: string
+        required: false
+        default: ''
       CACHING_ENABLED:
         description: ': ENABLE CACHING'
         type: boolean
         required: false
         default: 'false'
-      CPPCHECK_PATH:
-        description: ': CPPCHECK PATH'
-        type: string
-        required: false
-        default: ''
       CLEAN_ENVIRONMENT:
         description: ': CLEAN ENVIRONMENT'
         type: boolean
@@ -265,12 +265,12 @@ jobs:
       run: du ${GITHUB_WORKSPACE} -h -d 3
 
     - name: Cppcheck Build Files
-      if: github.event.inputs.CPPCHECK_PATH != ''
+      if: github.event.inputs.CPPCHECK_DIRS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: "${{ github.event.inputs.CPPCHECK_PATH }}"
+        path: "${GITHUB_WORKSPACE}"
         level: 'warning,failure,error'
-        opt: ''
+        opts: --enable=all -j 2 --xml workflow_build/ -I ${{ github.event.inputs.CPPCHECK_DIRS }}
       continue-on-error: true
 
     - name: Publish Cppcheck Report

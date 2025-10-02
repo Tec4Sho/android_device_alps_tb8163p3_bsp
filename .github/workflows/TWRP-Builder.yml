@@ -197,11 +197,11 @@ jobs:
         if [ ${{ steps.cache-build-restore.outputs.cache-hit != 'true' }} ]; then
           git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
           git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
+          git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
+          git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         else
           echo "### NOTE:  Building From Stored Cache Files  ###"
         fi
-        git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
-        git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git commit -m "Updated android build files"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
       continue-on-error: true

@@ -42,11 +42,11 @@ on:
         type: boolean
         required: false
         default: 'false'
-      CPPCHECK_ENABLED:
-        description: ': ENABLE CPPCHECK'
-        type: boolean
+      CPPCHECK_PATH:
+        description: ': CPPCHECK PATH'
+        type: string
         required: false
-        default: 'false'
+        default: ''
       CLEAN_ENVIRONMENT:
         description: ': CLEAN ENVIRONMENT'
         type: boolean
@@ -265,22 +265,22 @@ jobs:
       run: du ${GITHUB_WORKSPACE} -h -d 3
 
     - name: Cppcheck Build Files
-      if: github.event.inputs.CPPCHECK_ENABLED == 'true'
+      if: github.event.inputs.CPPCHECK_PATH != ''
       uses: deep5050/cppcheck-action@main
       with:
-        github_token: "${{ env.GITHUB_TOKEN }}"
-        entryPiont: '/home/runner/work/_actions/deep5050/cppcheck-action/main/Dockerfile'
+        github_token: "${{ secrets.TWRP }}"
+        entryPiont: "${{ github.event.inputs.CPPCHECK_PATH }}"
         target_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         pull_request_branch: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        target_repository: 'https://github.com/Tec4Sho/android_kernel_mt8163'
-        pull_request_repository: "${{ github.event.inputs.DEVICE_TREE }}"
+        #target_repository: 'https://github.com/Tec4Sho/android_kernel_mt8163'
+        #pull_request_repository: "${{ github.event.inputs.DEVICE_TREE }}"
       continue-on-error: true
 
     - name: Publish Cppcheck Report
-      if: github.event.inputs.CPPCHECK_ENABLED == 'true'
+      if: github.event.inputs.CPPCHECK_PATH != ''
       uses: mikeal/publish-to-github-action@master
       env:
-        GITHUB_TOKEN: "${{ env.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         BRANCH_NAME: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}" # your branch name goes here
       continue-on-error: true
         

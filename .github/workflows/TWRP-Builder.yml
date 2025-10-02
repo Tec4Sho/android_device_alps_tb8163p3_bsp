@@ -109,6 +109,25 @@ jobs:
         swap-size-mb: 2048 # Example: Reserve 4 GB for swap file
         remove-dotnet: 'true' # Example: Remove the .NET SDK to free space 
       continue-on-error: true
+
+    - name: Restore Build
+      if: github.event.inputs.CACHING_ENABLED == 'true'
+      id: cache-build-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ~/opt/hostedtoolcache
+          ~/var/cache/apt/archives
+          ./workspace/.repo
+          ./workspace/device/alps/tb8163p3_bsp
+          ./workspace/kernel/alps/tb8163p3_bsp
+        key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
+          ${{ runner.os }}-build
+          ${{ runner.os }}
+        enableCrossOsArchive: true
+      continue-on-error: true
         
     - name: Prepare The Environment
       run: |
@@ -117,6 +136,9 @@ jobs:
         sudo apt-get -y install g++ clang ccache git git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev cppcheck git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3
         sudo add-apt-repository universe
         sudo apt-get -y install libncurses5 libtinfo5
+        mkdir -p ${GITHUB_WORKSPACE}/workspace
+        mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
+        mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
       continue-on-error: true
 
     - name: Install OpenJDK
@@ -128,6 +150,7 @@ jobs:
     - name: Install Git-Repo
       run: |
         mkdir ~/bin
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
         chmod a+x ~/bin/repo
         sudo ln -sf ~/bin/repo /usr/bin/repo
@@ -150,11 +173,7 @@ jobs:
       
     - name: Initialize Repo
       run: |
-        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        mkdir -p ${GITHUB_WORKSPACE}/workspace   
         cd workspace
-        mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
-        mkdir -p kernel/alps/tb8163p3_bsp
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git init
         git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
@@ -165,24 +184,6 @@ jobs:
         git config --global user.name "${GitHubName}"
         git config --global credential.helper store
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
-
-    - name: Restore Build
-      if: github.event.inputs.CACHING_ENABLED == 'true'
-      id: cache-build-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          ~/opt/hostedtoolcache
-          ./workspace/.repo
-          ./workspace/device/alps/tb8163p3_bsp
-          ./workspace/kernel/alps/tb8163p3_bsp
-        key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
-          ${{ runner.os }}-build
-          ${{ runner.os }}
-        enableCrossOsArchive: true
-      continue-on-error: true
       
     - name: Repo Sync
       if: steps.cache-build-restore.outputs.cache-hit != 'true'
@@ -213,6 +214,7 @@ jobs:
       with:
         path: |
           ~/opt/hostedtoolcache
+          ~/var/cache/apt/archives
           ./workspace/.repo
           ./workspace/device/alps/tb8163p3_bsp
           ./workspace/kernel/alps/tb8163p3_bsp

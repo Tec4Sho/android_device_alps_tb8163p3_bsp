@@ -37,8 +37,8 @@ on:
         - boot
         - recovery
         - vendorboot
-      CPPCHECK_DIRS:
-        description: ': CPPCHECK DIRS'
+      CPPCHECK_OPTS:
+        description: ': CPPCHECK OPTS'
         type: string
         required: false
         default: ''
@@ -231,7 +231,6 @@ jobs:
             echo "No recovery makefile file found!"
             exit 1
         fi
-      continue-on-error: false
       
     - name: Install Python 2
       if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14'
@@ -262,22 +261,31 @@ jobs:
       continue-on-error: true
 
     - name: Check Workspace Contents
-      run: du ${GITHUB_WORKSPACE} -h -d 3
+      run: |
+        du ${GITHUB_WORKSPACE} -h -d 3
+        cp -f ${GITHUB_WORKSPACE}/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ${GITHUB_WORKSPACE}/
+      continue-on-error: true
 
     - name: Cppcheck Build Files
-      if: github.event.inputs.CPPCHECK_DIRS != ''
+      if: github.event.inputs.CPPCHECK_OPTS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: ${GITHUB_WORKSPACE}
-        opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report --report-progress -I ${{ github.event.inputs.CPPCHECK_DIRS }}
+        path: ${GITHUB_WORKSPACE}/Dockerfile
+        opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report --report-progress ${{ github.event.inputs.CPPCHECK_OPTS }}
       continue-on-error: true
 
     - name: Publish Cppcheck Report
-      if: github.event.inputs.CPPCHECK_PATH != ''
+      if: github.event.inputs.CPPCHECK_OPTS != ''
       uses: mikeal/publish-to-github-action@master
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: "${{ secrets.TWRP }}"
         BRANCH_NAME: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}" # your branch name goes here
+      continue-on-error: true
+
+    - name: Install Clang Compiler
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: 'clang-12'
       continue-on-error: true
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image

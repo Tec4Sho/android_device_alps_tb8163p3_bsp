@@ -1,0 +1,20 @@
+-name: Workspace Contents Cleaner 2025
+ on:
+jobs:
+  slim_build:
+    runs-on: ubuntu-latest
+    # You can use either of the ubuntu-20.04 or ubuntu-22.04 runner
+    steps:
+      # You might want to Checkout your repo first, but not mandatory
+      - uses: actions/checkout@v3
+      # Cleanup The Actions Workspace Using Custom Composite Run Actions
+      - uses: rokibhasansagar/slimhub_actions@main
+        # Optional key, "retain": Use only if you want something to keep
+        with:
+          retain: "prg_grp_1,prg_grp_2,another_prg_grp"
+          # The values must match from the below list
+      # That's it! Now use your normal steps
+      - name: "Custom Steps"
+        run: |
+          echo "Your Commands Goes HERE"
+      # ...

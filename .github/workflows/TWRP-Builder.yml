@@ -88,14 +88,11 @@ jobs:
       run: |
         echo "Listing 100 largest packages"
         dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
-        echo -----------------------------------------------------
-        find / -name hostedtoolcache -type d -maxdepth 4 -print 2>/dev/null
-        find / -name archives -type d -maxdepth 6 -print 2>/dev/null
-        echo -----------------------------------------------------
+        echo 
         echo "Removing some large packages"
         sudo apt-get autoremove -y
         sudo apt-get clean
-        df -h && exit
+        df -h
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions
@@ -241,9 +238,12 @@ jobs:
         elif [ -f ${{ github.event.inputs.DEVICE_PATH }}/omni_${{ github.event.inputs.DEVICE_NAME}}.mk ]; then
             echo "DEVICE_MAKEFILE=omni_${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
         else
-            echo "No recovery makefile file found!"
+            echo "No build makefile file found!"
             exit 1
         fi
+        echo -----------------------------------------------------
+        find / -name archives -type d -maxdepth 8 -print 2>/dev/null
+        echo -----------------------------------------------------
 
     - name: Check Build Space 
       run: |
@@ -267,7 +267,7 @@ jobs:
 
     - name: Check Workspace Contents
       run: |
-        du ${GITHUB_WORKSPACE} -h -d 3
+        du . -h -d 3
         cp -f ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ${GITHUB_WORKSPACE}/workspace
       continue-on-error: true
 

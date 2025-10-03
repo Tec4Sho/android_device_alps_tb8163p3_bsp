@@ -65,10 +65,11 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
+      BUILD_DATE: $(echo (date +%Y%m%d))
     permissions:
       contents: write
     steps:
-    - name: Display Inputs
+    - name: Display Inputs & Date $BUILD_DATE
       run: |
         echo "::group::User Environment Variables"
         echo "Displaying main variables/inputs."
@@ -116,13 +117,7 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          ~/opt/hostedtoolcache
-          ~/var/cache/apt/archives
-          ./workspace/prebuilts
-          ./workspace/device
-          ./workspace/kernel
-          ./workspace/tools
-          ./workspace/.repo
+          ~${GITHUB_WORKSPACE}
           key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
@@ -144,12 +139,14 @@ jobs:
       continue-on-error: true
 
     - name: Install OpenJDK
+      if: steps.cache-build-restore.outputs.cache-hit != 'true'
       uses: actions/setup-java@v4
       with:
         distribution: zulu
         java-version: 8
 
     - name: Install Git-Repo
+      if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         mkdir ~/bin
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
@@ -174,6 +171,7 @@ jobs:
         if_false: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git
       
     - name: Initialize Repo
+      if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         cd workspace
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
@@ -195,18 +193,24 @@ jobs:
       continue-on-error: false
 
     - name: Clone Device Tree
+      if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         cd workspace
-        if [ ${{ steps.cache-build-restore.outputs.cache-hit != 'true' }} ]; then
-          git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-          git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
-          git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
-          git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        else
-          echo "### NOTE:  Building From Stored Cache Files  ###"
-        fi
+        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+        git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
+        git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
+        git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        echo "### NOTE: Not Building From Cache Files  ###"
         git commit -m "Updated android build files"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
+      continue-on-error: true
+
+    - name: Install Python 2
+      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14' && steps.cache-build-restore.outputs.cache-hit != 'true'
+      run: |
+        sudo apt-get -y install python2
+        cd /usr/bin
+        sudo ln -sf python2 python
       continue-on-error: true
 
     - name: Save Build
@@ -215,13 +219,7 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: |
-          ~/opt/hostedtoolcache
-          ~/var/cache/apt/archives
-          ./workspace/prebuilts
-          ./workspace/device
-          ./workspace/kernel
-          ./workspace/tools
-          ./workspace/.repo
+          ~${GITHUB_WORKSPACE}
         key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true
@@ -237,14 +235,6 @@ jobs:
             echo "No recovery makefile file found!"
             exit 1
         fi
-      
-    - name: Install Python 2
-      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14'
-      run: |
-        sudo apt-get -y install python2
-        cd /usr/bin
-        sudo ln -sf python2 python
-      continue-on-error: true
 
     - name: Check Build Space 
       run: |
@@ -314,7 +304,7 @@ jobs:
         export LC_ALL=C
       continue-on-error: true
     
-    - name: Install Clang Compiler
+    - name: Setup Compiler = Clang-12
       uses: rlalik/setup-cpp-compiler@master
       with:
         compiler: 'clang-12'
@@ -329,7 +319,7 @@ jobs:
         set -e
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       
-    - name: Set Build Date # Output will be use in Release
+    - name: Build Date $BUILD_DATE # Output will be use in Release
       run: |
         echo "Done building your ${{ github.event.inputs.BUILD_TARGET }}.img"
         echo "BUILD_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
@@ -339,7 +329,7 @@ jobs:
         fi
         echo "DEVICE_TREE_URL=${DEVICE_TREE_URL}" >> $GITHUB_ENV
         
-    - name: Check if ${{ github.event.inputs.BUILD_TARGET }} Exist
+    - name: Checking if ${{ github.event.inputs.BUILD_TARGET }} Exist
       run: |
         cd workspace
         if [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/recovery.img ]; then
@@ -355,7 +345,7 @@ jobs:
             echo "vendor_boot.img file found!"
             echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
         else
-            echo "No Recovery file found!"
+            echo "ERROR: No ${{ github.event.inputs.BUILD_TARGET }} image found! Exiting ...."
             exit 1
         fi
         
@@ -370,7 +360,7 @@ jobs:
         fi
       continue-on-error: true
         
-    - name: Upload ${{ github.event.inputs.BUILD_TARGET }} Release
+    - name: Uploading ${{ github.event.inputs.BUILD_TARGET }} Release
       uses: softprops/action-gh-release@v1
       with:
         files: |

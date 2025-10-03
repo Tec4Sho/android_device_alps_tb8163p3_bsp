@@ -201,8 +201,7 @@ jobs:
         git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        echo "### NOTE: Not Building From Cache Files  ###"
-        git commit -m "Updated android build files"
+        echo "##### NOTE: Not Building From Any Cached Files  #####"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
       continue-on-error: true
 

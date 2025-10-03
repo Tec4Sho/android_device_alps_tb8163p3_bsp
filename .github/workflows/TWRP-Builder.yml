@@ -60,7 +60,7 @@ on:
         
 jobs:
   build:
-    name: Build ${{ github.event.inputs.BUILD_TARGET }} by ${{ github.actor }} // ${{ github.event.repository.updated_at }}
+    name: Build ${{ github.event.inputs.BUILD_TARGET }} by ${{ github.actor }} | ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:
@@ -119,8 +119,8 @@ jobs:
           ./workspace
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
-          $RUNNER_TOOL_CACHE
-          $AGENT_TOOLSDIRECTORY
+        #$RUNNER_TOOL_CACHE
+        #$AGENT_TOOLSDIRECTORY
         key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
@@ -204,7 +204,7 @@ jobs:
         git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         echo "##### NOTE: Not Building From Any Cached Files  #####"
-        echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        echo "COMMIT_ID=$(git rev-parse HEAD -- HEAD)" >> $GITHUB_ENV
       continue-on-error: true
 
     - name: Install Python 2
@@ -224,8 +224,8 @@ jobs:
           ./workspace
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
-          $RUNNER_TOOL_CACHE
-          $AGENT_TOOLSDIRECTORY
+        #$RUNNER_TOOL_CACHE
+        #$AGENT_TOOLSDIRECTORY
         key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true

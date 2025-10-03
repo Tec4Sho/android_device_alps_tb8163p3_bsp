@@ -65,7 +65,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
-      BUILD_DATE: $(echo (date +%Y%m%d))
+      BUILD_DATE: $(echo $(date +%Y%m%d))
     permissions:
       contents: write
     steps:

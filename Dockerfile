@@ -2,7 +2,11 @@ FROM python:3.13.0-slim-bookworm AS base
 
 ENV CPPCHECK_VERSION=2.16.0
 
+SHELL ["/bin/bash", "-c"]
+
 WORKDIR /tmp/cppcheck
+
+ENTRYPOINT ["my-program", "start"]
 
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \

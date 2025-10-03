@@ -268,7 +268,7 @@ jobs:
       if: github.event.inputs.CPPCHECK_OPTS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: ~${GITHUB_WORKSPACE}/workspace/Dockerfile
+        path: ./workspace/Dockerfile
         opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report --report-progress ${{ github.event.inputs.CPPCHECK_OPTS }}
       continue-on-error: true
 

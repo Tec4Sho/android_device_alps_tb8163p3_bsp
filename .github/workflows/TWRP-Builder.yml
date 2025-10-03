@@ -95,7 +95,7 @@ jobs:
         echo "Removing some large packages"
         sudo apt-get autoremove -y
         sudo apt-get clean
-        df -h
+        df -h && exit
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions

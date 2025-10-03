@@ -1,5 +1,7 @@
--name: Workspace Contents Cleaner 2025
- on:
+name: Workspace Contents Cleaner 2025
+on:
+  workflow_dispatch:
+ 
 jobs:
   slim_build:
     runs-on: ubuntu-latest
@@ -11,10 +13,10 @@ jobs:
       - uses: rokibhasansagar/slimhub_actions@main
         # Optional key, "retain": Use only if you want something to keep
         with:
-          retain: "prg_grp_1,prg_grp_2,another_prg_grp"
+          retain: "browser_all,clang,gcc,g++,python,ccache,repo,git,git-repo,powershell"
           # The values must match from the below list
       # That's it! Now use your normal steps
       - name: "Custom Steps"
         run: |
-          echo "Your Commands Goes HERE"
+          echo "Workspace was cleaned successfully. Goodbye ......"
       # ...

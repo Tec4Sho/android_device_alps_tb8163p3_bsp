@@ -117,6 +117,8 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: |
+          ~/opt/hostedtoolcache
+          ~/var/cache/apt/archives
           ~${GITHUB_WORKSPACE}
           key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
@@ -219,6 +221,8 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: |
+          ~/opt/hostedtoolcache
+          ~/var/cache/apt/archives
           ~${GITHUB_WORKSPACE}
         key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true

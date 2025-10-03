@@ -1,4 +1,4 @@
-name: TWRP Builder 2025
+name: TWRP Builder ${{ github.event.repository.updated_at }}
 on:
   workflow_dispatch:
     inputs:
@@ -65,11 +65,10 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
-      BUILD_DATE: ${{ github.event.repository.updated_at }}
     permissions:
       contents: write
     steps:
-    - name: Display Inputs & Date ${BUILD_DATE}
+    - name: Display Inputs
       run: |
         echo "::group::User Environment Variables"
         echo "Displaying main variables/inputs."
@@ -323,7 +322,7 @@ jobs:
         set -e
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       
-    - name: Build Date ${BUILD_DATE} # Output will be use in Release
+    - name: Build Date ${{ github.event.repository.updated_at }} # Output will be use in Release
       run: |
         echo "Done building your ${{ github.event.inputs.BUILD_TARGET }}.img"
         echo "BUILD_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV

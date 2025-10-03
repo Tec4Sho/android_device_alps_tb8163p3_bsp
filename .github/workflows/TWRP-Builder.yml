@@ -88,7 +88,10 @@ jobs:
       run: |
         echo "Listing 100 largest packages"
         dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
-        echo
+        echo -----------------------------------------------------
+        find / -name hostedtoolcache -type d -maxdepth 4 -print 2>/dev/null
+        find / -name archives -type d -maxdepth 6 -print 2>/dev/null
+        echo -----------------------------------------------------
         echo "Removing some large packages"
         sudo apt-get autoremove -y
         sudo apt-get clean
@@ -119,6 +122,8 @@ jobs:
           ./workspace
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
+          $RUNNER_TOOL_CACHE
+          $AGENT_TOOLSDIRECTORY
         key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
@@ -222,6 +227,8 @@ jobs:
           ./workspace
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
+          $RUNNER_TOOL_CACHE
+          $AGENT_TOOLSDIRECTORY
         key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true

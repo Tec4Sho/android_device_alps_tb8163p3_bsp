@@ -150,7 +150,6 @@ jobs:
       if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         mkdir ~/bin
-        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
         chmod a+x ~/bin/repo
         sudo ln -sf ~/bin/repo /usr/bin/repo
@@ -176,9 +175,11 @@ jobs:
       run: |
         cd workspace
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config set advice.defaultBranchName false
         git config set advice.diverging false
+        git init
+        git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
         git config --global user.email "${GitHubMail}"
         git config --global user.name "${GitHubName}"

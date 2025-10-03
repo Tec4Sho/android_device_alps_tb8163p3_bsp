@@ -318,7 +318,6 @@ jobs:
         set +e
         source build/envsetup.sh
         ninja -t restat
-        set -e
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       
     - name: Build Date ${{ github.event.repository.updated_at }} # Output will be use in Release

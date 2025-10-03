@@ -109,6 +109,8 @@ jobs:
     - name: Cleanup Environment 
       if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main
+      with:
+        retain: "browser_all,clang,gcc,g++,python,ccache,repo,git,git-repo,powershell"
       # That's it! Now use your normal steps  
 
     - name: Maximize Build Space
@@ -132,7 +134,10 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          ./workspace
+          ./workspace/.repo
+          ./workspace/kernel
+          ./workspace/device
+          ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
         key: ${{ runner.os }}-workspace-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
@@ -224,7 +229,10 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: |
-          ./workspace
+          ./workspace/.repo
+          ./workspace/kernel
+          ./workspace/device
+          ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
         key: ${{ steps.restore-workspace-cache.outputs.cache-primary-key }}
         enableCrossOsArchive: true

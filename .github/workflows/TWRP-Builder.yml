@@ -174,11 +174,11 @@ jobs:
       if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         cd workspace
+        git init
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config set advice.defaultBranchName false
         git config set advice.diverging false
-        git init
         git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
         git config --global user.email "${GitHubMail}"

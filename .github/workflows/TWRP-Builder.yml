@@ -38,7 +38,7 @@ on:
         - recovery
         - vendorboot
       CPPCHECK_OPTS:
-        description: ': CPPCHECK OPTS'
+        description: 'CPPCHECK OPTS'
         type: string
         required: false
         default: ''
@@ -313,6 +313,7 @@ jobs:
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
       run: |
+        echo "Started Build On $CURRENT_DATE"
         cd workspace
         set +e
         source build/envsetup.sh

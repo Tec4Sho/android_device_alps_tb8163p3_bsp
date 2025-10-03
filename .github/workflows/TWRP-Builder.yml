@@ -315,7 +315,7 @@ jobs:
       run: |
         echo "Started Build On $CURRENT_DATE"
         cd workspace
-        set +e
+        set +eo
         source build/envsetup.sh
         ninja -t restat
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)

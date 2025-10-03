@@ -262,14 +262,14 @@ jobs:
     - name: Check Workspace Contents
       run: |
         du ${GITHUB_WORKSPACE} -h -d 3
-        cp -f ${GITHUB_WORKSPACE}/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ${GITHUB_WORKSPACE}/
+        cp -f ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ${GITHUB_WORKSPACE}/workspace
       continue-on-error: true
 
     - name: Cppcheck Build Files
       if: github.event.inputs.CPPCHECK_OPTS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: ${GITHUB_WORKSPACE}/Dockerfile
+        path: ~${GITHUB_WORKSPACE}/workspace/Dockerfile
         opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report --report-progress ${{ github.event.inputs.CPPCHECK_OPTS }}
       continue-on-error: true
 

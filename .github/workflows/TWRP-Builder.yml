@@ -119,7 +119,7 @@ jobs:
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
           ~${GITHUB_WORKSPACE}
-          key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
+        key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
           ${{ runner.os }}-build

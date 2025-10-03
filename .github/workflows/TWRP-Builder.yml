@@ -15,7 +15,7 @@ on:
       DEVICE_TREE:
         description: 'DEVICE TREE'
         required: true
-        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp'
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE TREE BRANCH'
         required: true
@@ -117,10 +117,7 @@ jobs:
       with:
         path: |
           ./workspace
-          ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
-        #$RUNNER_TOOL_CACHE
-        #$AGENT_TOOLSDIRECTORY
         key: ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.event.pull_request.head.sha || github.sha }}
@@ -178,10 +175,10 @@ jobs:
         cd workspace
         git init
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        git config set advice.defaultBranchName false
-        git config set advice.diverging false
-        git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        #git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        #git config set advice.defaultBranchName false
+        #git config set advice.diverging false
+        #git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
         git config --global user.email "${GitHubMail}"
         git config --global user.name "${GitHubName}"
@@ -200,10 +197,11 @@ jobs:
       run: |
         cd workspace
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-        git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
-        git submodule add https://github.com/Tec4Sho/android_kernel_mt8163 .repo/manifests
-        git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        echo "##### NOTE: Not Building From Any Cached Files  #####"
+        git submodule add https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp  
+        git add .gitmodules ./kernel/alps/tb8163p3_bsp # or simply git add .
+        git commit -m "Added /kernel/alps/tb8163p3_bsp as a submodule"
+        git submodule update --init --recursive
+        echo "##### NOTE: Not Building From Cached Files  #####"
         echo "COMMIT_ID=$(git rev-parse HEAD -- HEAD)" >> $GITHUB_ENV
       continue-on-error: true
 
@@ -222,10 +220,7 @@ jobs:
       with:
         path: |
           ./workspace
-          ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
-        #$RUNNER_TOOL_CACHE
-        #$AGENT_TOOLSDIRECTORY
         key: ${{ steps.cache-build-restore.outputs.cache-primary-key }}
         enableCrossOsArchive: true
       continue-on-error: true
@@ -241,9 +236,9 @@ jobs:
             echo "No build makefile file found!"
             exit 1
         fi
-        echo -----------------------------------------------------
-        find / -name archives -type d -maxdepth 8 -print 2>/dev/null
-        echo -----------------------------------------------------
+        echo "-----------------------------------------------------"
+        #find / -name archives -type d -maxdepth 8 -print 2>/dev/null
+        echo "-----------------------------------------------------"
 
     - name: Check Build Space 
       run: |
@@ -267,8 +262,9 @@ jobs:
 
     - name: Check Workspace Contents
       run: |
-        du . -h -d 3
-        cp -f ./workspace/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ./workspace
+        du . -h -d 2
+        echo "########## Copying Dockerfile ......"
+        cp -vf ./workspace/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ./workspace
       continue-on-error: true
 
     - name: Cppcheck Build Files

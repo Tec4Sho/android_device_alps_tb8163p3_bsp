@@ -175,7 +175,7 @@ jobs:
       if: steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         cd workspace
-        git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config set advice.defaultBranchName false
         git config set advice.diverging false

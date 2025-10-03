@@ -1,4 +1,4 @@
-name: TWRP Builder ${{ github.event.repository.updated_at }}
+name: TWRP Builder 2025
 on:
   workflow_dispatch:
     inputs:
@@ -60,7 +60,7 @@ on:
         
 jobs:
   build:
-    name: Build TWRP by ${{ github.actor }}
+    name: Build TWRP by ${{ github.actor }} ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:

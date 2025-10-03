@@ -268,7 +268,7 @@ jobs:
     - name: Check Workspace Contents
       run: |
         du . -h -d 3
-        cp -f ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ${GITHUB_WORKSPACE}/workspace
+        cp -f ./workspace/${{ github.event.inputs.DEVICE_PATH }}/Dockerfile ./workspace
       continue-on-error: true
 
     - name: Cppcheck Build Files
@@ -283,7 +283,7 @@ jobs:
       if: github.event.inputs.CPPCHECK_OPTS != ''
       uses: mikeal/publish-to-github-action@master
       env:
-        GITHUB_TOKEN: "${{ secrets.TWRP }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH_NAME: "${{ github.event.inputs.DEVICE_TREE_BRANCH }}" # your branch name goes here
       continue-on-error: true
 

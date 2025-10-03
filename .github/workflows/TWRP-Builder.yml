@@ -60,7 +60,7 @@ on:
         
 jobs:
   build:
-    name: Build TWRP by ${{ github.actor }} ${{ github.event.repository.updated_at }}
+    name: Build ${{ github.event.inputs.BUILD_TARGET }} by ${{ github.actor }} // ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:
@@ -68,7 +68,7 @@ jobs:
     permissions:
       contents: write
     steps:
-    - name: Display Inputs
+    - name: Build Inputs
       run: |
         echo "::group::User Environment Variables"
         echo "Displaying main variables/inputs."
@@ -134,9 +134,9 @@ jobs:
         sudo apt-get -y install g++ clang ccache git git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev cppcheck git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3
         sudo add-apt-repository universe
         sudo apt-get -y install libncurses5 libtinfo5
-        mkdir -p ${GITHUB_WORKSPACE}/workspace
-        mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
-        mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        mkdir -p workspace
+        mkdir -p workspace/${{ github.event.inputs.DEVICE_PATH }}
+        mkdir -p workspace/kernel/alps/tb8163p3_bsp
       continue-on-error: true
 
     - name: Install OpenJDK
@@ -176,7 +176,6 @@ jobs:
       run: |
         cd workspace
         git config --global init.defaultBranch "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        git init
         git branch -M "${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
         git config set advice.defaultBranchName false
         git config set advice.diverging false

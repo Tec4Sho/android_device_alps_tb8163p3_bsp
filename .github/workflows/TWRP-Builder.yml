@@ -80,23 +80,10 @@ jobs:
         echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}image"     
         echo "::endgroup::";
         
-     # Setup for dual git cloning
-    - name: Checkout Recovery Repo
-      uses: actions/checkout@v4
-      with:
-        repository: ${{ github.repository }}
-        path: ./${{ github.event.inputs.DEVICE_PATH }}
-
-    - name: Checkout Kernel Repo
-      uses: actions/checkout@v4
-      with:
-        repository: ${{ github.actor }}/android_kernel_mt8163
-        path: ./kernel/alps/tb8163p3_bsp
-
      # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Check Space & PKG Remover 
+    - name: Check Workspace & Remove Pkg*
       run: |
-        echo "Listing 100 largest packages"
+        echo "Listing 100 largest runner packages"
         dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
         echo 
         echo "Removing some large packages"
@@ -127,7 +114,21 @@ jobs:
         mkdir -p workspace
         mkdir -p workspace/${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p workspace/kernel/alps/tb8163p3_bsp
-    
+        cd workspace
+        
+     # Setup for dual git cloning
+    - name: Checkout Recovery Repo
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.repository }}
+        path: ./${{ github.event.inputs.DEVICE_PATH }}
+
+    - name: Checkout Kernel Repo
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.actor }}/android_kernel_mt8163
+        path: ./kernel/alps/tb8163p3_bsp
+        
     - name: Restore Workspace
       if: github.event.inputs.CACHING_ENABLED == 'true'
       id: restore-workspace-cache

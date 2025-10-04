@@ -60,7 +60,7 @@ on:
         
 jobs:
   build:
-    name: ${{ github.event.inputs.BUILD_TARGET }} by ${{ github.actor }} | ${{ github.event.repository.updated_at }}
+    name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:
@@ -85,7 +85,6 @@ jobs:
       run: |
         echo "Listing 100 largest runner packages"
         dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
-        echo 
         echo "Removing some large packages"
         sudo apt-get autoremove -y
         sudo apt-get clean
@@ -111,12 +110,13 @@ jobs:
 
     - name: Create Workspace
       run: |
-        mkdir -p workspace
-        mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
-        mkdir -p kernel/alps/tb8163p3_bsp
-      working-directory: workspace
+        mkdir -p ${GITHUB_WORKSPACE}/workspace
+        mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
+        mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+        git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
         
-     # Setup for dual git cloning
+     # Setup dual clone
     - name: Checkout Recovery Repo
       uses: actions/checkout@v4
       with:
@@ -191,8 +191,6 @@ jobs:
     - name: Initialize Repo
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       run: |
-        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
         git config --global user.email "${GitHubMail}"
         git config --global user.name "${GitHubName}"
         git config --global credential.helper store

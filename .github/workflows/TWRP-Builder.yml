@@ -112,22 +112,22 @@ jobs:
     - name: Create Workspace
       run: |
         mkdir -p workspace
-        mkdir -p workspace/${{ github.event.inputs.DEVICE_PATH }}
-        mkdir -p workspace/kernel/alps/tb8163p3_bsp
-        cd workspace
+        mkdir -p ${{ github.event.inputs.DEVICE_PATH }}
+        mkdir -p kernel/alps/tb8163p3_bsp
+      working-directory: workspace
         
      # Setup for dual git cloning
     - name: Checkout Recovery Repo
       uses: actions/checkout@v4
       with:
         repository: ${{ github.repository }}
-        path: ./${{ github.event.inputs.DEVICE_PATH }}
+        path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
 
     - name: Checkout Kernel Repo
       uses: actions/checkout@v4
       with:
         repository: ${{ github.actor }}/android_kernel_mt8163
-        path: ./kernel/alps/tb8163p3_bsp
+        path: ./workspace/kernel/alps/tb8163p3_bsp
         
     - name: Restore Workspace
       if: github.event.inputs.CACHING_ENABLED == 'true'
@@ -210,8 +210,8 @@ jobs:
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       run: |
         cd workspace
-        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-        git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
+        git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
+        git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         echo "##### NOTE: Not Building From Cached Files  #####"
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
       continue-on-error: true

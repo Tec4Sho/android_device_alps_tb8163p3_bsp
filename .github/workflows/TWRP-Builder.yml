@@ -60,7 +60,7 @@ on:
         
 jobs:
   build:
-    name: Build ${{ github.event.inputs.BUILD_TARGET }} by ${{ github.actor }} | ${{ github.event.repository.updated_at }}
+    name: ${{ github.event.inputs.BUILD_TARGET }} by ${{ github.actor }} | ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id
     env:

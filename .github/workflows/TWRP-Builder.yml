@@ -327,12 +327,17 @@ jobs:
         compiler: 'clang-12'
       continue-on-error: true
         
-    - name: Building ${{ github.event.inputs.BUILD_TARGET }} Image
+    - name: Build ${{ github.event.inputs.BUILD_TARGET }}
       run: |
-        echo "Started Build On $CURRENT_DATE"
-        set +eo
+        echo '##############'
+        echo "Started Build: ${{ github.event.repository.updated_at }}"
+        set -o allexport
         source build/envsetup.sh
-        ninja -t restat
+        if [ {{ github.event.inputs.CPPCHECK_OPTS != '' }} ]; then
+          set -eo verbose
+        else
+          set +eo
+        fi
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
       

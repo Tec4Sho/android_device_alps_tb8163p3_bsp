@@ -288,7 +288,7 @@ jobs:
       uses: tonybaloney/cppcheck-action@master
       with:
         path: ./workspace/kernel/alps/tb8163p3_bsp/Dockerfile
-        opts: -v --force --enable=all -j 2 --xml --output-file=workflow_build_report --report-progress ${{ github.event.inputs.CPPCHECK_OPTS }}
+        opts: ${{ github.event.inputs.CPPCHECK_OPTS }}
       continue-on-error: true
 
     - name: Publish Cppcheck Report

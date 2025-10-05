@@ -176,7 +176,7 @@ jobs:
       if: github.event.inputs.CPPCHECK_DIRS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: ~/home/runner/work/_actions/mikeal/publish-to-github-action/master/Dockerfile
+        path: ~home/runner/work/_actions/tonybaloney/cppcheck-action/master/Dockerfile
         opts: --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report --quiet -I ${{ github.event.inputs.CPPCHECK_DIRS }}
       continue-on-error: true
 

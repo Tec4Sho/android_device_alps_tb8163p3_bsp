@@ -165,13 +165,13 @@ jobs:
         
     - name: File Text Search
       run: |
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb20_phy.*" {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb11_phy.*" {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb20_phy.*" {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb11_phy.*" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb20_phy.h" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb11_phy.c" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb20_phy.c" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb11_phy.h" {} \;
         if [ ${{ github.event.inputs.CPPCHECK_DIRS != '' }} ]; then
-          sudo apt-get -y install cppcheck
-          cppcheck --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report --quite -I ${{ github.event.inputs.CPPCHECK_DIRS != '' }}
+          sudo apt-get -y install cppcheck cppcheck-gui
+          cppcheck --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report --quiet -I ${{ github.event.inputs.CPPCHECK_DIRS != '' }}
         fi
       continue-on-error: true
 

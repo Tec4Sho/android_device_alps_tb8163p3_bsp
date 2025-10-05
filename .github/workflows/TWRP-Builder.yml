@@ -166,17 +166,16 @@ jobs:
         
     - name: File Text Search
       run: |
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'usb20_phy.h' {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'usb11_phy.c' {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'usb20_phy.c' {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'usb11_phy.h' {} \;
+        find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'spin_unlock_irqrestore' {} \;
+        find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'spin_unlock_irqrestore' {} \;
+      working-directory: workspace
       continue-on-error: true
 
     - name: Cppcheck Build Files
       if: github.event.inputs.CPPCHECK_DIRS != ''
       uses: tonybaloney/cppcheck-action@master
       with:
-        path: ~home/runner/work/_actions/tonybaloney/cppcheck-action/master/Dockerfile
+        path: /home/runner/work/_actions/tonybaloney/cppcheck-action/master/Dockerfile
         opts: --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report --quiet -I ${{ github.event.inputs.CPPCHECK_DIRS }}
       continue-on-error: true
 

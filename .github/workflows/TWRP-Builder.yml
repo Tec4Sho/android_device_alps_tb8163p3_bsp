@@ -151,9 +151,25 @@ jobs:
         
     - name: File Text Search
       run: |
-        #find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "enable_phy_clock" {} \;
-        #find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "enable_phy_clock" {} \;
-        
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb20_phy" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb11_phy" {} \;
+
+    - name: Cppcheck Build Files
+      if: github.event.inputs.CPPCHECK_DIRS != ''
+      uses: tonybaloney/cppcheck-action@master
+      with:
+        path: ${{ github.event.inputs.CPPCHECK_DIRS }}
+        opts: --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report
+      continue-on-error: true
+
+    - name: Publish Cppcheck Report
+      if: github.event.inputs.CPPCHECK_DIRS != ''
+      uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here
+      continue-on-error: true
+      
     - name: Prepare The Environment
       run: |
         sudo apt-get update
@@ -213,8 +229,6 @@ jobs:
     - name: Session Commit ID
       #if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       run: |
-        #git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-        #git clone https://github.com/Tec4Sho/android_kernel_mt8163.git -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./kernel/alps/tb8163p3_bsp
         if [ ${{ steps.restore-workspace-cache.outputs.cache-hit }} != 'true' ]; then
           echo "##### NOTE: Not Building From Cached Files  #####"
         else
@@ -287,22 +301,6 @@ jobs:
       working-directory: workspace
       continue-on-error: true
 
-    - name: Cppcheck Build Files
-      if: github.event.inputs.CPPCHECK_DIRS != ''
-      uses: tonybaloney/cppcheck-action@master
-      with:
-        path: ${{ github.event.inputs.CPPCHECK_DIRS }}
-        opts: -v
-      continue-on-error: true
-
-    - name: Publish Cppcheck Report
-      if: github.event.inputs.CPPCHECK_DIRS != ''
-      uses: mikeal/publish-to-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here
-      continue-on-error: true
-
     - name: Export Build Settings
       run: |
         export USE_NINJA=true
@@ -335,16 +333,20 @@ jobs:
         compiler: 'clang-12'
       continue-on-error: true
         
-    - name: Build ${{ github.event.inputs.BUILD_TARGET }}
+    - name: Building ${{ github.event.inputs.BUILD_TARGET }}
       run: |
         echo '##############'
         echo "Started Build: ${{ github.event.repository.updated_at }}"
         set -o allexport
         source build/envsetup.sh
-        if [ {{ github.event.inputs.CPPCHECK_OPTS != '' }} ]; then
-          set -eo verbose
+        if [ {{ github.event.inputs.CPPCHECK_DIRS != '' }} ]; then
+          set -o verbose
+          set -e
+          set -u
+          set -o pipefail
+          set -x
         else
-          set +eo
+          set +e
         fi
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace

@@ -113,9 +113,7 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace
         mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
-        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
-
+        
     - name: Restore Workspace
       if: github.event.inputs.CACHING_ENABLED == 'true'
       id: restore-workspace-cache
@@ -148,11 +146,27 @@ jobs:
       with:
         repository: ${{ github.actor }}/android_kernel_mt8163
         path: ./workspace/kernel/alps/tb8163p3_bsp
+
+    - name: Session Commit ID
+      #if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
+      run: |
+        if [ ${{ steps.restore-workspace-cache.outputs.cache-hit != 'true' }} ]; then
+          echo "##### NOTE: Not Building From Cached Files  #####"
+        else
+          echo "##### NOTE: Building From Cached Files  #####"
+        fi
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+        git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
+        echo "COMMIT_ID=$( git rev-parse HEAD || git rev-parse ${{ github.event.inputs.DEVICE_TREE_BRANCH }} )" >> $GITHUB_ENV
+      working-directory: workspace
+      continue-on-error: true
         
     - name: File Text Search
       run: |
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb20_phy" {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb11_phy" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb20_phy.*" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb11_phy.*" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb20_phy.*" {} \;
+        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb11_phy.*" {} \;
 
     - name: Cppcheck Build Files
       if: github.event.inputs.CPPCHECK_DIRS != ''
@@ -226,18 +240,6 @@ jobs:
       working-directory: workspace
       continue-on-error: false
 
-    - name: Session Commit ID
-      #if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
-      run: |
-        if [ ${{ steps.restore-workspace-cache.outputs.cache-hit }} != 'true' ]; then
-          echo "##### NOTE: Not Building From Cached Files  #####"
-        else
-          echo "##### NOTE: Building From Cached Files  #####"
-        fi
-        echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
-      working-directory: workspace
-      continue-on-error: true
-
     - name: Install Python 2
       if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14' && steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
@@ -277,17 +279,14 @@ jobs:
       run: |
         echo '### Before clean ###'
         sudo df -h
-        echo
         echo '### cleaning build environment space ###'
         # clean build environment space
         sudo apt-get remove -y kubectl powershell firefox # docker-ce dotnet-sdk-8.0 dotnet-runtime-8.0 azure-cli 
         # sudo rm -vrf /usr/share/dotnet/ >/dev/null
         echo '### After clean ###' 
         sudo df -h
-        echo
         echo '### Workspace directory ###'
         sudo df . -h
-        echo
         echo '### large files in workspace dir ###'
         sudo find . -type f -size +100M -exec du -ha {} +
       working-directory: workspace

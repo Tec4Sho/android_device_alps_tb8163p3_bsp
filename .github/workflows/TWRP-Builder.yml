@@ -167,6 +167,11 @@ jobs:
         find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb11_phy.*" {} \;
         find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "usb20_phy.*" {} \;
         find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "usb11_phy.*" {} \;
+        if [ ${{ github.event.inputs.CPPCHECK_DIRS != '' }} ]; then
+          sudo apt-get -y install cppcheck
+          cppcheck --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report --quite -I ${{ github.event.inputs.CPPCHECK_DIRS != '' }}
+        fi
+      continue-on-error: true
 
     - name: Cppcheck Build Files
       if: github.event.inputs.CPPCHECK_DIRS != ''

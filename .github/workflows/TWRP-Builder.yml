@@ -151,8 +151,8 @@ jobs:
         
     - name: File Text Search
       run: |
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "enable_phy_clock" {} \;
-        find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "enable_phy_clock" {} \;
+        #find ./workspace/kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H "enable_phy_clock" {} \;
+        #find ./workspace/kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H "enable_phy_clock" {} \;
         
     - name: Prepare The Environment
       run: |

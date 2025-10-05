@@ -156,7 +156,8 @@ jobs:
           echo "##### NOTE: Building From Cached Files  #####"
         fi
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
+        cd kernel/alps/tb8163p3_bsp
+        git config --global --add safe.directory .
         calculatedSha=$(git rev-parse --short ${{ github.sha }})
         echo "COMMIT_ID: $calculatedSha"
         echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV

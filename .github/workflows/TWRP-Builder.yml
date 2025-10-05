@@ -147,7 +147,7 @@ jobs:
         repository: ${{ github.actor }}/android_kernel_mt8163
         path: ./workspace/kernel/alps/tb8163p3_bsp
 
-    - name: Session Commit ID
+    - name: SHA Commit ID
       #if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       run: |
         if [ ${{ steps.restore-workspace-cache.outputs.cache-hit != 'true' }} ]; then
@@ -157,7 +157,9 @@ jobs:
         fi
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         git config --global --add safe.directory ${GITHUB_WORKSPACE}/workspace
-        echo "COMMIT_ID=$( git rev-parse HEAD || git rev-parse ${{ github.event.inputs.DEVICE_TREE_BRANCH }} )" >> $GITHUB_ENV
+        calculatedSha=$(git rev-parse --short ${{ github.sha }})
+        echo "COMMIT_ID: $calculatedSha"
+        echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV
       working-directory: workspace
       continue-on-error: true
         

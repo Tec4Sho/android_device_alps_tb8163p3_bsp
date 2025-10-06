@@ -305,6 +305,8 @@ jobs:
         compiler: 'clang-12'
       continue-on-error: true
 
+     # export CROSS_COMPILE=arm-linux-androidkernel-
+     # export EXTRA_CMDS='bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000'
     - name: Export Build Settings
       run: |
         export USE_NINJA=true
@@ -313,12 +315,10 @@ jobs:
         export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
-        export BOARD_VNDK_RUNTIME_DISABLE=true
+        export BOARD_VNDK_RUNTIME_DISABLE=false
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export BRANCH=android-9.0
-        # export CROSS_COMPILE=arm-linux-androidkernel-
         export DEFCONFIG=tb8163p3_bsp_defconfig
-        # export EXTRA_CMDS='bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000'
         export KERNEL_DIR=kernel/alps/tb8163p3_bsp 
         export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
         export FILES="arch/arm/boot/zImage vmlinux System.map"
@@ -333,11 +333,11 @@ jobs:
         alias cc=$CC 
         alias c++=$CXX 
         git clone https://gcc.gnu.org/git/gcc.git --branch=releases/gcc-10 --depth=1 --quiet 
-        mkdir gcc-build 
+        mkdir -p gcc-build 
         cd gcc-build 
-        ../gcc/configure CC=clang CXX=clang++ CFLAGS="-march=native -w" CXXFLAGS="-march=native -w" --prefix=$HOME/.local --enable-checking=release --enable-languages=c,c++ --with-default-libstdcxx-abi=new --disable-werror --enable-lto --with-cpu=native --with-arch=native --with-tune=native --disable-multilib --disable-bootstrap --disable-libada --disable-libsanitizer --enable-silent-rules --quiet >/dev/null 2>&1 
-        make --jobs=$(nproc) --quiet >/dev/null 2>&1 
-        make install --quiet >/dev/null 2>&1 
+        ../gcc/configure CC=clang CXX=clang++ CFLAGS="-march=native -w" CXXFLAGS="-march=native -w" --prefix=$HOME/.local --enable-checking=release --enable-languages=c,c++ --with-default-libstdcxx-abi=new --disable-werror --enable-lto --with-cpu=native --with-arch=native --with-tune=native --disable-multilib --disable-bootstrap --disable-libada --disable-libsanitizer --enable-silent-rules --quiet # >/dev/null 2>&1 
+        make --jobs=$(nproc) --quiet # >/dev/null 2>&1 
+        make install --quiet # >/dev/null 2>&1 
         export LD_LIBRARY_PATH=$HOME/.local/lib64:$HOME/.local/lib:$LD_LIBRARY_PATH
         export LD_RUN_PATH=$HOME/.local/lib64:$HOME/.local/lib:$LD_RUN_PATH 
         export PATH=$HOME/.local/bin:$PATH 
@@ -345,7 +345,8 @@ jobs:
         unalias c++ 
         unset CC 
         unset CXX 
-        cd .. ln --symbolic $HOME/.local/bin/gcc $HOME/.local/bin/cc 
+        cd .. 
+        ln --symbolic $HOME/.local/bin/gcc $HOME/.local/bin/cc 
         export CC=$HOME/.local/bin/gcc 
         export CXX=$HOME/.local/bin/g++
       continue-on-error: true

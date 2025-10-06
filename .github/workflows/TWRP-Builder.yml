@@ -164,10 +164,10 @@ jobs:
       working-directory: workspace
       continue-on-error: true
         
-    - name: File Text Search
+    - name: Find Text Match
       run: |
-        #find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'spin_unlock_irqrestore' {} \;
-        #find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'spin_unlock_irqrestore' {} \;
+        find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
+        find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
       working-directory: workspace
       continue-on-error: true
 

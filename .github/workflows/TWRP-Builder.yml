@@ -37,8 +37,8 @@ on:
         - boot
         - recovery
         - vendorboot
-      CPPCHECK_DIRS:
-        description: 'CPPCHECK DIR'
+      CPPCHECK_FILE:
+        description: 'CPPCHECK FILE'
         type: string
         required: false
         default: ''

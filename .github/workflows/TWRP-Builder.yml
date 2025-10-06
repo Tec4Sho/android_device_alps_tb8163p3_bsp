@@ -84,9 +84,9 @@ jobs:
     - name: Check Workspace & Remove Pkg*
       run: |
         echo "Listing 100 largest runner packages"
-        dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
+        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
         echo "Removing some large packages"
-        dpkg --force-all --configure -a
+        sudo dpkg --force-all --configure -a
         sudo apt-get autoremove -y
         sudo apt-get autoclean -y
         sudo apt-get clean
@@ -170,7 +170,6 @@ jobs:
 
     #find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
     #find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
-        
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
@@ -296,8 +295,7 @@ jobs:
     - name: Check Workspace Contents
       run: |
         du . -h -d 2
-        echo "########## Copying Dockerfile ......"
-        cp -vf ${{ github.event.inputs.DEVICE_PATH }}/Dockerfile .
+        cp -vf ${{ github.event.inputs.DEVICE_PATH }}/Dockerfile . 2>/dev/null && echo "########## Copying Dockerfile ......";
       working-directory: workspace
       continue-on-error: true
 
@@ -308,7 +306,7 @@ jobs:
         export CLANG_TRIPLE=arm-linux-gnu-
         export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
         export ALLOW_MISSING_DEPENDENCIES=true
-        export LLVM_ENABLE_THREADS=OFF
+        export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export BRANCH=android-9.0
@@ -327,7 +325,7 @@ jobs:
         export LC_ALL=C
       continue-on-error: true
     
-    - name: Setup Compiler = Clang-12
+    - name: Setup Compiler * Clang-12
       uses: rlalik/setup-cpp-compiler@master
       with:
         compiler: 'clang-12'

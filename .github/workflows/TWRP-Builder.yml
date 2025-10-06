@@ -164,27 +164,15 @@ jobs:
       working-directory: workspace
       continue-on-error: true
         
-    - name: Find Text Match
+    - name: Cppcheck File
+      if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
         find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
         find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
+        find . -name -type f "${{ github.event.inputs.CPPCHECK_FILE }}" -exec cat {} \;
+        cd $(dirname $(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print -quit 2>/dev/null))
+        cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
       working-directory: workspace
-      continue-on-error: true
-
-    - name: Cppcheck Build Files
-      if: github.event.inputs.CPPCHECK_DIRS != ''
-      uses: tonybaloney/cppcheck-action@master
-      with:
-        path: /home/runner/work/_actions/tonybaloney/cppcheck-action/master/Dockerfile
-        opts: --verbose --force --enable=all --report-progress --xml --output-file=workflow_build_report --quiet -I ${{ github.event.inputs.CPPCHECK_DIRS }}
-      continue-on-error: true
-
-    - name: Publish Cppcheck Report
-      if: github.event.inputs.CPPCHECK_DIRS != ''
-      uses: mikeal/publish-to-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH_NAME: ${{ github.event.inputs.DEVICE_TREE_BRANCH }} # your branch name goes here
       continue-on-error: true
       
     - name: Prepare The Environment
@@ -341,7 +329,7 @@ jobs:
         echo "Started Build: ${{ github.event.repository.updated_at }}"
         set -o allexport
         source build/envsetup.sh
-        if [ {{ github.event.inputs.CPPCHECK_DIRS != '' }} ]; then
+        if [ ${{ github.event.inputs.CPPCHECK_FILE != '' }} ]; then
           set -o verbose
           set -e
           set -u

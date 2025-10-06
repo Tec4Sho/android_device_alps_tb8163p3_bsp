@@ -86,8 +86,11 @@ jobs:
         echo "Listing 100 largest runner packages"
         dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
         echo "Removing some large packages"
+        dpkg --force-all --configure -a
         sudo apt-get autoremove -y
+        sudo apt-get autoclean -y
         sudo apt-get clean
+        sudo apt-get --fix-broken install -y
         df -h
       continue-on-error: true
       
@@ -96,7 +99,7 @@ jobs:
       if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main
       with:
-        retain: "browser_all,clang,gcc,g++,python,ccache,repo,git,git-repo,powershell"
+        retain: "browser_all,clang,gcc,g++,python,ccache,repo,git,git-repo,cppcheck,cppcheck-gui,powershell"
       # That's it! Now use your normal steps  
 
     - name: Maximize Build Space
@@ -169,8 +172,9 @@ jobs:
       run: |
         find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
         find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
-        find . -name -type f "${{ github.event.inputs.CPPCHECK_FILE }}" -exec cat {} \;
-        cd $(dirname $(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print -quit 2>/dev/null))
+        find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -exec cat {} \;
+        sudo apt-get -y install cppcheck cppcheck-gui
+        cd "$(dirname $(find . -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";
         cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
       working-directory: workspace
       continue-on-error: true
@@ -178,8 +182,8 @@ jobs:
     - name: Prepare The Environment
       run: |
         sudo apt-get update
-        sudo apt-get -y upgrade
-        sudo apt-get -y install g++ clang clang++ ccache git git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev cppcheck cppcheck-gui git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3
+        sudo apt-get -y full-upgrade
+        sudo apt-get -y install g++ ccache git git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3
         sudo add-apt-repository universe
         sudo apt-get -y install libncurses5 libtinfo5
       continue-on-error: true

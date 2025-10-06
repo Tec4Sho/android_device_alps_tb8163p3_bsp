@@ -176,7 +176,8 @@ jobs:
       run: |
         find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -exec cat {} \;
         sudo apt-get -y install cppcheck cppcheck-gui
-        cd "$(dirname $(find . -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";
+        cd "$(dirname $(find . -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";
+        cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
         cppcheck --verbose --force --enable=all --report-progress --quiet --check-config ${{ github.event.inputs.CPPCHECK_FILE }}
       working-directory: workspace
       continue-on-error: true

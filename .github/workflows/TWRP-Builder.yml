@@ -175,7 +175,7 @@ jobs:
         find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -exec cat {} \;
         sudo apt-get -y install cppcheck cppcheck-gui
         cd "$(dirname $(find . -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";
-        cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
+        cppcheck --verbose --force --enable=all --report-progress --check-config=missingInclude --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
       working-directory: workspace
       continue-on-error: true
       
@@ -337,7 +337,6 @@ jobs:
         if [ ${{ github.event.inputs.CPPCHECK_FILE != '' }} ]; then
           set -o verbose
           set -e
-          set -u
           set -o pipefail
           set -x
         else

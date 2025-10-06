@@ -150,8 +150,7 @@ jobs:
         repository: ${{ github.actor }}/android_kernel_mt8163
         path: ./workspace/kernel/alps/tb8163p3_bsp
 
-    - name: SHA Commit ID
-      #if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
+    - name: Sha Commit ID
       run: |
         if [ ${{ steps.restore-workspace-cache.outputs.cache-hit != 'true' }} ]; then
           echo "##### NOTE: Not Building From Cached Files  #####"
@@ -162,16 +161,17 @@ jobs:
         cd kernel/alps/tb8163p3_bsp
         git config --global --add safe.directory .
         calculatedSha=$(git rev-parse --short ${{ github.sha }})
-        echo "COMMIT_ID: $calculatedSha"
+        echo "COMMIT ID: $calculatedSha"
         echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV
       working-directory: workspace
       continue-on-error: true
+
+    #find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
+    #find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
         
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
-        find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
-        find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
         find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -exec cat {} \;
         sudo apt-get -y install cppcheck cppcheck-gui
         cd "$(dirname $(find . -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";

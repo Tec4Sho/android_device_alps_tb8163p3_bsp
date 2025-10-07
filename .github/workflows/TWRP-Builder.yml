@@ -175,7 +175,7 @@ jobs:
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
-        if [ ${files} ]; then
+        if [[ -n ${files} ]]; then
           sudo apt-get -y install cppcheck cppcheck-gui
           for f in $files; do
             find . -type f -name "$(basename $(f))" -print

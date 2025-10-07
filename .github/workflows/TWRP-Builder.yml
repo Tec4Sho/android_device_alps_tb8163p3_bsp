@@ -324,23 +324,25 @@ jobs:
     - name: Export Build Settings
       run: |
         export USE_NINJA=true
-        export CPU_SSE42=false
-        export CLANG_TRIPLE=arm-linux-gnu-
-        export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+        export BRANCH=android-9.0
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=false
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        export BRANCH=android-9.0
-        export DEFCONFIG=tb8163p3_bsp_defconfig
-        export KERNEL_DIR=kernel/alps/tb8163p3_bsp 
-        export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
-        export FILES="arch/arm/boot/zImage vmlinux System.map"
-        export STOP_SHIP_TRACEPRINTK=1
-        export CONFIG_INIT_ENV_ARG_LIMIT=32
-        export CROSS_COMPILE="arm-eabi-"
-        export CONFIG_FS_ENCRYPTION=N
         export TARGET_FORCE_PREBUILT_KERNEL=false
+        if [ ${TARGET_FORCE_PREBUILT_KERNEL} == false ]; then
+          export CPU_SSE42=false
+          export CLANG_TRIPLE=arm-linux-gnu-
+          export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+          export DEFCONFIG=tb8163p3_bsp_defconfig
+          export KERNEL_DIR=kernel/alps/tb8163p3_bsp 
+          export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
+          export FILES="arch/arm/boot/zImage vmlinux System.map"
+          export STOP_SHIP_TRACEPRINTK=1
+          export CONFIG_INIT_ENV_ARG_LIMIT=32
+          export CROSS_COMPILE="arm-eabi-"
+          export CONFIG_FS_ENCRYPTION=N
+        fi
         export ARCH=arm
         export LC_ALL=C.UTF-8 
         export CC=clang 

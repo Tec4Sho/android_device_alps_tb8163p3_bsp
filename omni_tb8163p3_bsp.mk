@@ -12,11 +12,11 @@
 $(call inherit-product-if-exists, vendor/omni/config/common.mk)
 
 # Inherit from tb8163p3_bsp device tree
-$(call inherit-product, device/alps/tb8163p3_bsp/AndroidKernel.mk)
+$(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
 
 # Inherit from tb8163p3_bsp kernel tree
-ifeq ($(RECOVERY_VARIANT),false)
-$(call inherit-product, kernel/alps/tb8163p3_bsp/device.mk)
+ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),false)
+$(call inherit-product, kernel/alps/tb8163p3_bsp/AndroidKernel.mk)
 endif
 
 ifeq ($(RECOVERY_VARIANT),pbrp)

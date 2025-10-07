@@ -328,6 +328,7 @@ jobs:
         export CONFIG_INIT_ENV_ARG_LIMIT=32
         export CROSS_COMPILE="arm-eabi-"
         export CONFIG_FS_ENCRYPTION=N
+        export TARGET_FORCE_PREBUILT_KERNEL=false
         export ARCH=arm
         export LC_ALL=C.UTF-8 
         export CC=clang 

@@ -185,7 +185,7 @@ jobs:
             cd "$(dirname $(find $(dirname ${x}) -name $(basename ${x}) -print0 -quit))";
             cppcheck --verbose --force --enable=all --report-progress --quiet $(basename ${x});
             cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(basename ${x});
-            number=$(head -1 "${x}");
+            number=$(head -1 "$(basename ${x})");
             count=$((file_count + 1));
             sum=$((file_sum + number));
           done;

@@ -175,10 +175,8 @@ jobs:
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
-        file_count=0;
-        file_sum=0;
+        file_count=0
         if [[ -n ${files} ]]; then
-          sudo su
           echo "Found File Path(s): ${files}" && sudo apt-get -y install cppcheck cppcheck-gui;
           for x in ${files[@]}; do
             find $(dirname ${x}) -type f -name $(basename ${x}) -print;
@@ -186,12 +184,9 @@ jobs:
             cd "$(dirname $(find $(dirname ${x}) -name $(basename ${x}) -print0 -quit))";
             cppcheck --verbose --force --enable=all --report-progress --quiet $(basename ${x});
             cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(basename ${x});
-            number=$(sudo head -1 "$(basename ${x})");
             count=$((file_count + 1));
-            sum=$((file_sum + number));
           done;
-          echo "The sum of the $count file(s) is: $sum"
-          exit 0
+          echo "The total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count" && echo 'done';
         fi
       working-directory: workspace
       continue-on-error: true
@@ -333,6 +328,7 @@ jobs:
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export TARGET_FORCE_PREBUILT_KERNEL=false
         if [ ${TARGET_FORCE_PREBUILT_KERNEL} == false ]; then
+          sudo apt-get install linux-headers-$(uname -r) -y
           export CPU_SSE42=false
           export CLANG_TRIPLE=arm-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
@@ -349,9 +345,9 @@ jobs:
         export LC_ALL=C.UTF-8
         export CC=clang
         export CXX=clang++
+        export std=c99
         alias cc=$CC
         alias c++=$CXX
-        sudo apt-get install linux-headers-$(uname -r) -y
       continue-on-error: true
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }}

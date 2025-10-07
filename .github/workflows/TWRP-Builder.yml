@@ -174,15 +174,15 @@ jobs:
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
-        sudo apt-get -y install cppcheck cppcheck-gui
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
-        if [ -n ${files} ]; then
+        if [ ${files} ]; then
+          sudo apt-get -y install cppcheck cppcheck-gui
           for f in $files; do
-            find . -type f -name "$(basename$(f))" -print
-            find . -type f -name "$(basename$(f))" -exec cat {} \;
-            cd "$(dirname $(find . -type f -name $(basename$(f)) -print -quit))"
-            cppcheck --verbose --force --enable=all --report-progress --quiet $(basename$(f))
-            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(dirname$(f))
+            find . -type f -name "$(basename $(f))" -print
+            find . -type f -name "$(basename $(f))" -exec cat {} \;
+            cd "$(dirname $(find . -type f -name $(basename $(f)) -print -quit))"
+            cppcheck --verbose --force --enable=all --report-progress --quiet $(basename $(f))
+            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(dirname $(f))
           done;
         fi
       working-directory: workspace

@@ -332,23 +332,6 @@ jobs:
         export CXX=clang++ 
         alias cc=$CC 
         alias c++=$CXX 
-        git clone https://gcc.gnu.org/git/gcc.git --branch=releases/gcc-10 --depth=1 --quiet 
-        mkdir -p gcc-build 
-        cd gcc-build 
-        ../gcc/configure CC=clang CXX=clang++ CFLAGS="-march=native -w" CXXFLAGS="-march=native -w" --prefix=$HOME/.local --enable-checking=release --enable-languages=c,c++ --with-default-libstdcxx-abi=new --disable-werror --enable-lto --with-cpu=native --with-arch=native --with-tune=native --disable-multilib --disable-bootstrap --disable-libada --disable-libsanitizer --enable-silent-rules --quiet # >/dev/null 2>&1 
-        make --jobs=$(nproc) --quiet # >/dev/null 2>&1 
-        make install --quiet # >/dev/null 2>&1 
-        export LD_LIBRARY_PATH=$HOME/.local/lib64:$HOME/.local/lib:$LD_LIBRARY_PATH
-        export LD_RUN_PATH=$HOME/.local/lib64:$HOME/.local/lib:$LD_RUN_PATH 
-        export PATH=$HOME/.local/bin:$PATH 
-        unalias cc 
-        unalias c++ 
-        unset CC 
-        unset CXX 
-        cd .. 
-        ln --symbolic $HOME/.local/bin/gcc $HOME/.local/bin/cc 
-        export CC=$HOME/.local/bin/gcc 
-        export CXX=$HOME/.local/bin/g++
       continue-on-error: true
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }}

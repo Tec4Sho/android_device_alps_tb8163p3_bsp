@@ -128,6 +128,7 @@ jobs:
           ./workspace/kernel
           ./workspace/device
           ./workspace/external
+          ./workspace/prebuilts
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
         key: ${{ runner.os }}-workspace-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
@@ -257,6 +258,7 @@ jobs:
           ./workspace/kernel
           ./workspace/device
           ./workspace/external
+          ./workspace/prebuilts
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
         key: ${{ steps.restore-workspace-cache.outputs.cache-primary-key }}

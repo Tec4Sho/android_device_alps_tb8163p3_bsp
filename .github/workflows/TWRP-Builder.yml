@@ -176,13 +176,15 @@ jobs:
       run: |
         sudo apt-get -y install cppcheck cppcheck-gui
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
-        for f in $files; do
-          find . -type f -name "$(basename$(f))" -print
-          find . -type f -name "$(basename$(f))" -exec cat {} \;
-          cd "$(dirname $(find . -type f -name $(basename$(f)) -print -quit))"
-          cppcheck --verbose --force --enable=all --report-progress --quiet $(basename$(f))
-          cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(dirname$(f))
-        done;
+        if [ -n ${files} ]; then
+          for f in $files; do
+            find . -type f -name "$(basename$(f))" -print
+            find . -type f -name "$(basename$(f))" -exec cat {} \;
+            cd "$(dirname $(find . -type f -name $(basename$(f)) -print -quit))"
+            cppcheck --verbose --force --enable=all --report-progress --quiet $(basename$(f))
+            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(dirname$(f))
+          done;
+        fi
       working-directory: workspace
       continue-on-error: true
       

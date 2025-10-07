@@ -178,6 +178,7 @@ jobs:
         file_count=0;
         file_sum=0;
         if [[ -n ${files} ]]; then
+          sudo su
           echo "Found File Path(s): ${files}" && sudo apt-get -y install cppcheck cppcheck-gui;
           for x in ${files[@]}; do
             find $(dirname ${x}) -type f -name $(basename ${x}) -print;
@@ -185,11 +186,12 @@ jobs:
             cd "$(dirname $(find $(dirname ${x}) -name $(basename ${x}) -print0 -quit))";
             cppcheck --verbose --force --enable=all --report-progress --quiet $(basename ${x});
             cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(basename ${x});
-            number=$(head -1 "$(basename ${x})");
+            number=$(sudo head -1 "$(basename ${x})");
             count=$((file_count + 1));
             sum=$((file_sum + number));
           done;
           echo "The sum of the $count file(s) is: $sum"
+          exit 0
         fi
       working-directory: workspace
       continue-on-error: true
@@ -344,11 +346,12 @@ jobs:
           export CONFIG_FS_ENCRYPTION=N
         fi
         export ARCH=arm
-        export LC_ALL=C.UTF-8 
-        export CC=clang 
-        export CXX=clang++ 
-        alias cc=$CC 
-        alias c++=$CXX 
+        export LC_ALL=C.UTF-8
+        export CC=clang
+        export CXX=clang++
+        alias cc=$CC
+        alias c++=$CXX
+        sudo apt-get install linux-headers-$(uname -r) -y
       continue-on-error: true
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }}
@@ -367,6 +370,7 @@ jobs:
         fi
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
+      continue-on-error: false
       
     - name: Build Date ${{ github.event.repository.updated_at }} # Output will be use in Release
       run: |

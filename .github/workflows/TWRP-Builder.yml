@@ -120,7 +120,7 @@ jobs:
         set -o allexport
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
-        if [[ !-n `git` ]]; then
+        if [[ ! `which git` ]]; then
           sudo apt-get install -y git-core
         fi
         git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
@@ -206,7 +206,7 @@ jobs:
             cd $(dirname $(find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print));
             cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
             echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config ${{ github.event.inputs.CPPCHECK_FILE }}
+            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I includes ${{ github.event.inputs.CPPCHECK_FILE }}
           done;
           echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";
           echo -e "Scanning Completed \nExiting .....\n";

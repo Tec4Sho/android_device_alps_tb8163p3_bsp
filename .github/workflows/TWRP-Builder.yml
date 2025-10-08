@@ -123,12 +123,7 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          ./workspace/tools
-          ./workspace/.repo
-          ./workspace/kernel
-          ./workspace/device
-          ./workspace/external
-          ./workspace/prebuilts
+          ./workspace
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
         key: ${{ runner.os }}-workspace-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}
@@ -187,10 +182,10 @@ jobs:
             echo -e "\n###### FILE CONTENT ($count) ######";
             find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######";
-            cd "$(dirname $(find $(dirname ${x}) -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";
-            cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }};
+            cd $(dirname $(find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print));
+            cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
             echo -e "\n###### CPPCHECK CONFIG ($count) ######";
-            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config ${{ github.event.inputs.CPPCHECK_FILE }};
+            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config ${{ github.event.inputs.CPPCHECK_FILE }}
           done;
           echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count";
           echo 'done';
@@ -269,12 +264,7 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: |
-          ./workspace/tools
-          ./workspace/.repo
-          ./workspace/kernel
-          ./workspace/device
-          ./workspace/external
-          ./workspace/prebuilts
+          ./workspace
           ~/opt/hostedtoolcache
           ~/var/cache/apt/archives
         key: ${{ steps.restore-workspace-cache.outputs.cache-primary-key }}

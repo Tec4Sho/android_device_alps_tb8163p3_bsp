@@ -116,6 +116,7 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace
         mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        export TARGET_FORCE_PREBUILT_KERNEL=false
         
     - name: Restore Workspace
       if: github.event.inputs.CACHING_ENABLED == 'true'
@@ -136,13 +137,14 @@ jobs:
       
      # Setup dual clone
     - name: Clone Recovery Repo
+      if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       uses: actions/checkout@v4
       with:
         repository: ${{ github.repository }}
         path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
 
     - name: Clone Kernel Repo
-      if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
+      if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && ${TARGET_FORCE_PREBUILT_KERNEL} == false
       uses: actions/checkout@v4
       with:
         repository: ${{ github.actor }}/android_kernel_mt8163
@@ -247,6 +249,9 @@ jobs:
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
         repo sync -c -j$(nproc --all) --force-sync
+        if [ ${TARGET_FORCE_PREBUILT_KERNEL} == false ]; then
+          git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
+        fi
       working-directory: workspace
       continue-on-error: false
 
@@ -318,14 +323,13 @@ jobs:
     - name: Export Build Settings
       run: |
         export USE_NINJA=true
-        export BRANCH=android-9.0
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=false
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        export TARGET_FORCE_PREBUILT_KERNEL=false
         if [ ${TARGET_FORCE_PREBUILT_KERNEL} == false ]; then
           sudo apt-get install linux-headers-$(uname -r) -y
+          export BRANCH=android9-release
           export CPU_SSE42=false
           export CLANG_TRIPLE=arm-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-

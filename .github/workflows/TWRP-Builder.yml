@@ -177,16 +177,23 @@ jobs:
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
         file_count=0
         if [[ -n ${files} ]]; then
-          echo "Found File Path(s): ${files}" && sudo apt-get -y install cppcheck cppcheck-gui;
+          echo "Found File Path(s): ${files}";
+          sudo apt-get -y install cppcheck cppcheck-gui;
           for x in ${files[@]}; do
-            find $(dirname ${x}) -type f -name $(basename ${x}) -print;
-            find $(dirname ${x}) -type f -name $(basename ${x}) -exec cat {} \;
-            cd "$(dirname $(find $(dirname ${x}) -name $(basename ${x}) -print0 -quit))";
-            cppcheck --verbose --force --enable=all --report-progress --quiet $(basename ${x});
-            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config $(basename ${x});
             count=$((file_count + 1));
+            cd ${GITHUB_WORKSPACE}/workspace
+            echo -e "\n###### FILE PATH ($count) ######";
+            find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print;
+            echo -e "\n###### FILE CONTENT ($count) ######";
+            find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -exec cat {} \; 
+            echo -e "\n###### CPPCHECK ERROR ($count) ######";
+            cd "$(dirname $(find $(dirname ${x}) -name ${{ github.event.inputs.CPPCHECK_FILE }} -print0 -quit))";
+            cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }};
+            echo -e "\n###### CPPCHECK CONFIG ($count) ######";
+            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config ${{ github.event.inputs.CPPCHECK_FILE }};
           done;
-          echo "The total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count" && echo 'done';
+          echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count";
+          echo 'done';
         fi
       working-directory: workspace
       continue-on-error: true

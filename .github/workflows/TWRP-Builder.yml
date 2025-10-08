@@ -116,7 +116,9 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace
         mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        set -o allexport
         export TARGET_FORCE_PREBUILT_KERNEL=false
+        set +e
         
     - name: Restore Workspace
       if: github.event.inputs.CACHING_ENABLED == 'true'
@@ -144,7 +146,7 @@ jobs:
         path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
 
     - name: Clone Kernel Repo
-      if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && ${TARGET_FORCE_PREBUILT_KERNEL} == false
+      if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && TARGET_FORCE_PREBUILT_KERNEL == false
       uses: actions/checkout@v4
       with:
         repository: ${{ github.actor }}/android_kernel_mt8163
@@ -256,7 +258,7 @@ jobs:
       continue-on-error: false
 
     - name: Install Python 2
-      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14' && steps.cache-build-restore.outputs.cache-hit != 'true'
+      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1' && github.event.inputs.MANIFEST_BRANCH != 'twrp-14' && steps.cache-build-restore.outputs.cache-hit != 'true'
       run: |
         sudo apt-get -y install python2
         cd /usr/bin

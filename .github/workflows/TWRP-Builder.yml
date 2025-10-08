@@ -116,6 +116,7 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace
         mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
+        mkdir -p ${GITHUB_WORKSPACE}/workspace/prebuilts/clang/host/linux-x86/
         set -o allexport
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
@@ -166,6 +167,7 @@ jobs:
       with:
         repository: droidian/android-platform-prebuilts-clang-host-linux-x86-29
         path: ./workspace/prebuilts/clang/host/linux-x86/
+        ref: droidian
 
     - name: Sha Commit ID
       run: |

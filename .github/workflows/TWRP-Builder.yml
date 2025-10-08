@@ -120,12 +120,16 @@ jobs:
         set -o allexport
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
-        if [[ ! `which git` ]]; then
-          sudo apt-get install -y git-core
+        if [[ `which git` ]]; then
+          git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
+          git config --global http.lowSpeedLimit 0      # Disable low speed limit
+          git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
+        else
+          sudo apt-get install -y git
+          git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
+          git config --global http.lowSpeedLimit 0      # Disable low speed limit
+          git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
         fi
-        git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
-        git config --global http.lowSpeedLimit 0      # Disable low speed limit
-        git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
         set +e
       continue-on-error: true
         
@@ -185,8 +189,8 @@ jobs:
       working-directory: workspace
       continue-on-error: true
     
-    #find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
-    #find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
+     # find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
+     # find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
@@ -264,14 +268,11 @@ jobs:
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       working-directory: workspace
 
-      #git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
+      # git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
     - name: Repo Sync
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
         repo sync -c -j$(nproc --all) --force-sync
-        if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          
-        fi
       working-directory: workspace
       continue-on-error: false
 

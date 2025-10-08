@@ -175,7 +175,7 @@ jobs:
           echo "Found File Path(s): ${files}";
           sudo apt-get -y install cppcheck cppcheck-gui;
           for x in ${files[@]}; do
-            count=$((file_count + 1));
+            count=$(expr $file_count + 1);
             cd ${GITHUB_WORKSPACE}/workspace
             echo -e "\n###### FILE PATH ($count) ######";
             find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print;

@@ -118,6 +118,7 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         set -o allexport
         export TARGET_FORCE_PREBUILT_KERNEL=false
+        echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
         set +e
         
     - name: Restore Workspace
@@ -146,7 +147,7 @@ jobs:
         path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
 
     - name: Clone Kernel Repo
-      if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && TARGET_FORCE_PREBUILT_KERNEL == false
+      if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && env.PREBUILT_KERNEL == 'false'
       uses: actions/checkout@v4
       with:
         repository: ${{ github.actor }}/android_kernel_mt8163
@@ -251,7 +252,7 @@ jobs:
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
         repo sync -c -j$(nproc --all) --force-sync
-        if [ ${TARGET_FORCE_PREBUILT_KERNEL} == false ]; then
+        if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
           git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
         fi
       working-directory: workspace
@@ -324,12 +325,13 @@ jobs:
      # export EXTRA_CMDS='bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000'
     - name: Export Build Settings
       run: |
+        set -o allexport
         export USE_NINJA=true
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=false
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        if [ ${TARGET_FORCE_PREBUILT_KERNEL} == false ]; then
+        if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
           sudo apt-get install linux-headers-$(uname -r) -y
           export BRANCH=android9-release
           export CPU_SSE42=false
@@ -357,7 +359,6 @@ jobs:
       run: |
         echo '##############'
         echo "Started Build: ${{ github.event.repository.updated_at }}"
-        set -o allexport
         source build/envsetup.sh
         if [ ${{ github.event.inputs.CPPCHECK_FILE != '' }} ]; then
           set -o verbose

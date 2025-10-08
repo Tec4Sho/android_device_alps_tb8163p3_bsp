@@ -99,7 +99,7 @@ jobs:
       if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main
       with:
-        retain: "browser_all,clang,gcc,g++,python,ccache,repo,git,git-repo,cppcheck,cppcheck-gui,powershell"
+        retain: "browser_all,clang,gcc,g++,python,ccache,repo,git,git-repo,git-core,cppcheck,cppcheck-gui,powershell"
       # That's it! Now use your normal steps  
 
     - name: Maximize Build Space
@@ -119,7 +119,14 @@ jobs:
         set -o allexport
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
+        if [[ !-n `git` ]]; then
+          sudo apt-get install -y git-core
+        fi
+        git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
+        git config --global http.lowSpeedLimit 0      # Disable low speed limit
+        git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
         set +e
+      continue-on-error: true
         
     - name: Restore Workspace
       if: github.event.inputs.CACHING_ENABLED == 'true'
@@ -153,6 +160,13 @@ jobs:
         repository: ${{ github.actor }}/android_kernel_mt8163
         path: ./workspace/kernel/alps/tb8163p3_bsp
 
+    - name: Clone Clang++ Repo
+      if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && env.PREBUILT_KERNEL == 'false'
+      uses: actions/checkout@v4
+      with:
+        repository: droidian/android-platform-prebuilts-clang-host-linux-x86-29
+        path: ./workspace/prebuilts/clang/host/linux-x86/
+
     - name: Sha Commit ID
       run: |
         if [ ${{ steps.restore-workspace-cache.outputs.cache-hit != 'true' }} ]; then
@@ -161,8 +175,8 @@ jobs:
           echo "##### NOTE: Building From Cached Files  #####"
         fi
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        cd kernel/alps/tb8163p3_bsp
         git config --global --add safe.directory .
+        cd kernel/alps/tb8163p3_bsp
         calculatedSha=$(git rev-parse --short ${{ github.sha }})
         echo "COMMIT ID: $calculatedSha"
         echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV
@@ -182,18 +196,18 @@ jobs:
           for x in ${files[@]}; do
             count=$(expr $file_count + 1);
             cd ${GITHUB_WORKSPACE}/workspace
-            echo -e "\n###### FILE PATH ($count) ######";
+            echo -e "\n###### FILE PATH ($count) ######\n";
             find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print;
-            echo -e "\n###### FILE CONTENT ($count) ######";
+            echo -e "\n###### FILE CONTENT ($count) ######\n";
             find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -exec cat {} \; 
-            echo -e "\n###### CPPCHECK ERROR ($count) ######";
+            echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cd $(dirname $(find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print));
             cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
-            echo -e "\n###### CPPCHECK CONFIG ($count) ######";
+            echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
             cppcheck --verbose --force --enable=all --report-progress --quiet --check-config ${{ github.event.inputs.CPPCHECK_FILE }}
           done;
-          echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count";
-          echo 'done';
+          echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";
+          echo -e "Scanning Completed \nExiting .....\n";
         fi
       working-directory: workspace
       continue-on-error: true
@@ -247,13 +261,14 @@ jobs:
         git config --global credential.helper store
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       working-directory: workspace
-      
+
+      #git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
     - name: Repo Sync
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
         repo sync -c -j$(nproc --all) --force-sync
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
+          
         fi
       working-directory: workspace
       continue-on-error: false
@@ -315,10 +330,10 @@ jobs:
       working-directory: workspace
       continue-on-error: true
 
-    - name: Setup Compiler * Clang-12
+    - name: Setup Compiler * Clang-9.0
       uses: rlalik/setup-cpp-compiler@master
       with:
-        compiler: 'clang-12'
+        compiler: 'clang-9.0'
       continue-on-error: true
 
      # export CROSS_COMPILE=arm-linux-androidkernel-
@@ -326,33 +341,46 @@ jobs:
     - name: Export Build Settings
       run: |
         set -o allexport
+        export ARCH=arm
+        export LC_ALL=C.UTF-8
         export USE_NINJA=true
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
-        export BOARD_VNDK_RUNTIME_DISABLE=false
+        export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          sudo apt-get install linux-headers-$(uname -r) -y
+          sudo cat >> /usr/local/bin/c++ <<EOF
+        #!/bin/sh
+        /usr/bin/c++ -O2 -W -Wall -std=c++17 "$@"
+          EOF 2>/dev/null;
+          sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
+          sudo apt-get install linux-headers-$(uname -r) -y    
           export BRANCH=android9-release
           export CPU_SSE42=false
           export CLANG_TRIPLE=arm-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
           export DEFCONFIG=tb8163p3_bsp_defconfig
-          export KERNEL_DIR=kernel/alps/tb8163p3_bsp 
+          export KERNEL_DIR=kernel/alps/tb8163p3_bsp
+          export LINUX_CLANG_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/clang/host/linux-x86/clang-r353983c/bin
           export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
           export FILES="arch/arm/boot/zImage vmlinux System.map"
           export STOP_SHIP_TRACEPRINTK=1
           export CONFIG_INIT_ENV_ARG_LIMIT=32
           export CROSS_COMPILE="arm-eabi-"
           export CONFIG_FS_ENCRYPTION=N
+          export C_COMPILER_NAME=clang
+          export CXX_COMPILER_NAME=clang++
+          export COMPILER_VERSION=9.0
+          export compiler=$C_COMPILER_NAME
+          export compiler.version=$COMPILER_VERSION
+          export compiler.libcxx=libstdc++17
+          export CC=$C_COMPILER_NAME-$COMPILER_VERSION
+          export CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
+          export std=c++17
+          alias cc=$CC
+          alias c++="$CXX -O2 -W -Wall -std=$std"
         fi
-        export ARCH=arm
-        export LC_ALL=C.UTF-8
-        export CC=clang
-        export CXX=clang++
-        export std=c99
-        alias cc=$CC
-        alias c++=$CXX
+      working-directory: workspace
       continue-on-error: true
         
     - name: Building ${{ github.event.inputs.BUILD_TARGET }}

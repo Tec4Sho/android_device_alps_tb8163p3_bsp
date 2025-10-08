@@ -149,15 +149,8 @@ jobs:
           ${{ runner.os }}
         enableCrossOsArchive: true
       continue-on-error: true
-      
-     # Setup dual clone
-    - name: Clone Recovery Repo
-      if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
-      uses: actions/checkout@v4
-      with:
-        repository: ${{ github.repository }}
-        path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
 
+    # Setup triple clone start
     - name: Clone Kernel Repo
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && env.PREBUILT_KERNEL == 'false'
       uses: actions/checkout@v4
@@ -173,7 +166,15 @@ jobs:
         path: ./workspace/prebuilts/clang/host/linux-x86/
         ref: droidian
 
-    - name: Sha Commit ID
+    # Setup triple clone end
+    - name: Clone Recovery Repo
+      if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.repository }}
+        path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
+
+    - name: Commit ID SHA
       run: |
         if [ ${{ steps.restore-workspace-cache.outputs.cache-hit != 'true' }} ]; then
           echo "##### NOTE: Not Building From Cached Files  #####"
@@ -376,10 +377,10 @@ jobs:
           export COMPILER_VERSION=9.0
           export compiler=$C_COMPILER_NAME
           export compiler.version=$COMPILER_VERSION
-          export compiler.libcxx=libstdc++17
+          export compiler.libcxx=libstdc++2a
           export CC=$C_COMPILER_NAME-$COMPILER_VERSION
           export CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
-          export std=c++17
+          export std=c++2a
           alias cc=$CC
           alias c++="$CXX -O2 -W -Wall -std=$std"
         fi

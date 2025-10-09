@@ -275,7 +275,9 @@ jobs:
     - name: Repo Sync
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
+        git checkout -b droidian
         repo sync -c -j$(nproc --all) --force-sync
+        git checkout -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
       working-directory: workspace
       continue-on-error: false
 

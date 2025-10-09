@@ -274,7 +274,12 @@ jobs:
       run: |
         repo sync -c -j$(nproc --all) --force-sync
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          git clone https://github.com/droidian/android-platform-prebuilts-clang-host-linux-x86-29 -b droidian ./prebuilts/clang/host/linux-x86/
+          if find "prebuilts/clang/host/linux-x86" -maxdepth 0 -empty | read v; then
+            echo "Cloning clang prebuilts"
+            git clone https://github.com/droidian/android-platform-prebuilts-clang-host-linux-x86-29 -b droidian ./prebuilts/clang/host/linux-x86/
+          else
+            echo "Clang prebuilts found"
+          fi
         fi
       working-directory: workspace
       continue-on-error: false

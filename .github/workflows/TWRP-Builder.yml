@@ -363,7 +363,7 @@ jobs:
           sudo cat >> /usr/local/bin/c++ <<EOF
         #!/bin/sh
         /usr/bin/c++ -O2 -W -Wall -std=c++2a "$@"
-          EOF 2>/dev/null;
+          EOF
           sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) 
           export BRANCH=android9-release

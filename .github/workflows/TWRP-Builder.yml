@@ -118,6 +118,7 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         mkdir -p ${GITHUB_WORKSPACE}/workspace/prebuilts/clang/host/linux-x86/
         set -o allexport
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
         if [[ `which git` ]]; then
@@ -136,7 +137,7 @@ jobs:
         fi
         cd workspace
         git reset
-        git checkout *
+        git config --global --add safe.directory .
         set +e
       continue-on-error: true
         
@@ -282,7 +283,6 @@ jobs:
     - name: Repo Sync
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
-        git checkout -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         repo sync -c -j$(nproc --all) --force-sync
       working-directory: workspace
       continue-on-error: false

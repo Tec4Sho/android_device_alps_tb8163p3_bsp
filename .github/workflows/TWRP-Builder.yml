@@ -363,10 +363,8 @@ jobs:
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
           if [[ ! $(grep 'c++2a' /usr/local/bin/c++) ]]; then
-            sudo cat >> /usr/local/bin/c++ <<EOF
-        #!/bin/sh
-        /usr/bin/c++ -O2 -W -Wall -std=c++2a "$@"
-          EOF
+            sudo echo '#!/bin/sh' >> /usr/local/bin/c++
+            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++2a "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
           fi
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) 

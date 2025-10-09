@@ -122,12 +122,14 @@ jobs:
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
         if [[ `which git` ]]; then
+          echo -e "\n`git --version`\n";
           git config --global core.longpaths true
           git config --global core.protectNTFS false
           git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
           git config --global http.lowSpeedLimit 0      # Disable low speed limit
           git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
         else
+          echo -e "\nGit needed installing now....\n";
           sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq git >/dev/null;
           git config --global core.longpaths true
           git config --global core.protectNTFS false
@@ -366,7 +368,7 @@ jobs:
           EOF
           sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) 
-          export BRANCH=android9-release
+          export BRANCH=android-9.0
           export CPU_SSE42=false
           export CLANG_TRIPLE=arm-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-

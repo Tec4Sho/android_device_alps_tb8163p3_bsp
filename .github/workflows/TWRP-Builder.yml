@@ -362,11 +362,13 @@ jobs:
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          sudo cat >> /usr/local/bin/c++ <<EOF
+          if [[ ! $(grep 'c++2a' /usr/local/bin/c++) ]]; then
+            sudo cat >> /usr/local/bin/c++ <<EOF
         #!/bin/sh
         /usr/bin/c++ -O2 -W -Wall -std=c++2a "$@"
           EOF
-          sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
+            sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
+          fi
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) 
           export BRANCH=android-9.0
           export CPU_SSE42=false

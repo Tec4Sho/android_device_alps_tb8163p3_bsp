@@ -121,14 +121,14 @@ jobs:
         export TARGET_FORCE_PREBUILT_KERNEL=false
         echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
         if [[ `which git` ]]; then
-          git config --system core.longpaths true
+          git config --global core.longpaths true
           git config --global core.protectNTFS false
           git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
           git config --global http.lowSpeedLimit 0      # Disable low speed limit
           git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
         else
           sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq git >/dev/null;
-          git config --system core.longpaths true
+          git config --global core.longpaths true
           git config --global core.protectNTFS false
           git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
           git config --global http.lowSpeedLimit 0      # Disable low speed limit
@@ -282,9 +282,6 @@ jobs:
     - name: Repo Sync
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
-        cd ./prebuilts/clang/host/linux-x86/
-        git restore --source=HEAD :/
-        cd ${GITHUB_WORKSPACE}/workspace
         git checkout -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         repo sync -c -j$(nproc --all) --force-sync
       working-directory: workspace

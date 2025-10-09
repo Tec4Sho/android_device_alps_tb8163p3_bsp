@@ -51,7 +51,7 @@ on:
         description: ': CLEAN ENVIRONMENT'
         type: boolean
         required: false
-        default: 'true'
+        default: 'false'
       MAXIMIZE_BUILD_SPACE:
         description: ': MAXIMIZE BUILD SPACE'
         type: boolean
@@ -362,10 +362,11 @@ jobs:
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          if [[ ! $(grep 'c++2a' /usr/local/bin/c++) ]]; then
+          if [ !-f /usr/local/bin/c++ ] || ! grep 'c++2a' /usr/local/bin/c++; then
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
             sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++2a "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
+            echo -e '\nC++ file editing complete\n';
           fi
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) 
           export BRANCH=android-9.0
@@ -384,12 +385,12 @@ jobs:
           export C_COMPILER_NAME=clang
           export CXX_COMPILER_NAME=clang++
           export COMPILER_VERSION=9.0
-          export compiler=$C_COMPILER_NAME
-          export compiler.version=$COMPILER_VERSION
-          export compiler.libcxx=libstdc++2a
           export CC=$C_COMPILER_NAME-$COMPILER_VERSION
           export CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
-          export std=c++2a
+          alias compiler=$C_COMPILER_NAME
+          alias compiler.version=$COMPILER_VERSION
+          alias compiler.libcxx=libstdc++2a
+          alias std=c++2a
           alias cc=$CC
           alias c++="$CXX -O2 -W -Wall -std=$std"
         fi

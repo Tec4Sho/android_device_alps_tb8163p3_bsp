@@ -190,17 +190,19 @@ jobs:
         echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV
       working-directory: workspace
       continue-on-error: true
-    
+
+     # cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print))
      # find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
      # find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
-        includes=$(find ${GITHUB_WORKSPACE}/workspace -type d -name "include" -print);
+        includes=$(find ${GITHUB_WORKSPACE}/workspace -type d -name "include" -print -quit);
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
         file_count=0
         if [[ -n ${files} ]]; then
-          echo "Found File Path(s): ${files}";
+          echo -e "\nFound File Path(s): \n${files}";
+          echo -e "\nFound Include Path(s): \n${files}";
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui >/dev/null;
           for x in ${files[@]}; do
             count=$(expr $file_count + 1);
@@ -210,11 +212,11 @@ jobs:
             echo -e "\n###### FILE CONTENT ($count) ######\n";
             find $(dirname ${x}) -type f -name $(basename ${x}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
-            #cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print))
             cppcheck --verbose --force --enable=all --report-progress --quiet ${x}
             if [ -d ${includes} ]; then
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-              cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I $includes ${x}
+              cd ${includes}
+              cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I . ${x}
             fi
           done;
           echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";

@@ -166,7 +166,7 @@ jobs:
         path: ./workspace/kernel/alps/tb8163p3_bsp
         ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
 
-    # Setup triple clone end
+    # Setup triple clone middle
     - name: Clone Recovery Repo
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       uses: actions/checkout@v4
@@ -196,6 +196,7 @@ jobs:
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
+        includes=$(find ${GITHUB_WORKSPACE}/workspace -type d -name "include" -print);
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
         file_count=0
         if [[ -n ${files} ]]; then
@@ -205,14 +206,16 @@ jobs:
             count=$(expr $file_count + 1);
             cd ${GITHUB_WORKSPACE}/workspace
             echo -e "\n###### FILE PATH ($count) ######\n";
-            find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print;
+            find $(dirname ${x}) -type f -name $(basename ${x}) -print;
             echo -e "\n###### FILE CONTENT ($count) ######\n";
-            find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -exec cat {} \; 
+            find $(dirname ${x}) -type f -name $(basename ${x}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
-            cd $(dirname $(find $(dirname ${x}) -type f -name ${{ github.event.inputs.CPPCHECK_FILE }} -print));
-            cppcheck --verbose --force --enable=all --report-progress --quiet ${{ github.event.inputs.CPPCHECK_FILE }}
-            echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-            cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I includes ${{ github.event.inputs.CPPCHECK_FILE }}
+            #cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print))
+            cppcheck --verbose --force --enable=all --report-progress --quiet ${x}
+            if [ -d ${includes} ]; then
+              echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
+              cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I $includes ${x}
+            fi
           done;
           echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";
           echo -e "Scanning Completed \nExiting .....\n";
@@ -270,7 +273,8 @@ jobs:
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       working-directory: workspace
 
-      # git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1
+      # git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/ -b android-9.0.0_r1 
+      # triple clone end 
     - name: Repo Sync
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |

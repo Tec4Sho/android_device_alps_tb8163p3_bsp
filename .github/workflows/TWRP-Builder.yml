@@ -193,7 +193,7 @@ jobs:
 
      # cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print))
      # find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
-     # find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;
+     # find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;includes=$(find ${GITHUB_WORKSPACE}/workspace -type d -name "include" -print -quit);
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
@@ -215,8 +215,8 @@ jobs:
             cppcheck --verbose --force --enable=all --report-progress --quiet ${x}
             if [ -d ${includes} ]; then
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-              cd ${includes}
-              cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I . ${x}
+              cd $(${files} | cut -d'/' -f 1,2,3,4,5,6,7,8)
+              cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I include/ ${x}
             fi
           done;
           echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";

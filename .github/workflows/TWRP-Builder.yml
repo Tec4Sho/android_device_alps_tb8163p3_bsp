@@ -212,19 +212,19 @@ jobs:
             cppcheck --verbose --force --enable=all --report-progress --quiet ${f}
             cd $(${f} | cut -d'/' -f 1-8) && sudo ls
             includes=$(find . -type d -name "include" -print);
-            if [[ ${includes} ]]; then
+            if [[ -n ${includes} ]]; then
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
               sudo chmod -R a+rX .
               for i in ${includes[@]}; then
                 cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I ${i} ${f}
-              done
-            fi
+              done;
+            fi;
           done;
           echo -e "\nFound File Path(s): \n${files}\n";
           echo -e "\nFound Include Path(s): \n${files}\n";
           echo -e "The total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
-        fi
+        fi;
       working-directory: workspace
       continue-on-error: true
       

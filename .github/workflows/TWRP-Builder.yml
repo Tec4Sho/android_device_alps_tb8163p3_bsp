@@ -197,7 +197,6 @@ jobs:
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
-        includes=$(find . -type d -name "include" -print -quit);
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
         file_count=0
         if [[ -n ${files} ]]; then
@@ -213,10 +212,11 @@ jobs:
             find $(dirname ${x}) -type f -name $(basename ${x}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cppcheck --verbose --force --enable=all --report-progress --quiet ${x}
+            cd $(${files} | cut -d'/' -f 1-8) && sudo ls
+            includes=$(find . -type d -name "include" -print -quit);
             if [ -d ${includes} ]; then
-              unset $includes
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-              cd $(${files} | cut -d'/' -f 1-8) && ls &&
+              sudo chmod -R a+rX . &&
               cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I $includes ${x}
             fi
           done;

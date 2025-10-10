@@ -200,28 +200,30 @@ jobs:
         files=$(find . -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
         file_count=0
         if [[ -n ${files} ]]; then
-          echo -e "\nFound File Path(s): \n${files}";
-          echo -e "\nFound Include Path(s): \n${files}";
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui >/dev/null;
-          for x in ${files[@]}; do
+          for f in ${files[@]}; do
             count=$(expr $file_count + 1);
             cd ${GITHUB_WORKSPACE}/workspace
             echo -e "\n###### FILE PATH ($count) ######\n";
-            find $(dirname ${x}) -type f -name $(basename ${x}) -print;
+            find $(dirname ${f}) -type f -name $(basename ${f}) -print;
             echo -e "\n###### FILE CONTENT ($count) ######\n";
-            find $(dirname ${x}) -type f -name $(basename ${x}) -exec cat {} \; 
+            find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
-            cppcheck --verbose --force --enable=all --report-progress --quiet ${x}
-            cd $(${files} | cut -d'/' -f 1-8) && sudo ls
-            includes=$(find . -type d -name "include" -print -quit);
-            if [ -d ${includes} ]; then
+            cppcheck --verbose --force --enable=all --report-progress --quiet ${f}
+            cd $(${f} | cut -d'/' -f 1-8) && sudo ls
+            includes=$(find . -type d -name "include" -print);
+            if [[ ${includes} ]]; then
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-              sudo chmod -R a+rX . &&
-              cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I $includes ${x}
+              sudo chmod -R a+rX .
+              for i in ${includes[@]}; then
+                cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I ${i} ${f}
+              done
             fi
           done;
-          echo -e "\nThe total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";
-          echo -e "Scanning Completed \nExiting .....\n";
+          echo -e "\nFound File Path(s): \n${files}\n";
+          echo -e "\nFound Include Path(s): \n${files}\n";
+          echo -e "The total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) is: $count\n";
+          echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
         fi
       working-directory: workspace
       continue-on-error: true

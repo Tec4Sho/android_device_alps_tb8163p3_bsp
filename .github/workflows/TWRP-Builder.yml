@@ -210,7 +210,7 @@ jobs:
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cppcheck --verbose --force --enable=all --report-progress --quiet ${f}
-            cd $(${f} | cut -d'/' -f 1-8) && sudo ls
+            cd $(${f} | cut -d'/' -f 1-8) && sudo ls .
             includes=$(find . -type d -name "include" -print);
             if [[ -n ${includes} ]]; then
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";

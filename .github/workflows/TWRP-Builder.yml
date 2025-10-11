@@ -215,7 +215,7 @@ jobs:
             if [[ -n ${includes} ]]; then
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
               sudo chmod -R a+rX .
-              for i in ${includes[@]}; then
+              for i in ${includes[@]}; do
                 cppcheck --verbose --force --enable=all --report-progress --quiet --check-config -I ${i} ${f}
               done;
             fi;
@@ -232,7 +232,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -yq full-upgrade
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential ccache g++ git git-core libgmp-dev libmpfr-dev libmpc-dev gnupg flex bison zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg notification-daemon opus-tools pulseaudio wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3 tree ninja-build gcc-4.7-arm-linux-gnueabihf gcc-4.7-multilib-arm-linux-gnueabihf binutils-arm-linux-gnueabihf libgcc1-armhf-cross libsfgcc1-armhf-cross libstdc++6-armhf-cross libstdc++6-4.7-dev-armhf-cross
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq install build-essential ccache g++ git git-core libgmp-dev libmpfr-dev libmpc-dev gnupg flex bison zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3 tree gcc-4.7-arm-linux-gnueabi gcc-4.7-multilib-arm-linux-gnueabi binutils-arm-linux-gnueabi libgcc1-arm-cross libsfgcc1-arm-cross libstdc++6-4.7-dev-arm-cross 2>/dev/null
         sudo apt-get -yq dist-upgrade
         sudo add-apt-repository universe
         sudo apt-get -yq install libncurses5 libtinfo5
@@ -371,7 +371,7 @@ jobs:
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          if [ !-f /usr/local/bin/c++ ] || [[ !-n $(sudo grep 'c++20' /usr/local/bin/c++) ]]; then
+          if [ !-f /usr/local/bin/c++ ]; then
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
             sudo echo  'export PATH="/prebuilts/clang/host/linux-x86/clang-r353983c/bin:$PATH"' >> /usr/local/bin/c++
             sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++20 "$@"' >> /usr/local/bin/c++

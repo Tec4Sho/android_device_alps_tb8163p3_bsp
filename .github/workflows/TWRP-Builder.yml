@@ -210,7 +210,7 @@ jobs:
             echo -e "\n###### FILE CONTENT ($count) ######\n";
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
-            cppcheck --verbose --force --enable=all -std=c++20 --report-progress --quiet ${f}
+            cppcheck --verbose --force --enable=all --std=c++20 --report-progress --quiet ${f}
             cd ${f%/*/*}
             echo -e "\n###### CURRENT DIRECTORY ######\n${f%/*/*}\n"
             sudo ls .
@@ -220,7 +220,7 @@ jobs:
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
               sudo chmod -R a+rX .
               for i in ${includes[@]}; do
-                cppcheck --verbose --force --enable=all -std=c++20 --report-progress --quiet -I ${i} --check-config ${f} 2>/dev/null;
+                cppcheck --verbose --force --enable=all --std=c++20 --report-progress --quiet -I ${i} --check-config ${f} 2>/dev/null;
               done;
             fi;
           done;

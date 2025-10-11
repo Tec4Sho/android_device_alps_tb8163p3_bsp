@@ -211,7 +211,9 @@ jobs:
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cppcheck --verbose --force --enable=all --report-progress --quiet ${f}
-            cd $(${f} | cut -d'/' -f 1-2) && sudo ls .
+            cd $($(dirname ${f}) | cut -d'/' -f 1-6)
+            echo -e "\n###### CURRENT DIRECTORY ######\n$($(dirname ${f}) | cut -d'/' -f 1-6)\n"
+            sudo ls .
             includes=$(find . -type d -name "include" -print);
             if [[ -n ${includes} ]]; then
               echo -e "\nFound Include Path(s): \n${includes}\n";
@@ -235,8 +237,6 @@ jobs:
         sudo apt-get update
         sudo apt-get -yq full-upgrade
         sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential ccache g++ git git-core libgmp-dev libmpfr-dev libmpc-dev gnupg flex bison zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3 tree 
-        sudo apt-get -yq purge os-prober
-        sudo apt-get -yq install gcc-4.7-arm-linux-gnueabi gcc-4.7-multilib-arm-linux-gnueabi binutils-arm-linux-gnueabi libgcc1-arm-cross libsfgcc1-arm-cross libstdc++6-4.7-dev-arm-cross >/dev/null 2>&1;
         sudo apt-get -yq dist-upgrade
         sudo add-apt-repository universe
         sudo apt-get -yq install libncurses5 libtinfo5

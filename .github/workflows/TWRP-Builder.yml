@@ -116,7 +116,6 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace
         mkdir -p ${GITHUB_WORKSPACE}/workspace/${{ github.event.inputs.DEVICE_PATH }}
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
-        mkdir -p ${GITHUB_WORKSPACE}/workspace/prebuilts/clang/host/linux-x86/
         set -o allexport
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export TARGET_FORCE_PREBUILT_KERNEL=false
@@ -157,7 +156,7 @@ jobs:
         enableCrossOsArchive: true
       continue-on-error: true
 
-    # Setup triple clone start
+    # Setup clone 1
     - name: Clone Kernel Repo
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && env.PREBUILT_KERNEL == 'false'
       uses: actions/checkout@v4
@@ -166,7 +165,7 @@ jobs:
         path: ./workspace/kernel/alps/tb8163p3_bsp
         ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
 
-    # Setup triple clone middle
+    # Setup clone 2
     - name: Clone Recovery Repo
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       uses: actions/checkout@v4
@@ -191,8 +190,8 @@ jobs:
       working-directory: workspace
       continue-on-error: true
 
-     # cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print)) sed 's/\(\/[^\/]*\)\{2\}$//'
-     # find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;
+     # cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print)) sed 's/\(\/[^\/]*\)\{2\}$//' includes=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type d -name "include" -print)
+     # find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;grep -oP '<[^>]+>' your_file.c | sed 's/<//g; s/>//g'
      # find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;includes=$(find ${GITHUB_WORKSPACE}/workspace -type d -name "include" -print -quit);
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
@@ -212,17 +211,17 @@ jobs:
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cppcheck --verbose --force --enable=all --std=c99 --report-progress --quiet ${f}
-            includes=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type d -name "include" -print);
+            includes=$(find $(dirname ${f}) -name $(basename ${f}) -exec sed -n 's/.*<\([^>]*\)>.*$/\1/p' {} \;)      
             if [[ -n ${includes} ]]; then
               echo -e "\nFound Include Path(s): \n${includes}\n";
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
               for i in ${includes[@]}; do
                 icount=$(expr $include_count + 1);
-                cd ${i%/*}
-                echo `pwd`;
-                echo -e "\n###### CPPCHECK INCLUDE ($icount) ######\n${i}\n";
-                sudo ls ${i};
-                cppcheck --verbose --force --enable=all --std=c99 --report-progress --check-config -I ./include ${f} 
+                names=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${i})*" -name "$(basename ${i})" -print -quit)
+                if [ -f ${names} ]; then
+                  echo -e "\n###### CPPCHECK INCLUDE ($icount) ######\n${i}\n";
+                  cppcheck --verbose --force --enable=all --std=c++11 --report-progress --check-config -I $(dirname $names) ${f}
+                fi;
               done;
             fi;
           done;
@@ -289,14 +288,6 @@ jobs:
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
         repo sync -c -j$(nproc --all) --force-sync
-        if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
-          if find "prebuilts/clang/host/linux-x86" -maxdepth 0 -empty | read v; then
-            echo "Cloning clang prebuilts"
-            git clone https://github.com/droidian/android-platform-prebuilts-clang-host-linux-x86-29 -b droidian ./prebuilts/clang/host/linux-x86/
-          else
-            echo "Clang prebuilts found"
-          fi
-        fi
       working-directory: workspace
       continue-on-error: false
 
@@ -353,14 +344,13 @@ jobs:
     - name: Check Workspace Contents
       run: |
         du . -h -d 2
-        cp -vf ${{ github.event.inputs.DEVICE_PATH }}/Dockerfile . 2>/dev/null && echo "########## Copying Dockerfile ......";
       working-directory: workspace
       continue-on-error: true
 
-    - name: Setup Compiler * Clang-9.0
+    - name: Setup Compiler * Clang-12
       uses: rlalik/setup-cpp-compiler@master
       with:
-        compiler: 'clang-9.0'
+        compiler: 'clang-12'
       continue-on-error: true
 
      # export CROSS_COMPILE=arm-linux-androidkernel-
@@ -378,27 +368,23 @@ jobs:
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
           if [ !-f /usr/local/bin/c++ ]; then
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
-            sudo echo  'export PATH="/prebuilts/clang/host/linux-x86/clang-r353983c/bin:$PATH"' >> /usr/local/bin/c++
             sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c99 "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
             echo -e '\n/usr/bin/c++ file editing completed\n';
           else
             sudo rm -f /usr/local/bin/c++
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
-            sudo echo  'export PATH="/prebuilts/clang/host/linux-x86/clang-r353983c/bin:$PATH"' >> /usr/local/bin/c++
-            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c99 "$@"' >> /usr/local/bin/c++
+            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++20 "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
             echo -e '\n/usr/bin/c++ file edited already\n';
           fi
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r)
-          export PATH="/prebuilts/clang/host/linux-x86/clang-r353983c/bin:$PATH"
           export BRANCH=android-9.0
           export CPU_SSE42=false
           export CLANG_TRIPLE=arm-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
           export DEFCONFIG=tb8163p3_bsp_defconfig
           export KERNEL_DIR=kernel/alps/tb8163p3_bsp
-          export LINUX_CLANG_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/clang/host/linux-x86/clang-r353983c/bin
           export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
           export FILES="arch/arm/boot/zImage vmlinux System.map"
           export STOP_SHIP_TRACEPRINTK=1
@@ -407,13 +393,13 @@ jobs:
           export CONFIG_FS_ENCRYPTION=N
           export C_COMPILER_NAME=clang
           export CXX_COMPILER_NAME=clang++
-          export COMPILER_VERSION=9.0
+          export COMPILER_VERSION=12
           export CC=$C_COMPILER_NAME-$COMPILER_VERSION
           export CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
           alias compiler=$C_COMPILER_NAME
           alias compiler.version=$COMPILER_VERSION
           alias compiler.libcxx=libstdc++-10-dev
-          alias std=c99
+          alias std=c++20
           alias cc=$CC
           alias c++="$CXX -O2 -W -Wall -std=$std"
         fi
@@ -428,8 +414,6 @@ jobs:
         if [ ${{ github.event.inputs.CPPCHECK_FILE != '' }} ]; then
           set -o verbose
           set -e
-          set -o pipefail
-          set -x
         else
           set +e
         fi

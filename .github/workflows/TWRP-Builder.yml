@@ -211,8 +211,8 @@ jobs:
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cppcheck --verbose --force --enable=all --std=c99 --report-progress --quiet ${f}
-            cd ${f%/*/*/*/*/*/*}
-            echo -e "\n###### CURRENT DIRECTORY ######\n${f%/*/*/*/*/*/*}\n"
+            cd ${f%%/*/*}
+            echo -e "\n###### CURRENT DIRECTORY ######\n${f%%/*/*}\n"
             sudo ls .
             includes=$(find . -type d -name "include" -print);
             if [[ -n ${includes} ]]; then

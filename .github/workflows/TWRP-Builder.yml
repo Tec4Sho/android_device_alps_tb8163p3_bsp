@@ -211,19 +211,18 @@ jobs:
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
             cppcheck --verbose --force --enable=all --std=c99 --report-progress --quiet ${f}
-            cd ${f%%/*/*}
-            echo -e "\n###### CURRENT DIRECTORY ######\n${f%%/*/*}\n"
+            cd `${f} | sed 's/\(\/[^\/]*\)\{4\}$//'`;
+            echo -e "\n###### CURRENT DIRECTORY ######\n`${f} | sed 's/\(\/[^\/]*\)\{4\}$//'`\n"
             sudo ls .
             includes=$(find . -type d -name "include" -print);
             if [[ -n ${includes} ]]; then
               echo -e "\nFound Include Path(s): \n${includes}\n";
               echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
-              cppcheck --verbose --force --enable=all --std=c99 --report-progress --check-config ${f}
               sudo chmod -R a+rX .
               for i in ${includes[@]}; do
                 cd ${i}
                 echo -e "\n###### CPPCHECK INCLUDE ######\n${i}\n";
-                cppcheck --verbose --force --enable=all --std=c99 --report-progress --quiet -I . ${f}
+                cppcheck --verbose --force --enable=all --std=c99 --report-progress --check-config -I . ${f}
               done;
             fi;
           done;

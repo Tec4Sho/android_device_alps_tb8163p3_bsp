@@ -210,7 +210,7 @@ jobs:
             echo -e "\n###### FILE CONTENT ($count) ######\n";
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
-            cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --disable=missingIncludeSystem --std=c++11 --report-progress --quiet ${f}
+            cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress --quiet ${f}
             includes=$(find $(dirname ${f}) -name $(basename ${f}) -exec sed -n 's/^#include <\(.*\)>/\1/p; s/^#include "\(.*\)"/\1/p' {} \;)      
             if [[ -n ${includes} ]]; then
               echo -e "\nFound Include Path(s): \n${includes}\n";
@@ -219,11 +219,16 @@ jobs:
                 header=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${i})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
                 if [[ -f ${header} ]]; then
                   echo -e "\n###### CPPCHECK HEADER FILE ($count2) ######\n${i}\n";
-                  cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --disable=missingIncludeSystem --std=c++11 --report-progress --includes ${header} ${f}
+                  cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress --includes ${header} ${f}
                 else
                   echo -e "\n###### CPPCHECK HEADER FILE NOT FOUND ######\n";
                 fi;
               done;
+            else
+              find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
+              find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN CC/C++ FILES ######\n";
+              echo -e "Scanning Completed!\nText Locator Exiting!\n .....\n"
+              exit 0;
             fi;
           done;
           echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";

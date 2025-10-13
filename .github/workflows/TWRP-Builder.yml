@@ -196,11 +196,13 @@ jobs:
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
+        if [[ ! `which cppcheck` ]]; then
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui >/dev/null && echo "###### Cppcheck Installed ######";
+        fi
         files=$(find ${GITHUB_WORKSPACE}/workspace -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
         file_count=0
         include_count=0
         if [[ -n ${files} ]]; then
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui >/dev/null;
           echo -e "\nFound File Path(s): \n${files}\n";
           for f in ${files[@]}; do
             count=$(expr $file_count + 1);

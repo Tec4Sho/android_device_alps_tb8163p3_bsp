@@ -232,8 +232,18 @@ jobs:
           echo -e "Total number of include file(s) checked is: $count2\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
         else
-          find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
-          find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN CC/C++ FILES ######\n";
+          find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
+          if [ $? -eq 0 ]; then
+            echo -e "\n###### CONTENT FOUND IN HEADER FILES ######\n";
+          else
+            echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
+          fi;
+          find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
+          if [ $? -eq 0 ]; then
+            echo -e "\n###### CONTENT FOUND IN CC/C++ FILES ######\n";
+          else
+            echo -e "\n###### NOTHING FOUND IN CC/C++ FILES ######\n";
+          fi;
           echo -e "Scanning Completed!\nText Locator Exiting!\n .....\n"
         fi;
       working-directory: workspace

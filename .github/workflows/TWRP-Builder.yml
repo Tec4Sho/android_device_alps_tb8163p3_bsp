@@ -210,25 +210,24 @@ jobs:
             echo -e "\n###### FILE CONTENT ($count) ######\n";
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
             echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
-            cppcheck --verbose --force --enable=all --std=c++11 --report-progress --quiet ${f}
+            cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --disable=missingIncludeSystem --std=c++11 --report-progress --quiet ${f}
             includes=$(find $(dirname ${f}) -name $(basename ${f}) -exec sed -n 's/^#include <\(.*\)>/\1/p; s/^#include "\(.*\)"/\1/p' {} \;)      
             if [[ -n ${includes} ]]; then
               echo -e "\nFound Include Path(s): \n${includes}\n";
-              echo -e "\n###### CPPCHECK CONFIG ($count) ######\n";
               for i in ${includes[@]}; do
-                icount=$(expr $include_count + 1);
-                path=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${i})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
-                if [[ -f ${path} ]]; then
-                  echo -e "\n###### CPPCHECK INCLUDE ($icount) ######\n${i}\n";
-                  cppcheck --verbose --force --enable=all --std=c++11 --report-progress --check-config -I $(dirname $path) ${f}
+                count2=$(( $include_count + 1 ))
+                header=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${i})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
+                if [[ -f ${header} ]]; then
+                  echo -e "\n###### CPPCHECK HEADER FILE ($count2) ######\n${i}\n";
+                  cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --disable=missingIncludeSystem --std=c++11 --report-progress --includes ${header} ${f}
                 else
-                  echo -e "\n###### CPPCHECK INCLUDES NOT FOUND ######\n";
+                  echo -e "\n###### CPPCHECK HEADER FILE NOT FOUND ######\n";
                 fi;
               done;
             fi;
           done;
           echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
-          echo -e "Total number of include folder(s) checked is: $icount\n";
+          echo -e "Total number of include file(s) checked is: $count2\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
         fi;
       working-directory: workspace

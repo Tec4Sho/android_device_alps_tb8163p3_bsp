@@ -224,16 +224,15 @@ jobs:
                   echo -e "\n###### CPPCHECK HEADER FILE NOT FOUND ######\n";
                 fi;
               done;
-            else
-              find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
-              find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN CC/C++ FILES ######\n";
-              echo -e "Scanning Completed!\nText Locator Exiting!\n .....\n"
-              exit 0;
             fi;
           done;
           echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
           echo -e "Total number of include file(s) checked is: $count2\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
+        else
+          find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
+          find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \; || echo -e "\n###### NOTHING FOUND IN CC/C++ FILES ######\n";
+          echo -e "Scanning Completed!\nText Locator Exiting!\n .....\n"
         fi;
       working-directory: workspace
       continue-on-error: true

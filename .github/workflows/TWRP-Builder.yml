@@ -196,7 +196,7 @@ jobs:
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
-        if [[ ! `which cppcheck` ]]; then
+        if [[ ! `which cppcheck` ]] || [[ ! `which clang-tidy` ]]; then
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui >/dev/null && echo "###### Cppcheck Installed ######";
         fi
         files=$(find ${GITHUB_WORKSPACE}/workspace -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
@@ -211,7 +211,7 @@ jobs:
             find $(dirname ${f}) -type f -name $(basename ${f}) -print;
             echo -e "\n###### FILE CONTENT ($count) ######\n";
             find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
-            echo -e "\n###### CPPCHECK ERROR ($count) ######\n";
+            echo -e "\n\n###### CPPCHECK ERROR ANALYZER ($count) ######\n";
             cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress --quiet ${f}
             includes=$(find $(dirname ${f}) -name $(basename ${f}) -exec sed -n 's/^#include <\(.*\)>/\1/p; s/^#include "\(.*\)"/\1/p' {} \;)      
             if [[ -n ${includes} ]]; then
@@ -227,6 +227,8 @@ jobs:
                 fi;
               done;
             fi;
+            echo -e "\n\n###### CLANG-TIDY ERROR ANALYZER ($count) ######\n";
+            clang-tidy ${f} -checks=-*,clang-analyzer-*,clang-analyzer-cplusplus-*
           done;
           echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
           echo -e "Total number of include file(s) checked is: $count2\n";

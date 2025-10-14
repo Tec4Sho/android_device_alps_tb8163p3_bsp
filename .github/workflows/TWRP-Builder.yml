@@ -135,8 +135,7 @@ jobs:
           git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
           git config --global http.lowSpeedLimit 0      # Disable low speed limit
           git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
-        fi
-        set +e
+        fi;
       continue-on-error: true
         
     - name: Restore Workspace
@@ -193,14 +192,14 @@ jobs:
      # cd $(dirname $(find $(dirname ${x}) -type f -name $(basename ${x}) -print)) sed 's/\(\/[^\/]*\)\{2\}$//' includes=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type d -name "include" -print)
      # find ./kernel/alps/tb8163p3_bsp -name "*.h" -exec grep -H 'APMIXED_BASE' {} \;grep -oP '<[^>]+>' your_file.c | sed 's/<//g; s/>//g'
      # find ./kernel/alps/tb8163p3_bsp -name "*.c" -exec grep -H 'APMIXED_BASE' {} \;includes=$(find ${GITHUB_WORKSPACE}/workspace -type d -name "include" -print -quit);
-    - name: Cppcheck File
-      if: github.event.inputs.CPPCHECK_FILE != ''
+    - name: Check File
+      if: github.event.inputs.CHECK_FILE != ''
       run: |
         if [[ ! `which remake` ]] || [[ ! `which cppcheck` ]] || [[ ! `which shellcheck` ]]; then
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install remake cppcheck cppcheck-gui shellcheck >/dev/null && echo "###### Cppcheck Installed ######";
         fi
-        files=$(find ${GITHUB_WORKSPACE}/workspace -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
-        file_type=$(echo ${{ github.event.inputs.CPPCHECK_FILE }} | sed 's/.*\.\([^.]*\)$/\1/');
+        files=$(find ${GITHUB_WORKSPACE}/workspace -type f -name "${{ github.event.inputs.CHECK_FILE }}" -print);
+        file_type=$(echo ${{ github.event.inputs.CHECK_FILE }} | sed 's/.*\.\([^.]*\)$/\1/');
         file_count=0
         include_count=0
         makefile_count=0
@@ -231,7 +230,7 @@ jobs:
                 done;
               fi;
               done;
-          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count1\n";
+          echo -e "Total number of ${{ github.event.inputs.CHECK_FILE }} file(s) checked is: $count1\n";
           echo -e "Total number of include file(s) checked is: $count2\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
         elif [ ${file_type} = 'sh' ] && [[ -n ${files} ]]; then
@@ -244,7 +243,7 @@ jobs:
               shellcheck --norc --severity=error --external-sources --check-sourced ${f} ${s};
             done;
           done;
-          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count3\n";
+          echo -e "Total number of ${{ github.event.inputs.CHECK_FILE }} file(s) checked is: $count3\n";
           echo -e "Total number of include file(s) checked is: $count3\n";
           echo -e "Scanning Completed!\nShellcheck Exiting!\n .....\n";
         elif [ ${file_type} = 'Makefile' ] || [ ${file_type} = 'makefile' ] || [ ${file_type} = 'mk' ] && [[ -n ${files} ]]; then
@@ -257,7 +256,7 @@ jobs:
               remake -n -v --debug --keep-going -I $(dirname ${m}) ${f};
             done;
           done;
-          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count4\n";
+          echo -e "Total number of ${{ github.event.inputs.CHECK_FILE }} file(s) checked is: $count4\n";
           echo -e "Total number of include file(s) checked is: $count4\n";
           echo -e "Scanning Completed!\nRemake Exiting!\n .....\n";
         elif [[ -n ${files} ]]; then
@@ -268,10 +267,10 @@ jobs:
               echo -e "\n###### FILE CONTENT ($count) ######\n";
               find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \;
             done;
-            echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
+            echo -e "Total number of ${{ github.event.inputs.CHECK_FILE }} file(s) checked is: $count\n";
             echo -e "Scanning Completed!\nCheckfile Exiting!\n .....\n";
-        elif [ ${file_type} = ${{ github.event.inputs.CPPCHECK_FILE }} ]; then
-          finder=$(find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;)
+        elif [ ${file_type} = ${{ github.event.inputs.CHECK_FILE }} ]; then
+          finder=$(find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN C++ FILES ######\n";
@@ -279,7 +278,7 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN C++ FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;)
+          finder=$(find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN HEADER FILES ######\n";
@@ -287,7 +286,7 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;)
+          finder=$(find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN C FILES ######\n";
@@ -295,7 +294,7 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN C FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.sh" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;)
+          finder=$(find . -type f -name "*.sh" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN SHELL FILES ######\n";
@@ -303,7 +302,7 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN SHELL FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.mk" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;)
+          finder=$(find . -type f -name "*.mk" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN MAKE FILES ######\n";
@@ -498,13 +497,13 @@ jobs:
         echo '##############'
         echo "Started Build: ${{ github.event.repository.updated_at }}"
         source build/envsetup.sh
-        if [ ${{ github.event.inputs.CPPCHECK_FILE != '' }} ]; then
+        if [ ${{ github.event.inputs.CHECK_FILE != '' }} ]; then
           set -o verbose
           set -e
         else
           set +e
         fi
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_SECTION_MISMATCH_WARN_ONLY=y -${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_SECTION_MISMATCH_WARN_ONLY=y ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
       continue-on-error: false
       

@@ -231,7 +231,7 @@ jobs:
                 done;
               fi;
               done;
-          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
+          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count1\n";
           echo -e "Total number of include file(s) checked is: $count2\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
         elif [ ${file_type} = 'sh' ] && [[ -n ${files} ]]; then
@@ -240,11 +240,12 @@ jobs:
             shellcheck=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${f})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
             echo -e "\n\n###### SHELLCHECK ERROR ANALYZER ($count3) ######\n";
             for s in ${shellcheck[@]}; do
+              echo -e "\n\n###### ANALYZING FOR ERROR(S) ($count3) ######\n";
               shellcheck --norc --severity=error --external-sources --check-sourced ${f} ${s};
             done;
           done;
-          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
-          echo -e "Total number of include file(s) checked is: $count2\n";
+          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count3\n";
+          echo -e "Total number of include file(s) checked is: $count3\n";
           echo -e "Scanning Completed!\nShellcheck Exiting!\n .....\n";
         elif [ ${file_type} = 'Makefile' ] || [ ${file_type} = 'makefile' ] || [ ${file_type} = 'mk' ] && [[ -n ${files} ]]; then
           for f in ${files[@]}; do
@@ -252,13 +253,14 @@ jobs:
             makefile=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${f})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
             echo -e "\n\n###### REMAKE ERROR ANALYZER ($count4) ######\n";
             for m in ${makefile[@]}; do
+              echo -e "\n\n###### ANALYZING FOR ERROR(S) ($count4) ######\n";
               remake -n -v --debug --keep-going -I $(dirname ${m}) ${f};
             done;
           done;
-          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
-          echo -e "Total number of include file(s) checked is: $count2\n";
+          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count4\n";
+          echo -e "Total number of include file(s) checked is: $count4\n";
           echo -e "Scanning Completed!\nRemake Exiting!\n .....\n";
-        else
+        elif [ ${file_type} = ${{ github.event.inputs.CPPCHECK_FILE }} ]; then
           find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
           if [ $? -eq 0 ]; then
             echo -e "\n###### CONTENT FOUND IN C++ FILES ######\n";
@@ -290,6 +292,20 @@ jobs:
             echo -e "\n###### NOTHING FOUND IN MAKE FILES ######\n";
           fi;
           echo -e "Scanning Completed!\nText Locator Exiting!\n .....\n"
+        else
+          if [[ -n ${files} ]]; then
+            for f in ${files[@]}; do
+              count=((file_count++));
+              echo -e "\n###### FILE PATH ($count) ######\n";
+              find $(dirname ${f}) -type f -name $(basename ${f}) -print;
+              echo -e "\n###### FILE CONTENT ($count) ######\n";
+              find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \;
+            done;
+            echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
+            echo -e "Scanning Completed!\nCheckfile Exiting!\n .....\n";
+          else
+             echo -e "\n###### NOTHING FOUND IN CHECK FILES ######\n";
+          fi;
         fi;
       working-directory: workspace
       continue-on-error: true

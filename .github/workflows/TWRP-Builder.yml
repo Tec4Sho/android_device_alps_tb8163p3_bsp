@@ -196,44 +196,55 @@ jobs:
     - name: Cppcheck File
       if: github.event.inputs.CPPCHECK_FILE != ''
       run: |
-        if [[ ! `which cppcheck` ]] || [[ ! `which clang-tidy` ]]; then
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui >/dev/null && echo "###### Cppcheck Installed ######";
+        if [[ ! `which cppcheck` ]] || [[ ! `which shellcheck` ]]; then
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install cppcheck cppcheck-gui shellcheck >/dev/null && echo "###### Cppcheck Installed ######";
         fi
         files=$(find ${GITHUB_WORKSPACE}/workspace -type f -name "${{ github.event.inputs.CPPCHECK_FILE }}" -print);
+        file_type=$(echo ${{ github.event.inputs.CPPCHECK_FILE }} | sed 's/.*\.\([^.]*\)$/\1/');
         file_count=0
         include_count=0
-        if [[ -n ${files} ]]; then
-          echo -e "\nFound File Path(s): \n${files}\n";
-          for f in ${files[@]}; do
-            count=$(expr $file_count + 1);
-            cd ${GITHUB_WORKSPACE}/workspace
-            echo -e "\n###### FILE PATH ($count) ######\n";
-            find $(dirname ${f}) -type f -name $(basename ${f}) -print;
-            echo -e "\n###### FILE CONTENT ($count) ######\n";
-            find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
-            echo -e "\n\n###### CPPCHECK ERROR ANALYZER ($count) ######\n";
-            cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress --quiet ${f}
-            includes=$(find $(dirname ${f}) -name $(basename ${f}) -exec sed -n 's/^#include <\(.*\)>/\1/p; s/^#include "\(.*\)"/\1/p' {} \;)      
-            if [[ -n ${includes} ]]; then
-              echo -e "\nFound Include Path(s): \n${includes}\n";
-              for i in ${includes[@]}; do
-                count2=$(( $include_count + 1 ))
-                header=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${i})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
-                if [[ -f ${header} ]]; then
-                  echo -e "\n###### CPPCHECK HEADER FILE ($count2) ######\n${i}\n";
-                  cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress ${header} ${f}
-                else
-                  echo -e "\n###### CPPCHECK HEADER FILE NOT FOUND ######\n";
-                fi;
+        if [ ${file_type} = 'h' ] || [ ${file_type} = 'c' ] || [ ${file_type} = 'cpp' ] && [[ -n ${files} ]]; then
+            echo -e "\nFound File Path(s): \n${files}\n";
+            for f in ${files[@]}; do
+              count=$(expr $file_count + 1);
+              cd ${GITHUB_WORKSPACE}/workspace
+              echo -e "\n###### FILE PATH ($count) ######\n";
+              find $(dirname ${f}) -type f -name $(basename ${f}) -print;
+              echo -e "\n###### FILE CONTENT ($count) ######\n";
+              find $(dirname ${f}) -type f -name $(basename ${f}) -exec cat {} \; 
+              echo -e "\n\n###### CPPCHECK ERROR ANALYZER ($count) ######\n";
+              cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress --quiet ${f}
+              includes=$(find $(dirname ${f}) -name $(basename ${f}) -exec sed -n 's/^#include <\(.*\)>/\1/p; s/^#include "\(.*\)"/\1/p' {} \;)      
+              if [[ -n ${includes} ]]; then
+                echo -e "\nFound Include Path(s): \n${includes}\n";
+                for i in ${includes[@]}; do
+                  count2=$(( $include_count + 1 ))
+                  header=$(find $(echo $(dirname ${f}) | cut -d/ -f1-8) -type f -path "*/$(dirname ${i})*" -name "$(basename ${i})" -print -quit) 2>/dev/null;
+                  if [[ -f ${header} ]]; then
+                    echo -e "\n###### CPPCHECK HEADER FILE ($count2) ######\n${i}\n";
+                    cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress ${header} ${f}
+                  else
+                    echo -e "\n###### CPPCHECK HEADER FILE NOT FOUND ($count2) ######\n";
+                  fi;
+                done;
+              fi;
               done;
-            fi;
-            echo -e "\n\n###### CLANG-TIDY ERROR ANALYZER ($count) ######\n";
-            clang-tidy ${f} -checks=-*,clang-analyzer-*,clang-analyzer-cplusplus-*
-          done;
           echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
           echo -e "Total number of include file(s) checked is: $count2\n";
           echo -e "Scanning Completed!\nCppcheck Exiting!\n .....\n";
+        elif [ ${file_type} = 'sh' ] && [[ -n ${files} ]]; then
+          echo -e "\n\n###### SHELLCHECK ERROR ANALYZER ($count) ######\n";
+          shellcheck ${files};
+        elif [ ${file_type} = 'mk' ] && [[ -n ${files} ]]; then
+          echo -e "\n\n###### SHELLCHECK ERROR ANALYZER ($count) ######\n";
+          shellcheck ${files};
         else
+          find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
+          if [ $? -eq 0 ]; then
+            echo -e "\n###### CONTENT FOUND IN C++ FILES ######\n";
+          else
+            echo -e "\n###### NOTHING FOUND IN C++ FILES ######\n";
+          fi;
           find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
           if [ $? -eq 0 ]; then
             echo -e "\n###### CONTENT FOUND IN HEADER FILES ######\n";
@@ -242,9 +253,21 @@ jobs:
           fi;
           find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
           if [ $? -eq 0 ]; then
-            echo -e "\n###### CONTENT FOUND IN CC/C++ FILES ######\n";
+            echo -e "\n###### CONTENT FOUND IN C FILES ######\n";
           else
-            echo -e "\n###### NOTHING FOUND IN CC/C++ FILES ######\n";
+            echo -e "\n###### NOTHING FOUND IN C FILES ######\n";
+          fi;
+          find . -type f -name "*.sh" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
+          if [ $? -eq 0 ]; then
+            echo -e "\n###### CONTENT FOUND IN SHELL FILES ######\n";
+          else
+            echo -e "\n###### NOTHING FOUND IN SHELL FILES ######\n";
+          fi;
+          find . -type f -name "*.mk" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
+          if [ $? -eq 0 ]; then
+            echo -e "\n###### CONTENT FOUND IN MAKE FILES ######\n";
+          else
+            echo -e "\n###### NOTHING FOUND IN MAKE FILES ######\n";
           fi;
           echo -e "Scanning Completed!\nText Locator Exiting!\n .....\n"
         fi;

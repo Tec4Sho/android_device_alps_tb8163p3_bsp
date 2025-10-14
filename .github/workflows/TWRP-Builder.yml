@@ -37,8 +37,8 @@ on:
         - boot
         - recovery
         - vendorboot
-      CPPCHECK_FILE:
-        description: 'CPPCHECK FILE'
+      CHECK_FILE:
+        description: 'CHECK FILE'
         type: string
         required: false
         default: ''

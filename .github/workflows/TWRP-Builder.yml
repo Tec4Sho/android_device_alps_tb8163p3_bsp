@@ -243,6 +243,9 @@ jobs:
               shellcheck --norc --severity=error --external-sources --check-sourced ${f} ${s};
             done;
           done;
+          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
+          echo -e "Total number of include file(s) checked is: $count2\n";
+          echo -e "Scanning Completed!\nShellcheck Exiting!\n .....\n";
         elif [ ${file_type} = 'Makefile' ] || [ ${file_type} = 'makefile' ] || [ ${file_type} = 'mk' ] && [[ -n ${files} ]]; then
           for f in ${files[@]}; do
             count4=((makefile_count++));
@@ -252,6 +255,9 @@ jobs:
               remake -n -v --debug --keep-going -I $(dirname ${m}) ${f};
             done;
           done;
+          echo -e "Total number of ${{ github.event.inputs.CPPCHECK_FILE }} file(s) checked is: $count\n";
+          echo -e "Total number of include file(s) checked is: $count2\n";
+          echo -e "Scanning Completed!\nRemake Exiting!\n .....\n";
         else
           find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CPPCHECK_FILE }}" {} \;
           if [ $? -eq 0 ]; then
@@ -474,7 +480,7 @@ jobs:
         else
           set +e
         fi
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && remake CONFIG_SECTION_MISMATCH_WARN_ONLY=y -${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_SECTION_MISMATCH_WARN_ONLY=y -${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
       continue-on-error: false
       

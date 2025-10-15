@@ -200,10 +200,10 @@ jobs:
         fi
         files=$(find ${GITHUB_WORKSPACE}/workspace -type f -name "${{ github.event.inputs.CHECK_FILE }}" -print);
         file_type=$(echo ${{ github.event.inputs.CHECK_FILE }} | sed 's/.*\.\([^.]*\)$/\1/');
-        file_count=0
-        include_count=0
-        makefile_count=0
-        shellcheck_count=0
+        file_count=1
+        include_count=1
+        makefile_count=1
+        shellcheck_count=1
         if [ ${file_type} = 'h' ] || [ ${file_type} = 'c' ] || [ ${file_type} = 'cpp' ] && [[ -n ${files} ]]; then
             echo -e "\nFound File Path(s): \n${files}\n";
             for f in ${files[@]}; do
@@ -225,7 +225,8 @@ jobs:
                     echo -e "\n###### CPPCHECK HEADER FILE ($count2) ######\n${i}\n";
                     cppcheck --verbose --force --enable=all --suppress=missingIncludeSystem --std=c++11 --report-progress ${header} ${f}
                   else
-                    echo -e "\n###### CPPCHECK HEADER FILE NOT FOUND ($count2) ######\n";
+                    echo -e "\n###### CPPCHECK ANALYZED ($count2) HEADER FILE(S) ######\n";
+                    break;
                   fi;
                 done;
               fi;
@@ -453,7 +454,7 @@ jobs:
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
           if [ !-f /usr/local/bin/c++ ]; then
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
-            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c99 "$@"' >> /usr/local/bin/c++
+            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++20 "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
             echo -e '\n/usr/bin/c++ file editing completed\n';
           else
@@ -476,6 +477,8 @@ jobs:
           export CONFIG_INIT_ENV_ARG_LIMIT=32
           export CROSS_COMPILE="arm-eabi-"
           export CONFIG_FS_ENCRYPTION=N
+          export CONFIG_DEBUG_SECTION_MISMATCH=y
+          #export CONFIG_SECTION_MISMATCH_WARN_ONLY=y
           export C_COMPILER_NAME=clang
           export CXX_COMPILER_NAME=clang++
           export COMPILER_VERSION=12
@@ -491,7 +494,12 @@ jobs:
       working-directory: workspace
       continue-on-error: true
 
-     # CONFIG_DEBUG_SECTION_MISMATCH=y
+    - name: Compiler INFO
+      run: |
+         gcc -v --help 2> /dev/null | grep -iv deprecated | sed -n '/^ *-std=\([^<][^ ]\+\).*/ {s//\1/p}';
+         echo -e "\n\n$(gcc -print-prog-name=cc1) --help | grep std";
+      continue-on-error: true
+
     - name: Building ${{ github.event.inputs.BUILD_TARGET }}
       run: |
         echo '##############'
@@ -499,11 +507,11 @@ jobs:
         source build/envsetup.sh
         if [ ${{ github.event.inputs.CHECK_FILE != '' }} ]; then
           set -o verbose
-          set -e
+          set +e
         else
           set +e
         fi
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_SECTION_MISMATCH_WARN_ONLY=y ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
       continue-on-error: false
       

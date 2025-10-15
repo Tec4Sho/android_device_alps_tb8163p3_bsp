@@ -271,7 +271,8 @@ jobs:
             echo -e "Total number of ${{ github.event.inputs.CHECK_FILE }} file(s) checked is: $count\n";
             echo -e "Scanning Completed!\nCheckfile Exiting!\n .....\n";
         elif [ ${file_type} = ${{ github.event.inputs.CHECK_FILE }} ]; then
-          finder=$(find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
+          finder=$(find ${GITHUB_WORKSPACE} -type f -name "*.cpp" | xargs grep -l "${{ github.event.inputs.CHECK_FILE }}");
+          #finder=$(find . -type f -name "*.cpp" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN C++ FILES ######\n";
@@ -279,7 +280,8 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN C++ FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
+          finder=$(find ${GITHUB_WORKSPACE} -type f -name "*.h" | xargs grep -l "${{ github.event.inputs.CHECK_FILE }}");
+          #finder=$(find . -type f -name "*.h" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN HEADER FILES ######\n";
@@ -287,7 +289,8 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN HEADER FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
+          finder=$(find ${GITHUB_WORKSPACE} -type f -name "*.c" | xargs grep -l "${{ github.event.inputs.CHECK_FILE }}");
+          #finder=$(find . -type f -name "*.c" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN C FILES ######\n";
@@ -295,7 +298,8 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN C FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.sh" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
+          finder=$(find ${GITHUB_WORKSPACE} -type f -name "*.sh" | xargs grep -l "${{ github.event.inputs.CHECK_FILE }}");
+          #finder=$(find . -type f -name "*.sh" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN SHELL FILES ######\n";
@@ -303,7 +307,8 @@ jobs:
           else
             echo -e "\n###### NOTHING FOUND IN SHELL FILES ######\n";
           fi;
-          finder=$(find . -type f -name "*.mk" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
+          finder=$(find ${GITHUB_WORKSPACE} -type f -name "*.mk" -o -iname "Makefile" | xargs grep -l "${{ github.event.inputs.CHECK_FILE }}");
+          #finder=$(find . -type f -name "*.mk" -exec grep -H "${{ github.event.inputs.CHECK_FILE }}" {} \;)
           if [[ -n ${finder} ]] && [ $? -eq 0 ]; then
             counter=$( echo -e "${finder}" | grep -c "$" );
             echo -e "\n###### ($counter) CONTENT MATCH(S) FOUND IN MAKE FILES ######\n";

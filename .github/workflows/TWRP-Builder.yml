@@ -191,7 +191,7 @@ jobs:
 
     - name: Check File
       if: github.event.inputs.check-file != ''
-      uses: actions/check-file@master
+      uses: Tec4Sho/check-file@master
       with:
         filename: ${{ github.event.inputs.check-file }}
         workspace: workspace

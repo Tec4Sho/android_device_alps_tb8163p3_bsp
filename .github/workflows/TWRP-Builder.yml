@@ -196,7 +196,6 @@ jobs:
         filename: ${{ github.event.inputs.check-file }}
         dirname: workspace
         rootdir: false
-        publish: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
       continue-on-error: true
       
     - name: Prepare The Environment

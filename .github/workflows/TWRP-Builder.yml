@@ -195,6 +195,7 @@ jobs:
       with:
         filename: ${{ github.event.inputs.check-file }}
         workspace: workspace
+        rootdir: false
         publish: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
       continue-on-error: true
       

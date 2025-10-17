@@ -196,6 +196,7 @@ jobs:
         filename: ${{ github.event.inputs.check-file }}
         dirname: workspace
         rootdir: false
+        content: true
       continue-on-error: true
       
     - name: Prepare The Environment

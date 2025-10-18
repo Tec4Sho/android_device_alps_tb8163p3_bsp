@@ -9,14 +9,9 @@ on:
         default: ''
         
 jobs:
-  test_run:
+  test:
     name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
-    env:
-      GITHUB_TOKEN: ${{ secrets.TWRP }}
-    permissions:
-      contents: write
     steps:
     
     - name: Create Workspace

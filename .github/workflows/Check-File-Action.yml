@@ -1,0 +1,69 @@
+name: Check File Deploy 2025
+on:
+  workflow_dispatch:
+    inputs:
+      DEVICE_TREE:
+        description: 'DEVICE TREE'
+        required: true
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
+      DEVICE_TREE_BRANCH:
+        description: 'DEVICE TREE BRANCH'
+        required: true
+        default: 'android-9.0'
+      DEVICE_PATH:
+        description: 'DEVICE PATH'
+        required: true
+        default: 'device/alps/tb8163p3_bsp'
+      check-file:
+        description: 'CPPCHECK FILE'
+        type: string
+        required: false
+        default: ''
+        
+jobs:
+  build:
+    name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+      GITHUB_TOKEN: ${{ secrets.TWRP }}
+    permissions:
+      contents: write
+    steps:
+    
+    - name: Create Workspace
+      run: |
+        mkdir -p ${GITHUB_WORKSPACE}/workspace
+        set -o allexport
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+        export TARGET_FORCE_PREBUILT_KERNEL=false
+        echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
+        if [[ `which git` ]]; then
+          echo -e "\n`git --version`\n";
+          git config --global core.longpaths true
+          git config --global core.protectNTFS false
+          git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
+          git config --global http.lowSpeedLimit 0      # Disable low speed limit
+          git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
+        else
+          echo -e "\nGit needed installing now....\n";
+          sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq git >/dev/null;
+          git config --global core.longpaths true
+          git config --global core.protectNTFS false
+          git config --global http.postBuffer 524288000 # Increase post buffer size (example value in bytes)
+          git config --global http.lowSpeedLimit 0      # Disable low speed limit
+          git config --global http.lowSpeedTime 999999  # Increase low speed time threshold
+        fi
+        set +e
+      continue-on-error: true
+        
+     - name: Check File
+       if: inputs.check-file != ''
+       uses: Tec4Sho/check-file-action@master
+       with:
+         filename: ${{ inputs.check-file }}
+         dirname: workspace
+         rootdir: false
+         content: true
+       continue-on-error: true
+          

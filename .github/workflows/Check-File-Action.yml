@@ -9,11 +9,13 @@ on:
         default: ''
         
 jobs:
-  test:
-    name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
-    runs-on: ubuntu-22.04
-    steps:
-    
+  defaults:
+  run:
+    shell: bash
+    working-directory: workspace
+  name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
+  runs-on: ubuntu-22.04
+  steps:    
     - name: Create Workspace
       run: |
         mkdir -p ${GITHUB_WORKSPACE}/workspace

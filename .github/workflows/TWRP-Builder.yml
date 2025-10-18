@@ -330,26 +330,27 @@ jobs:
         export USE_NINJA=true
         export ALLOW_MISSING_DEPENDENCIES=true
         export LLVM_ENABLE_THREADS=ON
-        export BOARD_VNDK_RUNTIME_DISABLE=false
+        export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         if [ ${{ env.PREBUILT_KERNEL }} == false ]; then
           if [ !-f /usr/local/bin/c++ ]; then
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
-            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++20 "$@"' >> /usr/local/bin/c++
+            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++17 "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
             echo -e '\n/usr/bin/c++ file editing completed\n';
           else
             sudo rm -f /usr/local/bin/c++
             sudo echo '#!/bin/sh' >> /usr/local/bin/c++
-            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++20 "$@"' >> /usr/local/bin/c++
+            sudo echo '/usr/bin/c++ -O2 -W -Wall -std=c++17 "$@"' >> /usr/local/bin/c++
             sudo chmod a+x /usr/local/bin/c++ 2>/dev/null;
             echo -e '\n/usr/bin/c++ file edited already\n';
           fi
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r)
           export BRANCH=android-9.0
           export CPU_SSE42=false
-          export CLANG_TRIPLE=arm-linux-gnu-
-          export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+          export DEBUG_KERNEL=y
+          #export CLANG_TRIPLE=arm-linux-gnu-
+          #export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
           export DEFCONFIG=tb8163p3_bsp_defconfig
           export KERNEL_DIR=kernel/alps/tb8163p3_bsp
           export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
@@ -367,32 +368,33 @@ jobs:
           export CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
           alias compiler=$C_COMPILER_NAME
           alias compiler.version=$COMPILER_VERSION
-          alias compiler.libcxx=libstdc++-10-dev
-          alias std=c++20
+          alias compiler.libcxx=libstdc*
+          alias std=c++17
           alias cc=$CC
           alias c++="$CXX -O2 -W -Wall -std=$std"
         fi
       working-directory: workspace
       continue-on-error: true
 
-    - name: Compiler INFO
+    - name: System Compilers
       run: |
          gcc -v --help 2> /dev/null | grep -iv deprecated | sed -n '/^ *-std=\([^<][^ ]\+\).*/ {s//\1/p}';
-         echo -e "\n\n$(gcc -print-prog-name=cc1) --help | grep std";
+         echo -e "\nExtras:\n";
+         gcc -print-prog-name=cc1 --help | grep "std" 2>/dev/null;
       continue-on-error: true
 
     - name: Building ${{ github.event.inputs.BUILD_TARGET }}
       run: |
-        echo '##############'
+        echo '#########################################';
         echo "Started Build: ${{ github.event.repository.updated_at }}"
         source build/envsetup.sh
-        if [ ${{ github.event.inputs.CHECK_FILE != '' }} ]; then
+        if [ ${{ github.event.inputs.check-file != '' }} ]; then
           set -o verbose
-          set +e
+          set -e
         else
           set +e
         fi
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_DEBUG_SECTION_MISMATCH=y ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_DEBUG_SECTION_MISMATCH=y DEBUG_KERNEL=y v=1 ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
       continue-on-error: false
       

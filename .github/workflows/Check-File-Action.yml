@@ -15,7 +15,9 @@ jobs:
     working-directory: workspace
   name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
   runs-on: ubuntu-22.04
-  steps:    
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
     - name: Create Workspace
       run: |
         mkdir -p ${GITHUB_WORKSPACE}/workspace

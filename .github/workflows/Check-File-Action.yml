@@ -9,10 +9,10 @@ on:
   workflow_dispatch: # Allows manual triggering from the Actions tab
     inputs:
       check-file:
-      description: 'CPPCHECK FILE'
-      type: string
-      required: false
-      default: ''
+        description: 'CPPCHECK FILE'
+        type: string
+        required: false
+        default: ''
 
 jobs:
   build-and-test:

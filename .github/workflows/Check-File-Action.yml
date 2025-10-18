@@ -1,19 +1,7 @@
 name: Check File Deploy 2025
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      DEVICE_TREE:
-        description: 'DEVICE TREE'
-        required: true
-        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
-      DEVICE_TREE_BRANCH:
-        description: 'DEVICE TREE BRANCH'
-        required: true
-        default: 'android-9.0'
-      DEVICE_PATH:
-        description: 'DEVICE PATH'
-        required: true
-        default: 'device/alps/tb8163p3_bsp'
       check-file:
         description: 'CPPCHECK FILE'
         type: string
@@ -21,7 +9,7 @@ on:
         default: ''
         
 jobs:
-  build:
+  test_run:
     name: By ${{ github.actor }} ~ ${{ github.event.repository.updated_at }}
     runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id

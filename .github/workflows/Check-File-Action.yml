@@ -1,12 +1,12 @@
 name: Check File Deploy 2025
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       check-file:
-        description: 'CPPCHECK FILE'
-        type: string
-        required: false
-        default: ''
+      description: 'CPPCHECK FILE'
+      type: string
+      required: false
+      default: ''
         
 jobs:
   build:

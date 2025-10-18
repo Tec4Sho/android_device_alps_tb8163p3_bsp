@@ -1,17 +1,11 @@
 name: Check File Deploy 2025
 on:
-  push:
-    branches:
-      - android-9.0
-  pull_request:
-    branches:
-      - android-9.0
   workflow_dispatch: # Allows manual triggering from the Actions tab
     inputs:
       check-file:
-        description: 'CPPCHECK FILE'
+        description: 'CHECK FILE'
         type: string
-        required: false
+        required: true
         default: ''
 
 jobs:

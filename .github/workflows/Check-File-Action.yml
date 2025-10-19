@@ -7,6 +7,18 @@ on:
         type: string
         required: true
         default: ''
+      DEVICE_TREE:
+        description: 'DEVICE TREE'
+        required: true
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
+      DEVICE_TREE_BRANCH:
+        description: 'DEVICE TREE BRANCH'
+        required: true
+        default: 'android-9.0'
+      DEVICE_PATH:
+        description: 'DEVICE PATH'
+        required: true
+        default: 'device/alps/tb8163p3_bsp'
 
 jobs:
   build-and-test:
@@ -37,7 +49,15 @@ jobs:
           fi
           set +e
         continue-on-error: true
-        
+
+      - name: Clone Recovery Repo
+        if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
+          ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
+
       - name: Check File
         if: inputs.check-file != ''
         uses: Tec4Sho/check-file-action@master

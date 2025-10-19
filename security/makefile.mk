@@ -53,8 +53,8 @@ obj-$(CONFIG_MTK_HWMON)	    += hwmon/
 obj-$(CONFIG_CUSTOM_KERNEL_ALSPS) += alsps/
 obj-$(CONFIG_CUSTOM_KERNEL_ACCELEROMETER) += accelerometer/
 obj-$(CONFIG_CUSTOM_KERNEL_GYROSCOPE) += gyroscope/
-endif
-#endif
+##endif
+##endif
 
 obj-$(CONFIG_MTK_VIBRATOR)	+= vibrator/
 obj-y += irtx/

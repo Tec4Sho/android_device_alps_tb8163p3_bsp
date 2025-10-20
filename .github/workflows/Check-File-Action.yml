@@ -66,4 +66,5 @@ jobs:
           dirname: workspace
           rootdir: false
           content: true
+          include: true
         continue-on-error: true

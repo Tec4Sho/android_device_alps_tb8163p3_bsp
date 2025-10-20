@@ -50,6 +50,10 @@ jobs:
           set +e
         continue-on-error: true
 
+      - name: Check Workspace
+        run: |
+          du . -h -d 8
+
       - name: Clone Recovery Repo
         if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v4
@@ -60,7 +64,7 @@ jobs:
 
       - name: Check Workspace
         run: |
-          du . -h -d 4
+          du . -h -d 6
           
       - name: Check File
         if: inputs.check-file != ''

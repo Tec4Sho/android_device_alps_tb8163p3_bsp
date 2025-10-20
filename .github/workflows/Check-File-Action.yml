@@ -58,6 +58,10 @@ jobs:
           path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
           ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
 
+      - name: Check Workspace
+        run: |
+          du . -h -d 4
+          
       - name: Check File
         if: inputs.check-file != ''
         uses: Tec4Sho/check-file-action@master

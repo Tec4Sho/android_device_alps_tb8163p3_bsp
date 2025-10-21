@@ -52,7 +52,16 @@ jobs:
 
       - name: Check Workspace
         run: |
-          du . -h -d 8
+          du . -h -d 4
+
+    # Setup triple clone start
+      - name: Clone Kernel Repo
+        if: steps.restore-workspace-cache.outputs.cache-hit != 'true' && env.PREBUILT_KERNEL == 'false'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.actor }}/android_kernel_mt8163
+          path: ./workspace/kernel/alps/tb8163p3_bsp
+          ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
 
       - name: Clone Recovery Repo
         if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
@@ -64,7 +73,7 @@ jobs:
 
       - name: Check Workspace
         run: |
-          du . -h -d 6
+          du . -h -d 8
           
       - name: Check File
         if: inputs.check-file != ''

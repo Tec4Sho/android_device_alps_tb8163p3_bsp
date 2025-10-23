@@ -80,6 +80,7 @@ jobs:
         uses: Tec4Sho/check-file-action@master
         with:
           filename: ${{ inputs.check-file }}
+          filetype: .c
           dirname: workspace
           rootdir: false
           content: true

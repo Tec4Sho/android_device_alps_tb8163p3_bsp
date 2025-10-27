@@ -77,7 +77,7 @@ jobs:
           
       - name: Check File
         if: inputs.check-file != ''
-        uses: Tec4Sho/check-file-action@master
+        uses: Tec4Sho/check-file-action@v2
         with:
           filename: ${{ inputs.check-file }}
           #filetype: .c .h

@@ -5,7 +5,12 @@ on:
       check-file:
         description: 'CHECK FILE'
         type: string
-        required: true
+        required: false
+        default: ''
+      check-text:
+        description: 'CHECK TEXT'
+        type: string
+        required: false
         default: ''
       DEVICE_TREE:
         description: 'DEVICE TREE'
@@ -80,6 +85,7 @@ jobs:
         uses: Tec4Sho/check-file-action@v2
         with:
           filename: ${{ inputs.check-file }}
+          textword: ${{ inputs.check-text }}
           #filetype: .c .h
           clangfix: true
           #dirname: workspace

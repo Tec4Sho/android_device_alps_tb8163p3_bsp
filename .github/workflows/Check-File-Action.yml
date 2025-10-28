@@ -81,11 +81,11 @@ jobs:
           du . -h -d 8
           
       - name: Check File
-        if: inputs.check-file != ''
+        if: inputs.checkfile != '' || inputs.checktext != ''
         uses: Tec4Sho/check-file-action@v2
         with:
-          filename: ${{ inputs.check-file }}
-          filetext: ${{ inputs.check-text }}
+          filename: ${{ inputs.checkfile }}
+          filetext: ${{ inputs.checktext }}
           #filetype: .c .h
           clangfix: true
           dirname: workspace

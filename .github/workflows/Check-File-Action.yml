@@ -2,12 +2,12 @@ name: Check File Deploy 2025
 on:
   workflow_dispatch: # Allows manual triggering from the Actions tab
     inputs:
-      check-file:
+      checkfile:
         description: 'CHECK FILE'
         type: string
         required: true
         default: ''
-      check-text:
+      checktext:
         description: 'CHECK TEXT'
         type: string
         required: true
@@ -85,7 +85,7 @@ jobs:
         uses: Tec4Sho/check-file-action@v2
         with:
           filename: ${{ inputs.check-file }}
-          wordtext: ${{ inputs.check-text }}
+          filetext: ${{ inputs.check-text }}
           #filetype: .c .h
           clangfix: true
           dirname: workspace

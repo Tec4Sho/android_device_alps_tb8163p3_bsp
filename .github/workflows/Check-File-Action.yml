@@ -5,12 +5,12 @@ on:
       check-file:
         description: 'CHECK FILE'
         type: string
-        required: false
+        required: true
         default: ''
       check-text:
         description: 'CHECK TEXT'
         type: string
-        required: false
+        required: true
         default: ''
       DEVICE_TREE:
         description: 'DEVICE TREE'

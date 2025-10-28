@@ -85,7 +85,7 @@ jobs:
         uses: Tec4Sho/check-file-action@v2
         with:
           filename: ${{ inputs.check-file }}
-          textword: ${{ inputs.check-text }}
+          wordtext: ${{ inputs.check-text }}
           #filetype: .c .h
           clangfix: true
           dirname: workspace

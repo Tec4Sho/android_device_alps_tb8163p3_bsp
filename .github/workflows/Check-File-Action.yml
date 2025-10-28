@@ -81,8 +81,8 @@ jobs:
         with:
           filename: ${{ inputs.check-file }}
           #filetype: .c .h
-          clangtidy: true
-          dirname: workspace
+          clangfix: true
+          #dirname: workspace
           rootdir: false
           content: true
           include: true

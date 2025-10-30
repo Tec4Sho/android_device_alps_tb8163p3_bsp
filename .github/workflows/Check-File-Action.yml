@@ -92,5 +92,5 @@ jobs:
           rootdir: false
           content: true
           include: true
-          remote: false
+          update: true
         continue-on-error: true

@@ -67,7 +67,7 @@ jobs:
           repository: ${{ github.actor }}/android_kernel_mt8163
           path: ./workspace/kernel/alps/tb8163p3_bsp
           ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
-
+          clean: false
       - name: Clone Recovery Repo
         if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v4
@@ -75,7 +75,6 @@ jobs:
           repository: ${{ github.repository }}
           path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
           ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
-
       - name: Check Workspace
         run: |
           du . -h -d 8

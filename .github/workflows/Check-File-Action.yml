@@ -75,11 +75,11 @@ jobs:
           filename: ${{ inputs.checkfile }}
           filetext: ${{ inputs.checktext }}
           #filetype: .c .h
-          clangfix: true
+          clangfix: false
           dirname: workspace
           rootdir: false
           content: true
           include: true
-          update: true
+          update: false
           report: true
         continue-on-error: true

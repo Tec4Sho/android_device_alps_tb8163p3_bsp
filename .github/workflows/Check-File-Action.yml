@@ -62,7 +62,6 @@ jobs:
           repository: ${{ github.repository }}
           path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
           ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
-          clean: false
           
       - name: Check Workspace
         run: |

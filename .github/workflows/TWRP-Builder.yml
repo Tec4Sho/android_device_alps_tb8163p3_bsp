@@ -373,21 +373,6 @@ jobs:
          gcc -print-prog-name=cc1 --help | grep "std" 2>/dev/null;
       continue-on-error: true
 
-    - name: Building ${{ github.event.inputs.BUILD_TARGET }}
-      run: |
-        echo '#########################################';
-        echo "Started Build: ${{ github.event.repository.updated_at }}"
-        source build/envsetup.sh
-        if [ ${{ github.event.inputs.check-file != '' }} ]; then
-          set -o verbose
-          set -e
-        else
-          set +e
-        fi
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_DEBUG_SECTION_MISMATCH=y DEBUG_KERNEL=y v=1 ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
-      working-directory: workspace
-      continue-on-error: false
-
     - name: Check File
       uses: Tec4Sho/check-file-action@v2
       with:

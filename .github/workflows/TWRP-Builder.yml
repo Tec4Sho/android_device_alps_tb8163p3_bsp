@@ -249,7 +249,7 @@ jobs:
       continue-on-error: false
 
     - name: Install Python 2
-      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1' && github.event.inputs.MANIFEST_BRANCH != 'twrp-14' && steps.cache-build-restore.outputs.cache-hit != 'true'
+      if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1' && github.event.inputs.MANIFEST_BRANCH != 'twrp-14' && steps.restore-workspace-cache.outputs.cache-hit
       run: |
         sudo apt-get -yq install python2 >/dev/null
         cd /usr/bin
@@ -391,15 +391,16 @@ jobs:
     - name: Check File
       uses: Tec4Sho/check-file-action@v2
       with:
+        repository: false
         analyzer: 0
-        makefile: ${{ env.DEVICE_MAKEFILE }}-eng 
+        makefile: workspace/${{ github.event.inputs.DEVICE_PATH }}/${{ env.DEVICE_MAKEFILE }}-eng 
         filename: ${{ github.event.inputs.BUILD_TARGET }}image
         filetype: c
         database: true
         absolute: true
         pattern: ''
         project: true
-        dirname: ''
+        dirname: 'workspace/kernel/alps/tb8163p3_bsp'
         content: true
         include: true
         recheck: false
@@ -414,7 +415,7 @@ jobs:
         build: 1
         clean: true
         cache: false
-      continue-on-error: false  
+      continue-on-error: false
       
     - name: Build Date ${{ github.event.repository.updated_at }} # Output will be use in Release
       run: |

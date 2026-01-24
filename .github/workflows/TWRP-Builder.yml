@@ -188,17 +188,6 @@ jobs:
         echo "COMMIT_ID=$calculatedSha" >> $GITHUB_ENV
       working-directory: workspace
       continue-on-error: true
-
-    - name: Check File
-      if: github.event.inputs.check-file != ''
-      uses: Tec4Sho/check-file-action@master
-      with:
-        filename: ${{ github.event.inputs.check-file }}
-        dirname: workspace
-        rootdir: false
-        content: true
-        include: true
-      continue-on-error: true
       
     - name: Prepare The Environment
       run: |
@@ -398,6 +387,34 @@ jobs:
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make CONFIG_DEBUG_SECTION_MISMATCH=y DEBUG_KERNEL=y v=1 ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
       continue-on-error: false
+
+    - name: Check File
+      uses: Tec4Sho/check-file-action@v2
+      with:
+        analyzer: 0
+        makefile: ${{ env.DEVICE_MAKEFILE }}-eng 
+        filename: ${{ github.event.inputs.BUILD_TARGET }}image
+        filetype: c
+        database: true
+        absolute: true
+        pattern: ''
+        project: true
+        dirname: ''
+        content: true
+        include: true
+        recheck: false
+        repair: false
+        report: true
+        update: false
+        upload: true
+        source: 0
+        stored: true
+        number: 0
+        output: 1
+        build: 1
+        clean: true
+        cache: false
+      continue-on-error: false  
       
     - name: Build Date ${{ github.event.repository.updated_at }} # Output will be use in Release
       run: |

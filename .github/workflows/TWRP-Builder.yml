@@ -382,7 +382,7 @@ jobs:
         filename: ${{ github.event.inputs.BUILD_TARGET }}image
         filetype: c
         database: true
-        absolute: true
+        absolute: false
         pattern: ''
         project: true
         dirname: 'workspace/kernel/alps/tb8163p3_bsp'

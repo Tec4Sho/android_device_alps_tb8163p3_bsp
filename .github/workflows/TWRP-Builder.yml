@@ -277,7 +277,8 @@ jobs:
             echo "DEVICE_MAKEFILE=omni_${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
         else
             echo "No build makefile file found!"
-            exit 1
+            echo "DEVICE_MAKEFILE=0" >> $GITHUB_ENV
+            exit
         fi
       working-directory: workspace
 
@@ -378,14 +379,14 @@ jobs:
       with:
         repository: false
         analyzer: 0
-        makefile: workspace/${{ github.event.inputs.DEVICE_PATH }}/${{ env.DEVICE_MAKEFILE }}-eng 
+        makefile: ${{ env.DEVICE_MAKEFILE }}-eng 
         filename: ${{ github.event.inputs.BUILD_TARGET }}image
         filetype: c
         database: true
         absolute: false
         pattern: ''
         project: true
-        dirname: 'workspace/kernel/alps/tb8163p3_bsp'
+        dirname: workspace/${{ github.event.inputs.DEVICE_PATH }} # 'workspace/kernel/alps/tb8163p3_bsp'
         content: true
         include: true
         recheck: false

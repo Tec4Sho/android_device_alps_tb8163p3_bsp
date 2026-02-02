@@ -386,7 +386,7 @@ jobs:
         absolute: false
         pattern: ''
         project: true
-        dirname: workspace/${{ github.event.inputs.DEVICE_PATH }} # 'workspace/kernel/alps/tb8163p3_bsp'
+        dirname: workspace # 'workspace/kernel/alps/tb8163p3_bsp'
         content: true
         include: true
         recheck: false

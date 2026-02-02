@@ -1,0 +1,23 @@
+analyze:
+  - --analyzers=clangsa
+  - --disable-all
+  - --enable=sensitive
+  - --no-missing-checker-error
+  - --report-hash=diagnostic-message
+  - --drop-reports-from-skipped-files
+  - --ignore=skip.txt
+  - --verbose=info
+  - --clean
+
+parse:
+  - --trim-path-prefix=${GITHUB_WORKSPACE}/reports
+  - --print-steps
+
+server:
+  - --workspace=${GITHUB_WORKSPACE}/reports
+  - --port=9090
+
+store:
+  - --name=run_name
+  - --tag=my_tag
+  - --url=http://codechecker.my:9090/MyProject

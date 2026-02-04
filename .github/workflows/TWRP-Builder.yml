@@ -323,7 +323,7 @@ jobs:
         export LLVM_ENABLE_THREADS=ON
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        echo 'export TARGET_FORCE_PREBUILT_KERNEL=true' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export TARGET_FORCE_PREBUILT_KERNEL=false' | sudo tee -a ~/.bashrc >/dev/null;
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) >/dev/null 2>&1;
           export BRANCH=android-9.0
           export CPU_SSE42=false
@@ -416,7 +416,7 @@ jobs:
             echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
         else
             echo "ERROR: No ${{ github.event.inputs.BUILD_TARGET }} image found! Exiting ...."
-            exit 1
+            exit
         fi
       working-directory: workspace
         

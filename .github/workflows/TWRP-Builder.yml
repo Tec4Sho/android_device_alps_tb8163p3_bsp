@@ -356,9 +356,9 @@ jobs:
 
     - name: System Compilers
       run: |
-         gcc -v --help 2> /dev/null | grep -iv deprecated | sed -n '/^ *-std=\([^<][^ ]\+\).*/ {s//\1/p}';
-         echo -e "\nExtras:\n";
-         gcc -print-prog-name=cc1 --help | grep "std" 2>/dev/null;
+        gcc -v --help 2> /dev/null | grep -iv deprecated | sed -n '/^ *-std=\([^<][^ ]\+\).*/ {s//\1/p}';
+        echo -e "\nExtras:\n";
+        # gcc -print-prog-name=cc1 --help | grep "std" 2>/dev/null;
       continue-on-error: true
 
     - name: Check File
@@ -416,7 +416,7 @@ jobs:
             echo "MD5_IMG=$(md5sum out/target/product/${{ github.event.inputs.DEVICE_NAME }}/vendor_boot.img | cut -d ' ' -f 1)" >> $GITHUB_ENV
         else
             echo "ERROR: No ${{ github.event.inputs.BUILD_TARGET }} image found! Exiting ...."
-            exit
+            exit 0
         fi
       working-directory: workspace
         

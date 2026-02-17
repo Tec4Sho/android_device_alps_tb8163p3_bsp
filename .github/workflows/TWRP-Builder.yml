@@ -378,6 +378,7 @@ jobs:
         filetype: c
         database: true
         absolute: false
+        internal: true
         pattern: ''
         project: true
         dirname: workspace # 'workspace/kernel/alps/tb8163p3_bsp'
@@ -392,9 +393,11 @@ jobs:
         stored: true
         number: 0
         output: 1
-        build: 1
+        module: true
+        build: 5
         clean: true
         cache: false
+        arch: arm
       continue-on-error: false
       
     - name: Build Date ${{ github.event.repository.updated_at }} # Output will be use in Release

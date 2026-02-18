@@ -197,7 +197,7 @@ jobs:
         sudo apt-get -yq dist-upgrade
         sudo add-apt-repository universe
         sudo apt-get -yq install libncurses5 libtinfo5
-        sudo mkdir -p /usr/local/lib/android
+        sudo mkdir -p /usr/local/lib/android/sdk
       continue-on-error: true
 
     - name: Install OpenJDK
@@ -246,6 +246,7 @@ jobs:
       if: steps.restore-workspace-cache.outputs.cache-hit != 'true' 
       run: |
         repo sync -c -j$(nproc --all) --force-sync
+        repo sync -c external/skia --force-sync
       working-directory: workspace
       continue-on-error: false
 

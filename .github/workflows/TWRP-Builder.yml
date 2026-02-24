@@ -397,6 +397,8 @@ jobs:
         build: 5
         clean: true
         cache: false
+        limit: 200
+        linux: false
         arch: arm
       continue-on-error: false
       

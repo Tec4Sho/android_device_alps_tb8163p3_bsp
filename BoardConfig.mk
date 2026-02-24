@@ -78,7 +78,7 @@ CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
 BOARD_RAMDISK_USE_LZMA := true
 LZMA_RAMDISK_TARGETS := recovery boot
 BOARD_RAMDISK_COMPRESSED := lzma-9
-
+TARGET_FORCE_PREBUILT_KERNEL := false
 
 # Kernel - prebuilt
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
@@ -220,10 +220,10 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
 else
   TW_OEM_BUILD := false
   TW_THEME := portrait_mdpi
-  #TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
-  #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
-  #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  #TWRP_NEW_THEME := true
+  TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
+  TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -232,8 +232,8 @@ else
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
   #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
+  BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   TARGET_SCREEN_WIDTH := 600         
   # TW Offset X Y

@@ -352,6 +352,10 @@ jobs:
           alias std=c++17
           alias cc=$CC
           alias c++="$CXX -O2 -W -Wall -std=$std"
+          dtbo1=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'mt8163_dtbo.dts')
+          dtbo2=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts')
+          [[ -d $dtbo2 ]] && cd "$dtbo2"
+          sudo ln -vsf "$dtbo1" "mt8163_dtbo.dts"
       working-directory: workspace
       continue-on-error: true
 

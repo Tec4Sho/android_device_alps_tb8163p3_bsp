@@ -358,6 +358,12 @@ jobs:
             sudo ln -vsf "$source_64" "$target_dir/tb8163p3_bsp.dts"
             echo "Linked $source_64 to $target_dir/tb8163p3_bsp.dts"
           fi;
+          source_64=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'tb8163p3_64_k49_bat_setting.dtsi' | head -n 1);
+          target_dir=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'bat_setting' | head -n 1);
+          if [[ -f "$source_64" && -d "$target_dir" ]]; then
+            sudo ln -vsf "$source_64" "$target_dir/tb8163p3_64_k49_bat_setting"
+            echo "Linked $source_64 to $target_dir/tb8163p3_64_k49_bat_setting"
+          fi;
           dtbo1=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'mt8163_dtbo.dts')
           dtbo2=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts')
           [[ -d $dtbo2 ]] && cd "$dtbo2"

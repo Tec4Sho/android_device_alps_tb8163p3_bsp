@@ -354,10 +354,12 @@ jobs:
           alias c++="$CXX -O2 -W -Wall -std=$std"
           avb=$(find $GITHUB_WORKSPACE -path '*/external/avb/*' -type f -name 'avbtool' | head -n 1);
           if [[ -f "$avb" ]]; then
-            sed -i 's/2L\*\*/2\*\*/g' "$avb";
-            sed -i 's/print "\(.*\)"/print("\1")/g' "$avb";
-            sed -i 's/print \(.*\)/print(\1)/g' "$avb";
-            echo "Fixed avbtool at: $avb";
+            # sed -i 's/2L\*\*/2\*\*/g' "$avb";
+            # sed -i 's/print "\(.*\)"/print("\1")/g' "$avb";
+            # sed -i 's/print \(.*\)/print(\1)/g' "$avb";
+            # echo "Fixed avbtool at: $avb";
+            sed -i '1s|.*|#!/usr/bin/env python2|' "$avb";
+            echo "Forced avbtool to use Python 2 at: $avb";
           fi;
           source_64=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'tb8163p3_64_k49.dts' | head -n 1);
           target_dir=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts' | head -n 1);

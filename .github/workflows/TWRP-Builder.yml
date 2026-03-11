@@ -352,6 +352,8 @@ jobs:
           alias std=c++17
           alias cc=$CC
           alias c++="$CXX -O2 -W -Wall -std=$std"
+          avb=$(find $GITHUB_WORKSPACE -path '*/external/avb/*' -type f -name 'avbtool' | head -n 1);
+          [[ -f "$avb" ]] && sed -i 's/2L\*\*32/2\*\*32/g' "$avb" && echo "AVB edited for build: $avb"
           source_64=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'tb8163p3_64_k49.dts' | head -n 1);
           target_dir=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts' | head -n 1);
           if [[ -f "$source_64" && -d "$target_dir" ]]; then
@@ -368,7 +370,7 @@ jobs:
           fi;
           dtbo1=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'mt8163_dtbo.dts')
           dtbo2=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts')
-          [[ -d $dtbo2 ]] && cd "$dtbo2"
+          [[ -d "$dtbo2" ]] && cd "$dtbo2"
           sudo ln -vsf "$dtbo1" "mt8163_dtbo.dts"
       working-directory: workspace
       continue-on-error: true

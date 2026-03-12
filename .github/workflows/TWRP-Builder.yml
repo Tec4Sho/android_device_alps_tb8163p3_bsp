@@ -406,7 +406,7 @@ jobs:
         database: true
         absolute: false
         internal: true
-        pattern: ''
+        pattern: ${{ inputs.check-file }}
         project: true
         dirname: workspace # 'workspace/kernel/alps/tb8163p3_bsp'
         content: true

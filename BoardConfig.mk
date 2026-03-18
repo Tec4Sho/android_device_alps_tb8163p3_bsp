@@ -53,7 +53,7 @@ TARGET_SCREEN_DENSITY := 160
 # Kernel     # 0x00C3DA00
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_FORCE_PREBUILT_KERNEL := false
+TARGET_FORCE_PREBUILT_KERNEL := true
 BOARD_INCLUDE_RECOVERY_DTBO := true
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 BOARD_PREBUILT_RECOVERY_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
@@ -61,13 +61,13 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 BOARD_RECOVERY_NEEDS_T_TOUCH := true
-TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
-TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
+# TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
+# TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
 CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
 
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive # androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_DTBO_SIZE := 40393
 BOARD_RAMDISK_OFFSET := 0x15000000
@@ -95,8 +95,8 @@ BOARD_RAMDISK_COMPRESSED := lzma-9
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
   KERNEL_PATH := $(DEVICE_PATH)/prebuilt
   DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
-  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel
-  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel
+  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel-mtk
+  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel-mtk
   BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PREBUILT_PATH)/dtbo.img
   BOARD_KERNEL_SEPARATED_DTBO :=
 endif

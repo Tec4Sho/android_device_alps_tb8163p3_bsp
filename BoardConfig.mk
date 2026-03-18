@@ -53,7 +53,7 @@ TARGET_SCREEN_DENSITY := 160
 # Kernel     # 0x00C3DA00
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_FORCE_PREBUILT_KERNEL := true
+TARGET_FORCE_PREBUILT_KERNEL := false
 BOARD_INCLUDE_RECOVERY_DTBO := true
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 BOARD_PREBUILT_RECOVERY_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
@@ -61,8 +61,8 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 BOARD_RECOVERY_NEEDS_T_TOUCH := true
-# TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
-# TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
+TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
+TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
 CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
 BOARD_USES_MTK_HEADER := true
 BOARD_BOOTIMG_HEADER_VERSION := 1
@@ -223,12 +223,12 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 else
-  TW_OEM_BUILD := false
-  TW_THEME := portrait_mdpi
+  TW_OEM_BUILD := true
+  TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := true
+  TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -237,8 +237,8 @@ else
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
   #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
+  #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
+  #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   TARGET_SCREEN_WIDTH := 600         
   # TW Offset X Y

@@ -270,16 +270,16 @@ TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 TW_ENABLE_ALL_PARTITION_TOOLS := true
 
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
-BOARD_USES_GENERIC_KERNEL_IMAGE := true
+BOARD_USES_GENERIC_KERNEL_IMAGE := false
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
-#TW_LOAD_VENDOR_MODULES := "*"
+# TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+# TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
-TW_LOAD_VENDOR_BOOT_MODULES := true
+TW_LOAD_VENDOR_BOOT_MODULES := false
 TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
 # To fix temperature showing 0 degree and battery on 100% all the time

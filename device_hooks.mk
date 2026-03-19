@@ -10,6 +10,13 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)
 	# Run your specific syntax: tool + zImage + config > output
 	$(MY_MKIMAGE) $(recovery_kernel) $(MTK_KERNEL_CFG) > $(recovery_kernel).mtk
 	# Replace the original kernel with the patched version for mkbootimg
-	mv $(recovery_kernel).mtk $(recovery_kernel)
+    # Safety check: if the .mtk file is valid, overwrite the original kernel
+	@if [ -s $(recovery_kernel).mtk ]; then \
+		mv $(recovery_kernel).mtk $(recovery_kernel); \
+		echo "--- MTK Header Applied Successfully ---"; \
+	else \
+		echo "--- ERROR: mkimage failed to create patched kernel ---"; \
+		exit 1; \
+	fi
 	@echo "--- MTK Kernel Patching Complete ---"
 

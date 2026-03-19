@@ -1,14 +1,15 @@
 # device/alps/tb8163p3_bsp/device_hooks.mk
 
-# This rule tells the build system to run your script 
-# whenever the recovery image is being prepared.
-$(INSTALLED_RECOVERYIMAGE_TARGET): .KATI_IMPLICIT_OUTPUTS := $(recovery_kernel).patched
+# Define the path to your config and mkimage tool
+MY_MKIMAGE := $(HOST_OUT_EXECUTABLES)/mkimage
+MTK_KERNEL_CFG := device/alps/tb8163p3_bsp/mtk_kernel.cfg
 
-# We add a custom command to the existing recovery image recipe
-# $(recovery_kernel) usually points to $(PRODUCT_OUT)/kernel
-$(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel)
-	@echo "--- Patching Kernel for Recovery with mkimage ---"
-	# Example mkimage command (adjust arguments for your specific header needs)
-	mkimage -A arm -O linux -T kernel -C none -a 0x40008000 -e 0x40008000 -n "Kernel" -d $(recovery_kernel) $(recovery_kernel).tmp
-	# Overwrite the original kernel with the patched version so mkbootimg picks it up
-	mv $(recovery_kernel).tmp $(recovery_kernel)
+# Intercept the recovery image target
+$(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)
+	@echo "--- MTK Kernel Patching: $(recovery_kernel) ---"
+	# Run your specific syntax: tool + zImage + config > output
+	$(MY_MKIMAGE) $(recovery_kernel) $(MTK_KERNEL_CFG) > $(recovery_kernel).mtk
+	# Replace the original kernel with the patched version for mkbootimg
+	mv $(recovery_kernel).mtk $(recovery_kernel)
+	@echo "--- MTK Kernel Patching Complete ---"
+

@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 # device/alps/tb8163p3_bsp/device_hooks.mk
 
 # Define the path to your config and mkimage tool

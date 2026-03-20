@@ -1,8 +1,8 @@
 # device/alps/tb8163p3_bsp/device_hooks.mk
 
 # Define the path to your config and mkimage tool
-MY_MKIMAGE := $(TARGET_KERNEL_SOURCE)/scripts/mkimage
-MTK_KERNEL_CFG := $(DEVICE_PATH)/mtk_kernel.cfg
+MY_MKIMAGE := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(TARGET_KERNEL_SOURCE)/scripts/mkimage
+MTK_KERNEL_CFG := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(DEVICE_PATH)/mtk_kernel.cfg
 DYN_OUT := $(get_build_var OUT_DIR)
 K_SOURCE := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(TARGET_KERNEL_SOURCE)/kernel
 K_TARGET := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/out/target/product/tb8163p3_bsp/obj/KERNEL_OBJ/kernel

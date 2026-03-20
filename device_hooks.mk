@@ -3,32 +3,22 @@
 # Define the path to your config and mkimage tool
 MY_MKIMAGE := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(TARGET_KERNEL_SOURCE)/scripts/mkimage
 MTK_KERNEL_CFG := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(DEVICE_PATH)/mtk_kernel.cfg
-DYN_OUT := $(get_build_var OUT_DIR)
-K_SOURCE := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(TARGET_KERNEL_SOURCE)/kernel
-K_TARGET := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/out/target/product/tb8163p3_bsp/obj/KERNEL_OBJ/kernel
+# Update K_TARGET to point to the actual binary file
+K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/kernel/arch/arm/boot/zImage
+# If it's a 64-bit build, it might be:
+# K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/kernel/arch/arm64/boot/Image.gz-dtb
 
-# Intercept the recovery image target
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)
-	@echo "--- MTK Kernel Patching: $(DYN_OUT)/target/product/tb8163p3_bsp/obj/KERNEL_OBJ/kernel ---"
+	@echo "--- MTK Kernel Patching: Starting ---"
 	chmod +x "$(MY_MKIMAGE)"
-	@if [ -s "$(K_SOURCE)" ]; then \
-	    "$(MY_MKIMAGE)" "$(K_SOURCE)" "$(MTK_KERNEL_CFG)" > "$(K_SOURCE).mtk"; \
-	    echo "--- MTK Kernel Patching Stage Complete! $(K_SOURCE) ---"; \
-	    if [ -s "$(K_SOURCE).mtk" ]; then \
-	        mv -f "$(K_SOURCE).mtk" "$(K_SOURCE)"; \
-	        echo "--- SUCCESS: MTK Header added to $(recovery_kernel) ---"; \
-	    else \
-	        echo "--- ERROR: $(recovery_kernel).mtk is missing or empty! ---"; \
-	        exit 1; \
-	    fi; \
+	@if [[ -f "$(recovery_kernel)" ]]; then \
+		K_SRC="$(recovery_kernel)"; \
+	elif [[ -f "$(K_TARGET)" ]]; then \
+		K_SRC="$(K_TARGET)"; \
 	else \
-	    "$(MY_MKIMAGE)" "$(K_TARGET)" "$(MTK_KERNEL_CFG)" > "$(K_TARGET).mtk"; \
-	    echo "--- MTK Kernel Patching Stage Complete! $(K_TARGET) ---"; \
-	    if [ -s "$(K_TARGET).mtk" ]; then \
-	        mv -f "$(K_TARGET).mtk" "$(K_TARGET)"; \
-	        echo "--- SUCCESS: MTK Header added to $(K_TARGET) ---"; \
-	    else \
-	        echo "--- ERROR: $(K_TARGET).mtk is missing or empty! ---"; \
-	        exit 1; \
-	    fi; \
-	fi
+		echo "--- ERROR: No valid kernel file found! ---"; \
+		exit 1; \
+	fi; \
+	"$(MY_MKIMAGE)" "$$K_SRC" "$(MTK_KERNEL_CFG)" > "$$K_SRC.mtk" || exit 1; \
+	mv -f "$$K_SRC.mtk" "$$K_SRC"; \
+	echo "--- SUCCESS: MTK Header added to $$K_SRC ---"

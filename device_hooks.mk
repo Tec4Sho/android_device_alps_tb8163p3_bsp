@@ -1,8 +1,8 @@
 # device/alps/tb8163p3_bsp/device_hooks.mk
 
 # Define the path to your config and mkimage tool
-MY_MKIMAGE := kernel/alps/tb8163p3_bsp/scripts/mkimage
-MTK_KERNEL_CFG := device/alps/tb8163p3_bsp/mtk_kernel.cfg
+MY_MKIMAGE := $(TARGET_KERNEL_SOURCE)/scripts/mkimage
+MTK_KERNEL_CFG := $(DEVICE_PATH)/mtk_kernel.cfg
 
 # Intercept the recovery image target
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)

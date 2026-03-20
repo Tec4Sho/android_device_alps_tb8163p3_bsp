@@ -4,17 +4,18 @@
 MY_MKIMAGE := $(TARGET_KERNEL_SOURCE)/scripts/mkimage
 MTK_KERNEL_CFG := $(DEVICE_PATH)/mtk_kernel.cfg
 DYN_OUT := $(get_build_var OUT_DIR)
+K_SOURCE := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(TARGET_KERNEL_SOURCE)/kernel
 K_TARGET := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/out/target/product/tb8163p3_bsp/obj/KERNEL_OBJ/kernel
 
 # Intercept the recovery image target
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)
-	@echo "--- MTK Kernel Patching: $(K_SRC) ---"
+	@echo "--- MTK Kernel Patching: $(DYN_OUT)/target/product/tb8163p3_bsp/obj/KERNEL_OBJ/kernel ---"
 	chmod +x "$(MY_MKIMAGE)"
-	@if [ -s "$(recovery_kernel)" ]; then \
-	    "$(MY_MKIMAGE)" "$(recovery_kernel)" "$(MTK_KERNEL_CFG)" > "$(recovery_kernel).mtk"; \
-	    echo "--- MTK Kernel Patching Stage Complete! $(recovery_kernel) ---"; \
-	    if [ -s "$(recovery_kernel).mtk" ]; then \
-	        mv -f "$(recovery_kernel).mtk" "$(recovery_kernel)"; \
+	@if [ -s "$(K_SOURCE)" ]; then \
+	    "$(MY_MKIMAGE)" "$(K_SOURCE)" "$(MTK_KERNEL_CFG)" > "$(K_SOURCE).mtk"; \
+	    echo "--- MTK Kernel Patching Stage Complete! $(K_SOURCE) ---"; \
+	    if [ -s "$(K_SOURCE).mtk" ]; then \
+	        mv -f "$(K_SOURCE).mtk" "$(K_SOURCE)"; \
 	        echo "--- SUCCESS: MTK Header added to $(recovery_kernel) ---"; \
 	    else \
 	        echo "--- ERROR: $(recovery_kernel).mtk is missing or empty! ---"; \

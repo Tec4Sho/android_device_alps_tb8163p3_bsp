@@ -5,9 +5,9 @@ SHELL := /bin/bash
 MY_MKIMAGE := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(TARGET_KERNEL_SOURCE)/scripts/mkimage
 MTK_KERNEL_CFG := /home/runner/work/android_device_alps_tb8163p3_bsp/android_device_alps_tb8163p3_bsp/workspace/$(DEVICE_PATH)/mtk_kernel.cfg
 # Update K_TARGET to point to the actual binary file
-K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/kernel/arch/arm/boot/zImage
+K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/arch/arm/boot/zImage
 # If it's a 64-bit build, it might be:
-# K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/kernel/arch/arm64/boot/Image.gz-dtb
+# K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb
 
 # Define the path to your new script
 PATCH_SCRIPT := $(DEVICE_PATH)/patch_kernel.sh

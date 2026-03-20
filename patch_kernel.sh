@@ -11,9 +11,9 @@ echo "--- MTK Kernel Patching Start ---"
 chmod +x "$MKIMAGE"
 
 # Determine which kernel file to use
-if [[ -f "$RECOVERY_K" ]]; then
+if [[ -e "$RECOVERY_K" ]]; then
     K_SRC="$RECOVERY_K"
-elif [[ -f "$TARGET_K" ]]; then
+elif [[ -e "$TARGET_K" ]]; then
     K_SRC="$TARGET_K"
 else
     echo "--- ERROR: No valid kernel file found at $TARGET_K ---"

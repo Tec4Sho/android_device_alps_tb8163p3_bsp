@@ -15,11 +15,11 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(K_SRC) $(recovery_kernel) $(MTK_KERNEL_CFG)
 	# Use quotes everywhere to prevent "binary operator" errors from long paths
 	"$(MY_MKIMAGE)" "$(K_SRC)" "$(MTK_KERNEL_CFG)" > "$(K_SRC).mtk"
 	# 3. Use standard bash [[ ]] with -s (checks if file exists and is not empty)
-	@if [[ -s "$(K_SRC).mtk" ]]; then
-		mv -f "$(K_SRC).mtk" "$(K_SRC)";
-		echo "--- SUCCESS: MTK Header added to $(K_SRC) ---";
-        echo "--- MTK Kernel Patching Stage Complete! $(DYN_OUT)---";
-	else
-		echo "--- ERROR: $(K_SRC).mtk is missing or empty! ---";
-		exit 1;
+	@if [[ -s "$(K_SRC).mtk" ]]; then \
+		mv -f "$(K_SRC).mtk" "$(K_SRC)"; \
+		echo "--- SUCCESS: MTK Header added to $(K_SRC) ---"; \
+        echo "--- MTK Kernel Patching Stage Complete! $(DYN_OUT)---"; \
+	else \
+		echo "--- ERROR: $(K_SRC).mtk is missing or empty! ---"; \
+		exit 1; \
 	fi;

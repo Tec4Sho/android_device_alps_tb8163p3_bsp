@@ -20,6 +20,8 @@ else
     exit 1
 fi
 
+file "$K_SRC"
+
 # Run the patch
 "$MKIMAGE" "$K_SRC" "$KERNEL_CFG" > "$K_SRC.mtk"
 

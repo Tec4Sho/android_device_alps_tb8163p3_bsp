@@ -8,15 +8,17 @@ MTK_KERNEL_CFG := device/alps/tb8163p3_bsp/mtk_kernel.cfg
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)
 	@echo "--- MTK Kernel Patching: $(recovery_kernel) ---"
 	# Run your specific syntax: tool + zImage + config > output
-	$(MY_MKIMAGE) $(recovery_kernel) $(MTK_KERNEL_CFG) > $(recovery_kernel).mtk
-	# Replace the original kernel with the patched version for mkbootimg
-    # Safety check: if the .mtk file is valid, overwrite the original kernel
-	@if [ -s $(recovery_kernel).mtk ]; then \
-		mv $(recovery_kernel).mtk $(recovery_kernel); \
-		echo "--- MTK Header Applied Successfully ---"; \
+	chmod +x "$(MY_MKIMAGE)"
+	# 2. Run the patch: tool + input + cfg > output
+	# Use quotes everywhere to prevent "binary operator" errors from long paths
+	"$(MY_MKIMAGE)" "$(recovery_kernel)" "$(MTK_KERNEL_CFG)" > "$(recovery_kernel).mtk"
+	# 3. Use standard bash [[ ]] with -s (checks if file exists and is not empty)
+	@if [[ -s "$(recovery_kernel).mtk" ]]; then \
+		mv -f "$(recovery_kernel).mtk" "$(recovery_kernel)"; \
+		echo "--- SUCCESS: MTK Header added to $(recovery_kernel) ---"; \
 	else \
-		echo "--- ERROR: mkimage failed to create patched kernel ---"; \
+		echo "--- ERROR: $(recovery_kernel).mtk is missing or empty! ---"; \
 		exit 1; \
 	fi
-	@echo "--- MTK Kernel Patching Complete ---"
+	@echo "--- MTK Kernel Patching Stage Complete ---"
 

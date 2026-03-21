@@ -15,17 +15,17 @@ MTK_KERNEL_CFG := $(abspath $(DEVICE_PATH)/mtk_kernel.cfg)
 PATCH_SCRIPT := $(abspath $(DEVICE_PATH)/patch_kernel.sh)
 K_TARGET := $(PRODUCT_OUT)/kernel
 
-# This variable points to the final kernel binary in Android 9
-KERNEL_BIN := $(PRODUCT_OUT)/kernel
+# 1. Point to the RAW zImage inside the KERNEL_OBJ folder
+RAW_K := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/arch/arm/boot/zImage
 
-# Tell Ninja: "Before you consider the kernel installed, run this patch."
-$(KERNEL_BIN): .PATCH_MTK_HEADER
+# 2. Tell the build: "Every time you finish building the kernel, run this"
+# No quotes on the variables here
+$(RAW_K): .MTK_CI_PATCH
 
-.PHONY: .PATCH_MTK_HEADER
-.PATCH_MTK_HEADER: $(recovery_kernel)
-	@echo "--- Intercepting Kernel: $(notdir $(KERNEL_BIN)) ---"
+.PHONY: .MTK_CI_PATCH
+.MTK_CI_PATCH:
+	@echo "--- [MTK] Patching RAW Kernel in Intermediates ---"
 	$(hide) chmod +x $(MY_MKIMAGE)
-	# Patch the source zImage BEFORE it's finalized
-	$(hide) $(MY_MKIMAGE) $(recovery_kernel) $(MTK_KERNEL_CFG) > $(KERNEL_BIN).tmp
-	$(hide) mv -f $(KERNEL_BIN).tmp $(KERNEL_BIN)
-	@hexdump -C -n 16 $(KERNEL_BIN)
+	$(hide) $(MY_MKIMAGE) $(RAW_K) $(MTK_KERNEL_CFG) > $(RAW_K).mtk
+	$(hide) mv -f $(RAW_K).mtk $(RAW_K)
+	@echo "--- [MTK] Kernel Patched at Source ---"

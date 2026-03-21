@@ -15,17 +15,15 @@ MTK_KERNEL_CFG := $(abspath $(DEVICE_PATH)/mtk_kernel.cfg)
 PATCH_SCRIPT := $(abspath $(DEVICE_PATH)/patch_kernel.sh)
 K_TARGET := $(PRODUCT_OUT)/kernel
 
-# 2. Tell the build system to run your script BEFORE building the recovery image
-# We use '::' or a dependency line to avoid breaking the original Ninja rule
-# Add $(recovery_ramdisk) to the dependencies list
-# Use the 'installs' dependency to hook in
-$(INSTALLED_RECOVERYIMAGE_TARGET): patch_mtk_kernel
+# 2. Hook the KERNEL binary directly.
+# This ensures the patch runs AFTER the kernel is built but BEFORE any .img is packed.
+$(K_TARGET): .K_PATCH_HOOK
 
-.PHONY: patch_mtk_kernel
-patch_mtk_kernel: $(recovery_kernel)
-	@echo "--- MTK Kernel Patching Start ---"
-	$(hide) bash $(DEVICE_PATH)/patch_kernel.sh \
+.PHONY: .K_PATCH_HOOK
+.K_PATCH_HOOK:
+	@echo "--- MTK Kernel Patching Hook ---"
+	$(hide) bash "$(PATCH_SCRIPT)" \
 		"$(MY_MKIMAGE)" \
 		"$(MTK_KERNEL_CFG)" \
-		"$(recovery_kernel)" \
+		"$(K_TARGET)" \
 		"$(K_TARGET)"

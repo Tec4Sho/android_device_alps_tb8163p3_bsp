@@ -15,15 +15,17 @@ MTK_KERNEL_CFG := $(abspath $(DEVICE_PATH)/mtk_kernel.cfg)
 PATCH_SCRIPT := $(abspath $(DEVICE_PATH)/patch_kernel.sh)
 K_TARGET := $(PRODUCT_OUT)/kernel
 
-# 2. Hook the KERNEL binary directly.
-# This ensures the patch runs AFTER the kernel is built but BEFORE any .img is packed.
-$(K_TARGET): .K_PATCH_HOOK
+# This variable points to the final kernel binary in Android 9
+KERNEL_BIN := $(PRODUCT_OUT)/kernel
 
-.PHONY: .K_PATCH_HOOK
-.K_PATCH_HOOK:
-	@echo "--- MTK Kernel Patching Hook ---"
-	$(hide) bash "$(PATCH_SCRIPT)" \
-		"$(MY_MKIMAGE)" \
-		"$(MTK_KERNEL_CFG)" \
-		"$(K_TARGET)" \
-		"$(K_TARGET)"
+# Tell Ninja: "Before you consider the kernel installed, run this patch."
+$(KERNEL_BIN): .PATCH_MTK_HEADER
+
+.PHONY: .PATCH_MTK_HEADER
+.PATCH_MTK_HEADER: $(recovery_kernel)
+	@echo "--- Intercepting Kernel: $(notdir $(KERNEL_BIN)) ---"
+	$(hide) chmod +x $(MY_MKIMAGE)
+	# Patch the source zImage BEFORE it's finalized
+	$(hide) $(MY_MKIMAGE) $(recovery_kernel) $(MTK_KERNEL_CFG) > $(KERNEL_BIN).tmp
+	$(hide) mv -f $(KERNEL_BIN).tmp $(KERNEL_BIN)
+	@hexdump -C -n 16 $(KERNEL_BIN)

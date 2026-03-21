@@ -18,14 +18,14 @@ K_TARGET := $(PRODUCT_OUT)/kernel
 # 2. Tell the build system to run your script BEFORE building the recovery image
 # We use '::' or a dependency line to avoid breaking the original Ninja rule
 # Add $(recovery_ramdisk) to the dependencies list
-$(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(recovery_ramdisk) $(MKBOOTIMG)
-	@echo "--- MTK Kernel Patching: Calling Shell Script ---"
+# Use the 'installs' dependency to hook in
+$(INSTALLED_RECOVERYIMAGE_TARGET): patch_mtk_kernel
+
+.PHONY: patch_mtk_kernel
+patch_mtk_kernel: $(recovery_kernel)
+	@echo "--- MTK Kernel Patching Start ---"
 	$(hide) bash $(DEVICE_PATH)/patch_kernel.sh \
 		"$(MY_MKIMAGE)" \
 		"$(MTK_KERNEL_CFG)" \
 		"$(recovery_kernel)" \
-		"$(PRODUCT_OUT)/kernel"
-	@echo "--- Packing Recovery Image ---"
-	$(hide) $(MKBOOTIMG) $(INTERNAL_RECOVERYIMAGE_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $@
-	@echo "--- Recovery Image Built Successfully ---"
-
+		"$(K_TARGET)"

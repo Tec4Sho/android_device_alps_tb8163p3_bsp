@@ -18,6 +18,10 @@ fi
 
 echo "--- MTK Kernel Patching: $K_SRC ---"
 
+if hexdump -C -n 16 "$K_SRC" | grep -qE "KERNEL|88 16 88 58"; then
+    echo "--- SKIP: MTK Header already exists on $K_SRC ---"
+    exit 0
+fi
 # 2. Show header BEFORE patching
 echo "Before Patch:"
 hexdump -C -n 16 "$K_SRC" 2>&1 || echo "hexdump error: $?"

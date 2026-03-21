@@ -8,12 +8,18 @@ MTK_KERNEL_CFG := /home/runner/work/android_device_alps_tb8163p3_bsp/android_dev
 # K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/arch/arm/boot/zImage
 # If it's a 64-bit build, it might be:
 # K_TARGET := $(PRODUCT_OUT)/obj/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb
-# Patch the file that actually gets packed into the image
 K_TARGET := $(PRODUCT_OUT)/kernel
 
-# Define the path to your new script
-PATCH_SCRIPT := $(DEVICE_PATH)/patch_kernel.sh
+# Patch the file that actually gets packed into the image
+# Tell the build system that before the recovery image is made, 
+# the kernel file MUST be patched.
+$(recovery_kernel): patch_mtk_kernel
 
-$(INSTALLED_RECOVERYIMAGE_TARGET): $(recovery_kernel) $(MTK_KERNEL_CFG)
-	@echo "--- Running MTK Patch Script ---"
-	$(hide) bash $(PATCH_SCRIPT) "$(MY_MKIMAGE)" "$(MTK_KERNEL_CFG)" "$(recovery_kernel)" "$(K_TARGET)"
+.PHONY: patch_mtk_kernel
+patch_mtk_kernel:
+	@echo "--- MTK Kernel Patching: Injecting Header ---"
+	$(hide) bash $(DEVICE_PATH)/patch_kernel.sh \
+		"$(MY_MKIMAGE)" \
+		"$(MTK_KERNEL_CFG)" \
+		"$(recovery_kernel)" \
+		"$(K_TARGET)"

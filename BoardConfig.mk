@@ -484,11 +484,12 @@ TARGET_COPY_OUT_VENDOR := vendor
 
 # Define the path to the ramdisk that gets packed into recovery
 RECOVERY_RAMDISK_TARGET := $(PRODUCT_OUT)/ramdisk-recovery.img
+MTK_RAMDISK_CFG := $(DEVICE_PATH)/mtk_ramdisk.cfg
 
 # This macro runs immediately after the ramdisk is created
 define add-mtk-header-to-ramdisk
 	@echo "--- Adding MTK ROOTFS Header to $(RECOVERY_RAMDISK_TARGET) ---"
-	$(hide) $(MKIMAGE) $(RECOVERY_RAMDISK_TARGET) ROOTFS > $(RECOVERY_RAMDISK_TARGET).mtk
+	$(hide) $(MKIMAGE) $(RECOVERY_RAMDISK_TARGET) $(MTK_RAMDISK_CFG) > $(RECOVERY_RAMDISK_TARGET).mtk
 	$(hide) mv -f $(RECOVERY_RAMDISK_TARGET).mtk $(RECOVERY_RAMDISK_TARGET)
 endef
 

@@ -403,7 +403,7 @@ jobs:
         analyzer: 0
         makefile: ${{ env.DEVICE_MAKEFILE }}-eng 
         filename: ${{ github.event.inputs.BUILD_TARGET }}image
-        filetype: c
+        filetype: c mk
         database: true
         absolute: false
         internal: true

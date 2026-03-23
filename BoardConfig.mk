@@ -157,7 +157,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  TW_THEME := landscape_mdpi
+  # TW_THEME := landscape_mdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -169,11 +169,12 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
-  #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 600         
+  #DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
+  DEVICE_SCREEN_WIDTH := 720
+  DEVICE_SCREEN_HEIGHT := 1280
+  TW_THEME := portrait_hdpi # Force a 720x1280 theme
+  TARGET_SCREEN_HEIGHT := 1280    # 1024 The height mdpi
+  TARGET_SCREEN_WIDTH := 720      # 600         
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
@@ -183,16 +184,20 @@ else
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 270
-TW_HWROTATION := 270
+TW_ROTATION := 0
+TW_HWROTATION := 0
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
 TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-GRAPHIC_MEMORY_PROVIDER := uma
-#TW_BOARD_CUSTOM_GRAPHICS := 
+# GRAPHIC_MEMORY_PROVIDER := uma
+# TW_BOARD_CUSTOM_GRAPHICS :=
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+BOARD_TOUCH_MAX_X := 720
+BOARD_TOUCH_MAX_Y := 1280
+BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
 TW_DISABLE_DOUBLE_BUFFERING := false
@@ -209,10 +214,10 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
 # TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
-# TW_LOAD_VENDOR_MODULES := "*"
+TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
-TW_LOAD_VENDOR_BOOT_MODULES := false
+TW_LOAD_VENDOR_BOOT_MODULES := true
 TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
 # To fix temperature showing 0 degree and battery on 100% all the time
@@ -242,7 +247,7 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
 TARGET_RECOVERY_PIXEL_FORMAT := RGB_565
-TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
+# TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
@@ -353,7 +358,7 @@ RECOVERY_TOUCHSCREEN_FLIP_Y := false
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-SF_PRIMARY_DISPLAY_ORIENTATION := 270
+# SF_PRIMARY_DISPLAY_ORIENTATION := 270
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO
@@ -377,7 +382,7 @@ TW_SUPPORT_INPUT_1_2_HAPTICS := false
 TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
 
-BOARD_RECOVERY_SWIPE := true
+BOARD_RECOVERY_SWIPE := false
 RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
@@ -395,9 +400,9 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
-TW_IGNORE_ABS_MT_TRACKING_ID := false
-TW_IGNORE_MAJOR_AXIS_0 := false
-TW_IGNORE_MT_POSITION_0 := false
+# TW_IGNORE_ABS_MT_TRACKING_ID := false
+# TW_IGNORE_MAJOR_AXIS_0 := false
+# TW_IGNORE_MT_POSITION_0 := false
 
 # VINTF
 DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/device_system_manifest.xml
@@ -413,9 +418,10 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compa
 #
 
 # Kernel     # 0x00C3DA00
-BOARD_KERNEL_IMAGE_NAME := zImage-dtb
+BOARD_KERNEL_IMAGE_NAME := zImage
+# BOARD_KERNEL_IMAGE_NAME := zImage-dtb
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_FORCE_PREBUILT_KERNEL := false
+TARGET_FORCE_PREBUILT_KERNEL := true
 BOARD_INCLUDE_RECOVERY_DTBO := true
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 BOARD_PREBUILT_RECOVERY_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
@@ -460,8 +466,8 @@ BOARD_RAMDISK_COMPRESSED := lzma-9
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
   KERNEL_PATH := $(DEVICE_PATH)/prebuilt
   DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
-  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel-mtk
-  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel-mtk
+  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel
+  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel
   BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PREBUILT_PATH)/dtbo.img
   BOARD_KERNEL_SEPARATED_DTBO :=
 endif

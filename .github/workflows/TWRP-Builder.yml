@@ -421,7 +421,7 @@ jobs:
         stored: true
         number: 0
         output: 1
-        module: true
+        module: false
         build: 5
         clean: true
         cache: false

@@ -195,8 +195,12 @@ BOARD_SELINUX_ENFORCING := false
 # GRAPHIC_MEMORY_PROVIDER := uma
 # TW_BOARD_CUSTOM_GRAPHICS :=
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-BOARD_TOUCH_MAX_X := 720
+# Force the touch engine to use the Kernel's 'Ghost' range
 BOARD_TOUCH_MAX_Y := 1280
+BOARD_TOUCH_MAX_X := 720
+# If the offset is still 'drifting' as you go down, 
+# tell TWRP to ignore the kernel's reported resolution
+TW_INPUT_BLACKLIST := "hbtp_vm"
 BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
@@ -388,8 +392,8 @@ BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
-TW_USE_FB2PNG := false
-TW_INCLUDE_NANO := false
+TW_USE_FB2PNG := true
+TW_INCLUDE_NANO := true
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
 

@@ -390,13 +390,23 @@ jobs:
         # gcc -print-prog-name=cc1 --help | grep "std" 2>/dev/null;
       continue-on-error: true
 
-    #- name: Install LLVM Embedded Toolchain for Arm
-    #  uses: stellar-aria/llvm-embedded-toolchain-for-arm-action@latest
-    #  with:
-    #    release: '15.0.2' # <-- The compiler release to use  
-    #  continue-on-error: true
+    - name: Install LLVM Embedded Toolchain for Arm
+      if: env.PREBUILT_KERNEL == 'false'
+      uses: stellar-aria/llvm-embedded-toolchain-for-arm-action@latest
+      with:
+        release: '15.0.2' # <-- The compiler release to use  
+      continue-on-error: true
+
+    - name: Recovery Build
+      if: env.PREBUILT_KERNEL == 'true'
+      run: |
+        echo '--- BUILDING TWRP RECOVERY IMAGE ---'
+        cd workspace
+        source build/envsetup.sh && lunch ${{ env.DEVICE_MAKEFILE }}-eng && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)
+      continue-on-error: false
     
     - name: Check File
+      if: env.PREBUILT_KERNEL == 'false'
       uses: Tec4Sho/check-file-action@v2
       with:
         repository: false

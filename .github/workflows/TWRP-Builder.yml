@@ -119,8 +119,8 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         set -o allexport
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        export TARGET_FORCE_PREBUILT_KERNEL=false
-        echo "PREBUILT_KERNEL=false" >> $GITHUB_ENV
+        export TARGET_FORCE_PREBUILT_KERNEL=true
+        echo "PREBUILT_KERNEL=true" >> $GITHUB_ENV
         if [[ `which git` ]]; then
           echo -e "\n`git --version`\n";
           git config --global core.longpaths true

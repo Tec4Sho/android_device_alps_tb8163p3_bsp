@@ -36,6 +36,9 @@ PRODUCT_MANUFACTURER := alps
 
 PRODUCT_GMS_CLIENTID_BASE := android-google
 
+PRODUCT_COPY_FILES += \
+    device/alps/tb8163p3_bsp/prebuilt/kernel:out/target/product/tb8163p3_bsp/kernel
+
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="full_tb8163p3_bsp-user 9 PPR1.180610.011 eng.linhr.20250523.004808 release-keys" \
     BUILD_UTC_DATE=0 \

@@ -408,7 +408,7 @@ jobs:
         export BOARD_VNDK_RUNTIME_DISABLE=true
         export LC_ALL=C
         set -e
-        lunch ${{ env.MAKEFILE_NAME }}-eng && make clean && ninja -t restat && mka adbd ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && ninja -t restat && mka adbd ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)
       continue-on-error: false
     
     - name: Check File

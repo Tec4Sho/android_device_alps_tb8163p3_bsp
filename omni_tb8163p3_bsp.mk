@@ -5,6 +5,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+TARGET_FORCE_PREBUILT_KERNEL := true
+
 # Inherit from those products. Most specific first.
 # $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 

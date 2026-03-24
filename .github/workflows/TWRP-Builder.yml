@@ -318,15 +318,15 @@ jobs:
     - name: Export Build Settings
       run: |
         set -o allexport
-        export ARCH=arm
-        export LC_ALL=C.UTF-8
-        export USE_NINJA=true
-        export ALLOW_MISSING_DEPENDENCIES=true
-        export LLVM_ENABLE_THREADS=ON
-        export BOARD_VNDK_RUNTIME_DISABLE=true
-        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        echo 'export TARGET_FORCE_PREBUILT_KERNEL=false' | sudo tee -a ~/.bashrc >/dev/null;
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) >/dev/null 2>&1;
+        echo 'export ARCH=arm' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export LC_ALL=C' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export USE_NINJA=true' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export ALLOW_MISSING_DEPENDENCIES=true' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export LLVM_ENABLE_THREADS=ON' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export BOARD_VNDK_RUNTIME_DISABLE=true' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export GIT_DISCOVERY_ACROSS_FILESYSTEM=1' | sudo tee -a ~/.bashrc >/dev/null;
+        echo 'export TARGET_FORCE_PREBUILT_KERNEL=true' | sudo tee -a ~/.bashrc >/dev/null;
+          # sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) >/dev/null 2>&1;
           export BRANCH=android-9.0
           export CPU_SSE42=false
           export DEBUG_KERNEL=y

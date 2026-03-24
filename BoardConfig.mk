@@ -37,8 +37,8 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 TARGET_USES_UNCOMPRESSED_KERNEL := false
 
 # Kernel     # 0x00C3DA00
-TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist
-BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
+# TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist
+# BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
 BOARD_KERNEL_IMAGE_NAME := zImage
 # BOARD_KERNEL_IMAGE_NAME := zImage-dtb
 BOARD_KERNEL_SEPARATED_DTBO := true
@@ -50,7 +50,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 BOARD_RECOVERY_NEEDS_T_TOUCH := true
-TARGET_KERNEL_APPEND_DTB := true
+# TARGET_KERNEL_APPEND_DTB := true
 # TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
 # TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
 CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
@@ -85,14 +85,14 @@ BOARD_RAMDISK_COMPRESSED := lzma-9
 
 # Kernel - prebuilt
 # ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
-  BOARD_PREBUILT_BOOTIMAGE := 
-  BUILD_KERNEL := false
+  # BOARD_PREBUILT_BOOTIMAGE := 
+  # BUILD_KERNEL := false
   KERNEL_PATH := $(DEVICE_PATH)/prebuilt
   DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
   TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
   TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
   BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
-  BOARD_KERNEL_SEPARATED_DTBO :=
+  # BOARD_KERNEL_SEPARATED_DTBO :=
 # endif
 
 # APEX

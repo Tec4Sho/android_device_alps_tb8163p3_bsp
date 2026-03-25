@@ -47,9 +47,6 @@ TARGET_COPY_OUT_VENDOR := vendor
 
 TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 
-PRODUCT_COPY_FILES += \
-    device/alps/tb8163p3_bsp/prebuilt/kernel:out/target/product/tb8163p3_bsp/kernel
-
 # Boot control HAL
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.0

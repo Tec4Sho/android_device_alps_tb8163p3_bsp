@@ -362,6 +362,7 @@ jobs:
             sed -i '1s|.*|#!/usr/bin/env python2|' "$avb";
             echo "Forced avbtool to use Python 2 at: $avb";
           fi;
+          [[ -e ./build/make/core/Makefile ]] && [[ -e ./device/alps/tb8163p3_bsp/scripts/mkimage ]] && sed -i '1525a \\t$(hide) $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mkimage $@ $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mtk_ramdisk.cfg > $@.mtk && mv -vf $@.mtk $@' $gitbase/build/make/core/Makefile
           source_64=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'tb8163p3_64_k49.dts' | head -n 1);
           target_dir=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts' | head -n 1);
           if [[ -f "$source_64" && -d "$target_dir" ]]; then

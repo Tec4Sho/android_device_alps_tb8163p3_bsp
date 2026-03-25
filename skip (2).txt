@@ -1,0 +1,13 @@
+-*/usr/include/*
+-*/usr/local/include/*
+-*/site-packages/*
+-*/workspace/out/soong/*
+-*/workspace/build/*
+-*/workspace/bionic/*
+-*/workspace/bootable/*
+-*/workspace/external/*
+-*/workspace/system/*
+-*/workspace/out/*
+-*/.intermediates/*
+-*/workspace/*
+-*/out/*

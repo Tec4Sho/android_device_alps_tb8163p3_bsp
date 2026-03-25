@@ -38,7 +38,7 @@ TARGET_USES_UNCOMPRESSED_KERNEL := false
 
 # Kernel     # 0x00C3DA00
 # TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist
-# BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
+BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
 BOARD_KERNEL_IMAGE_NAME := kernel
 # BOARD_KERNEL_IMAGE_NAME := zImage-dtb
 BOARD_KERNEL_SEPARATED_DTBO := true
@@ -51,7 +51,6 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 BOARD_RECOVERY_NEEDS_T_TOUCH := true
-TARGET_KERNEL_SOURCE := $(DEVICE_PATH)/prebuilt/kernel
 # TARGET_KERNEL_APPEND_DTB := true
 # TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
 # TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp

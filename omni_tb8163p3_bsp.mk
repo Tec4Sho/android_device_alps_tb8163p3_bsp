@@ -6,7 +6,7 @@
 #
 
 # Inherit from those products. Most specific first.
-# $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Inherit some common Omni stuff.
 $(call inherit-product-if-exists, vendor/omni/config/common.mk)
@@ -16,7 +16,7 @@ $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)
 
 # Inherit from tb8163p3_bsp kernel tree
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),false)
-$(call inherit-product, kernel/alps/tb8163p3_bsp/AndroidKernel.mk)
+# $(call inherit-product, kernel/alps/tb8163p3_bsp/AndroidKernel.mk)
 endif
 
 ifeq ($(RECOVERY_VARIANT),pbrp)

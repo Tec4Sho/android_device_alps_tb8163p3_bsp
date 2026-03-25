@@ -119,7 +119,7 @@ jobs:
         mkdir -p ${GITHUB_WORKSPACE}/workspace/kernel/alps/tb8163p3_bsp
         set -o allexport
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-        export TARGET_FORCE_PREBUILT_KERNEL=true
+        # export TARGET_FORCE_PREBUILT_KERNEL=true
         echo "PREBUILT_KERNEL=true" >> $GITHUB_ENV
         if [[ `which git` ]]; then
           echo -e "\n`git --version`\n";
@@ -325,16 +325,16 @@ jobs:
         echo 'export LLVM_ENABLE_THREADS=ON' | sudo tee -a ~/.bashrc >/dev/null;
         echo 'export BOARD_VNDK_RUNTIME_DISABLE=true' | sudo tee -a ~/.bashrc >/dev/null;
         echo 'export GIT_DISCOVERY_ACROSS_FILESYSTEM=1' | sudo tee -a ~/.bashrc >/dev/null;
-        echo 'export TARGET_FORCE_PREBUILT_KERNEL=true' | sudo tee -a ~/.bashrc >/dev/null;
+        # echo 'export TARGET_FORCE_PREBUILT_KERNEL=true' | sudo tee -a ~/.bashrc >/dev/null;
           # sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) >/dev/null 2>&1;
           export BRANCH=android-9.0
           export CPU_SSE42=false
-          export DEBUG_KERNEL=y
-          #export CLANG_TRIPLE=arm-linux-gnu-
-          #export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-          export DEFCONFIG=tb8163p3_bsp_defconfig
-          export KERNEL_DIR=kernel/alps/tb8163p3_bsp
-          export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
+          # export DEBUG_KERNEL=y
+          # export CLANG_TRIPLE=arm-linux-gnu-
+          # export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+          # export DEFCONFIG=tb8163p3_bsp_defconfig
+          # export KERNEL_DIR=kernel/alps/tb8163p3_bsp
+          # export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
           export FILES="arch/arm/boot/zImage vmlinux System.map"
           export STOP_SHIP_TRACEPRINTK=1
           export CONFIG_INIT_ENV_ARG_LIMIT=32

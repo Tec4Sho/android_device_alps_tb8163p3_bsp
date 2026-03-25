@@ -45,8 +45,6 @@ TARGET_OTA_ASSERT_DEVICE := tb8163p3_bsp
 
 TARGET_COPY_OUT_VENDOR := vendor
 
-TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
-
 # Boot control HAL
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.0

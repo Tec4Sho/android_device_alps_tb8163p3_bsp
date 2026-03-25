@@ -7,8 +7,8 @@
 # Custom TWRP 9.0 build for alps tb8163p3_bsp 
 # Custom OFRP 9.0 build for alps tb8163p3_bsp 
 #
-
-DEVICE_PATH := device/alps/tb8163p3_bsp
+LOCAL_PATH := device/alps/tb8163p3_bsp
+DEVICE_PATH := $(LOCAL_PATH)
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true

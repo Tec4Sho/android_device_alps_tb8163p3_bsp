@@ -26,37 +26,39 @@ TARGET_USES_64_BIT_BINDER := true
 ARCH_ARM_HAVE_NEON := true
 TARGET_CPU_SMP := false
 ARCH_ARM_HAVE_TLS_REGISTER := true
-# TARGET_KERNEL_ARCH_EXCLUDES := -fPIC
+TARGET_KERNEL_ARCH_EXCLUDES := -fPIC
 TARGET_BOARD_SUFFIX := _32
 TARGET_SUPPORTS_32_BIT_APPS := true
 TARGET_SUPPORTS_64_BIT_APPS := false
 TARGET_IS_32_BIT := true
 
 TARGET_KERNEL_HEADER_ARCH := arm
-# TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
-# TARGET_USES_UNCOMPRESSED_KERNEL := false
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
+TARGET_USES_UNCOMPRESSED_KERNEL := false
 
 # Kernel     # 0x00C3DA00
-# TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist
+TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist
 # BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
-# BOARD_KERNEL_IMAGE_NAME := zImage
+BOARD_KERNEL_IMAGE_NAME := kernel
 # BOARD_KERNEL_IMAGE_NAME := zImage-dtb
-# BOARD_KERNEL_SEPARATED_DTBO := true
-# TARGET_FORCE_PREBUILT_KERNEL := true
+BOARD_KERNEL_SEPARATED_DTBO := true
+TARGET_FORCE_PREBUILT_KERNEL := true
 BOARD_INCLUDE_RECOVERY_DTBO := true
-# TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
-# BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
-# BOARD_PREBUILT_RECOVERY_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
+BOARD_PREBUILT_RECOVERY_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 BOARD_RECOVERY_NEEDS_T_TOUCH := true
+TARGET_KERNEL_CONFIG :=
+TARGET_KERNEL_SOURCE :=
 # TARGET_KERNEL_APPEND_DTB := true
 # TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
 # TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
 CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
-# BOARD_USES_MTK_HEADER := true
-# BOARD_USES_MTK_KERNEL_HEADER := true
+BOARD_USES_MTK_HEADER := true
+BOARD_USES_MTK_KERNEL_HEADER := true
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive printk.devkmsg=on androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
@@ -87,10 +89,10 @@ BOARD_RAMDISK_COMPRESSED := lzma-9
 # Kernel - prebuilt
 # ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
   # BOARD_PREBUILT_BOOTIMAGE := 
-  # BUILD_KERNEL := false
-  # KERNEL_PATH := $(DEVICE_PATH)/prebuilt
-  # DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
-  # TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+  BUILD_KERNEL := false
+  KERNEL_PATH := $(DEVICE_PATH)/prebuilt
+  DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
+  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
   BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
   # BOARD_KERNEL_SEPARATED_DTBO :=
 # endif

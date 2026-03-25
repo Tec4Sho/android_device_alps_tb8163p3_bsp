@@ -5,8 +5,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-TARGET_FORCE_PREBUILT_KERNEL := true
-
 # Inherit from those products. Most specific first.
 # $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
@@ -35,9 +33,6 @@ PRODUCT_MODEL := tb8163p3_bsp
 PRODUCT_MANUFACTURER := alps
 
 PRODUCT_GMS_CLIENTID_BASE := android-google
-
-PRODUCT_COPY_FILES += \
-    device/alps/tb8163p3_bsp/prebuilt/kernel:out/target/product/tb8163p3_bsp/kernel
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="full_tb8163p3_bsp-user 9 PPR1.180610.011 eng.linhr.20250523.004808 release-keys" \

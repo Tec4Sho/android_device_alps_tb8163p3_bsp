@@ -9,6 +9,7 @@
 #
 LOCAL_PATH := device/alps/tb8163p3_bsp
 DEVICE_PATH := $(LOCAL_PATH)
+BOARD_NAME := tb8163p3_bsp
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true

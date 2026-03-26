@@ -399,18 +399,18 @@ jobs:
         release: '15.0.2' # <-- The compiler release to use  
       continue-on-error: true
 
-    - name: Recovery Build
+    - name: Building Image
       if: env.PREBUILT_KERNEL == 'true'
       run: |
-        echo '--- BUILDING TWRP RECOVERY IMAGE ---'
         cd workspace
+        export RECOVERY_VARIANT="twrp"
         source build/envsetup.sh
-        export ALLOW_MISSING_DEPENDENCIES=true
         export USE_NINJA=false
-        # export BOARD_VNDK_RUNTIME_DISABLE=true
+        export ALLOW_MISSING_DEPENDENCIES=true
+        export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export LC_ALL=C
-        set +e
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)
+        ninja -t restat
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
       continue-on-error: false
     
     - name: Check File

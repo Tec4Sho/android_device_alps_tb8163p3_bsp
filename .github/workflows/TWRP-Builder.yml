@@ -192,13 +192,13 @@ jobs:
       
     - name: Prepare The Environment
       run: |
-        sudo apt-get update >/dev/null
-        # sudo apt-get -yq full-upgrade
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -y -q -q install build-essential remake ccache g++ git git-core libgmp-dev libmpfr-dev libmpc-dev gnupg flex bison zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig bc repo m4 libssl-dev kmod device-tree-compiler libx11-dev lib32z1-dev git-lfs libelf-dev libxml2 rsync adb fastboot ncurses-doc libasound2-doc gnome-shell lib32stdc++6-10-dbg libx32stdc++6-10-dbg wx3.0-doc gettext distcc gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libgflags-dev python3 tree >/dev/null;
-        sudo apt-get -yq dist-upgrade >/dev/null
+        sudo apt-get update
+        sudo apt-get -y upgrade
+        sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
+        # sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig git repo liblzma-dev m4 libstdc++
+        sudo apt-get -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev
         sudo add-apt-repository universe
-        sudo apt-get -yq install libncurses5 libtinfo5
-        sudo mkdir -p /usr/local/lib/android/sdk
+        sudo apt-get -y install libncurses5
       continue-on-error: true
 
     - name: Install OpenJDK
@@ -322,8 +322,8 @@ jobs:
           echo 'export LC_ALL=C' | sudo tee -a ~/.bashrc >/dev/null;
           # echo 'export USE_NINJA=true' | sudo tee -a ~/.bashrc >/dev/null;
           echo 'export ALLOW_MISSING_DEPENDENCIES=true' | sudo tee -a ~/.bashrc >/dev/null;
-          echo 'export LLVM_ENABLE_THREADS=ON' | sudo tee -a ~/.bashrc >/dev/null;
-          echo 'export BOARD_VNDK_RUNTIME_DISABLE=true' | sudo tee -a ~/.bashrc >/dev/null;
+          # echo 'export LLVM_ENABLE_THREADS=ON' | sudo tee -a ~/.bashrc >/dev/null;
+          # echo 'export BOARD_VNDK_RUNTIME_DISABLE=true' | sudo tee -a ~/.bashrc >/dev/null;
           echo 'export GIT_DISCOVERY_ACROSS_FILESYSTEM=1' | sudo tee -a ~/.bashrc >/dev/null;
           # echo 'export TARGET_FORCE_PREBUILT_KERNEL=true' | sudo tee -a ~/.bashrc >/dev/null;
           # sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-headers-$(uname -r) >/dev/null 2>&1;
@@ -381,8 +381,7 @@ jobs:
           fi;
           dtbo1=$(find $GITHUB_WORKSPACE -path '*/arch/arm64/*' -type f -name 'mt8163_dtbo.dts')
           dtbo2=$(find $GITHUB_WORKSPACE -path '*/arch/arm/*' -type d -name 'dts')
-          [[ -d "$dtbo2" ]] && cd "$dtbo2"
-          sudo ln -vsf "$dtbo1" "mt8163_dtbo.dts"
+          [[ -d "$dtbo2" ]] && cd "$dtbo2" && sudo ln -vsf "$dtbo1" "mt8163_dtbo.dts"
       working-directory: workspace
       continue-on-error: true
 
@@ -407,8 +406,8 @@ jobs:
         cd workspace
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        export LLVM_ENABLE_THREADS=ON
-        export BOARD_VNDK_RUNTIME_DISABLE=true
+        export USE_NINJA=false
+        # export BOARD_VNDK_RUNTIME_DISABLE=true
         export LC_ALL=C
         set +e
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)

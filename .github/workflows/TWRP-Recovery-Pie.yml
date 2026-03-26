@@ -1,4 +1,4 @@
-name: TWRP Recovery Workflow Pie
+name: TWRP Recovery Pie 2026
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ on:
       DEVICE_TREE:
         description: 'Custom Recovery Tree' 
         required: true
-        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3'
+        default: 'https://github.com/Tec4Sho/android_device_alps_tb8163p3_bsp.git'
       DEVICE_TREE_BRANCH:
         description: 'Custom Recovery Tree Branch' 
         required: true
@@ -24,11 +24,11 @@ on:
       DEVICE_PATH:
         description: 'Specify your Device Path' 
         required: true
-        default: 'device/alps/tb8163p3'
+        default: 'device/alps/tb8163p3_bsp'
       DEVICE_NAME:
         description: 'Specify your Device Codename' 
         required: true
-        default: 'tb8163p3'
+        default: 'tb8163p3_bsp'
       BUILD_TARGET:
         description: 'Specify your Build Target' 
         required: true
@@ -171,11 +171,13 @@ jobs:
 
     - name: Initialize Repo
       run: |
-        mkdir workspace
+        mkdir -p workspace
         cd workspace
-        git config --global user.name "Tec4Sho"
-        git config --global user.email "tec4sho@gmail.com"
+        git config --global user.email "${GitHubMail}"
+        git config --global user.name "${GitHubName}"
+        git config --global credential.helper store
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+      continue-on-error: false    
   
     - name: Repo Sync
       run: |

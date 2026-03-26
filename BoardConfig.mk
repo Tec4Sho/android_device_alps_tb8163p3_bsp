@@ -26,7 +26,7 @@ TARGET_USES_64_BIT_BINDER := true
 ARCH_ARM_HAVE_NEON := true
 TARGET_CPU_SMP := false
 ARCH_ARM_HAVE_TLS_REGISTER := true
-# TARGET_KERNEL_ARCH_EXCLUDES := -fPIC
+TARGET_KERNEL_ARCH_EXCLUDES := -fPIC
 TARGET_BOARD_SUFFIX := _32
 TARGET_SUPPORTS_32_BIT_APPS := true
 TARGET_SUPPORTS_64_BIT_APPS := false
@@ -55,16 +55,16 @@ BOARD_PREBUILT_RECOVERY_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
-BOARD_RECOVERY_NEEDS_T_TOUCH := true
+# BOARD_RECOVERY_NEEDS_T_TOUCH := true
 # TARGET_KERNEL_APPEND_DTB := true
 # TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
 # TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
 CUSTOM_KERNEL_TOUCHPANEL = gt9xxtb_hotknot
-BOARD_USES_MTK_HEADER := true
-BOARD_USES_MTK_KERNEL_HEADER := true
+# BOARD_USES_MTK_HEADER := true
+# BOARD_USES_MTK_KERNEL_HEADER := true
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive printk.devkmsg=on androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 # skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive printk.devkmsg=on androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_DTBO_SIZE := 40393
 BOARD_RAMDISK_OFFSET := 0x15000000
@@ -82,7 +82,7 @@ BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --kernel_offset $(BOARD_KERNEL_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --second_offset $(BOARD_KERNEL_SECOND_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
-BOARD_MKBOOTIMG_ARGS += --recovery_dtbo $(BOARD_PREBUILT_RECOVERY_DTBOIMAGE)
+# BOARD_MKBOOTIMG_ARGS += --recovery_dtbo $(BOARD_PREBUILT_RECOVERY_DTBOIMAGE)
 # BOARD_CUSTOM_BOOTIMG_MK += $(DEVICE_PATH)/device_hooks.mk
 
 # Recovery LZMA Compression
@@ -293,12 +293,12 @@ BOARD_TOUCH_MAX_X := 720
 # If the offset is still 'drifting' as you go down, 
 # tell TWRP to ignore the kernel's reported resolution
 # TW_INPUT_BLACKLIST := "hbtp_vm"
-# BOARD_USE_CUSTOM_RECOVERY_UI := true
+BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
-# RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
-# TW_DISABLE_DOUBLE_BUFFERING := false
-# TARGET_DISABLE_TRIPLE_BUFFERING := false
-# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
+TW_DISABLE_DOUBLE_BUFFERING := false
+TARGET_DISABLE_TRIPLE_BUFFERING := false
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true
@@ -341,9 +341,19 @@ BOARD_VENDOR_KERNEL_MODULES := \
   $(vendor_lkm_dir)/gps_drv.ko \
   $(vendor_lkm_dir)/wmt_chrdev_wifi.ko
 
+BOARD_RECOVERY_KERNEL_MODULES := \
+  $(vendor_lkm_dir)/ilitek.ko \
+  $(vendor_lkm_dir)/sitronix-ts.ko \
+  $(vendor_lkm_dir)/hxchipset-i2c.ko \
+  $(vendor_lkm_dir)/focaltech.ko \
+  $(vendor_lkm_dir)/synaptics_dsx.ko \
+  $(vendor_lkm_dir)/jadard_touch.ko \
+  $(vendor_lkm_dir)/gsl37xx.ko \
+  $(vendor_lkm_dir)/hyn_cst3xx.ko
+
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-# TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+TW_LOAD_RECOVERY_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
 TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
@@ -364,7 +374,7 @@ TW_USE_EXTERNAL_STORAGE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
 "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
-BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
+BOARD_USES_FULL_RECOVERY_IMAGE := true        # Uncomment this line if you want to remove size restriction
 TARGET_USES_AOSP := true
 
 # These two are for MTK Chipsets only

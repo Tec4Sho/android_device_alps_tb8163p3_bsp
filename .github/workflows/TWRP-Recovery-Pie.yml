@@ -142,11 +142,12 @@ jobs:
         
     - name: Prepare the environment
       run: |
-        sudo apt update
-        sudo apt -y upgrade
-        sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev
+        sudo apt-get -y -q -q update
+        # sudo apt-get -y -q -q install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
+        sudo apt-get -y -q -q install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig git repo liblzma-dev m4 libstdc++ >/dev/null;
+        sudo apt-get -y -q -q install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev >/dev/null
         sudo add-apt-repository universe
-        sudo apt -y install libncurses5
+        sudo apt-get -y -q -q install libncurses5
 
     - name: Install OpenJDK
       uses: actions/setup-java@v4
@@ -200,20 +201,23 @@ jobs:
         elif [ -f ${{ github.event.inputs.DEVICE_PATH }}/omni_${{ github.event.inputs.DEVICE_NAME}}.mk ]; then
             echo "DEVICE_MAKEFILE=omni_${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
         else
-            echo "No recovery makefile file found!"
+            echo "::error::No device name makefile file found!"
         fi
-      continue-on-error: true
+      continue-on-error: false
       
     - name: Install Python 2
       if: github.event.inputs.MANIFEST_BRANCH != 'twrp-11' && github.event.inputs.MANIFEST_BRANCH != 'twrp-12.1'  && github.event.inputs.MANIFEST_BRANCH != 'twrp-14'
       run: |
-        sudo apt -y install python2
+        sudo apt-get -y -q -q install python2
         cd /usr/bin
-        sudo ln -sf python2 python
+        sudo ln -vsf python2 python
 
     - name: Building Image 
       run: |
         cd workspace
+        [[ -e ./build/make/core/Makefile ]] && [[ -e ./${{ github.event.inputs.DEVICE_PATH }}/scripts/mkimage ]] && sed -i '1525a \\t$(hide) $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mkimage $@ $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mtk_ramdisk.cfg > $@.mtk && mv -vf $@.mtk $@' $gitbase/build/make/core/Makefile && \
+          grep -q "mtk_ramdisk.cfg" $gitbase/build/make/core/Makefile && \
+          echo -e "\nChange verified!" || echo -e "\nEdit failed: string not found.";
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)

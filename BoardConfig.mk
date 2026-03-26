@@ -35,7 +35,7 @@ TARGET_IS_32_BIT := true
 
 TARGET_KERNEL_HEADER_ARCH := arm
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
-TARGET_USES_UNCOMPRESSED_KERNEL := false
+# TARGET_USES_UNCOMPRESSED_KERNEL := false
 
 # Kernel     # 0x00C3DA00
 # TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist

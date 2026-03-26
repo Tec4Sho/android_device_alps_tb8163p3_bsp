@@ -217,8 +217,8 @@ jobs:
     - name: Building Image 
       run: |
         cd workspace
-        [[ -e ./build/make/core/Makefile ]] && [[ -e ./${{ github.event.inputs.DEVICE_PATH }}/scripts/mkimage ]] && sed -i '1525a \\t$(hide) $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mkimage $@ $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mtk_ramdisk.cfg > $@.mtk && mv -vf $@.mtk $@' $gitbase/build/make/core/Makefile && \
-          grep -q "mtk_ramdisk.cfg" $gitbase/build/make/core/Makefile && \
+        [[ -e ./build/make/core/Makefile ]] && [[ -e ./${{ github.event.inputs.DEVICE_PATH }}/scripts/mkimage ]] && sed -i '1525a \\t$(hide) $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mkimage $@ $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mtk_ramdisk.cfg > $@.mtk && mv -vf $@.mtk $@' ./build/make/core/Makefile && \
+          grep -q "mtk_ramdisk.cfg" ./build/make/core/Makefile && \
           echo -e "\nChange verified!" || echo -e "\nEdit failed: string not found.";
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true

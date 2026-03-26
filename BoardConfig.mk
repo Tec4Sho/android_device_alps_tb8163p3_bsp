@@ -66,14 +66,14 @@ BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive printk.devkmsg=on androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_DTBO_SIZE := 40393
+# BOARD_DTBO_SIZE := 40393
 BOARD_RAMDISK_OFFSET := 0x15000000
 BOARD_KERNEL_TAGS_OFFSET := 0x14000000
 BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_KERNEL_SECOND_OFFSET := 0x00f00000
-BOARD_DTBO_OFFSET :=  0x00C3DA00 # 12834816
+BOARD_DTBO_OFFSET := 12834816
 # BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 12834816
-BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 0x00C3DA00
+# BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 0x00C3DA00
 BOARD_MKBOOTIMG_ARGS += --board $(BOARD_NAME)
 BOARD_MKBOOTIMG_ARGS += --base $(BOARD_KERNEL_BASE)
 BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
@@ -341,20 +341,21 @@ BOARD_VENDOR_KERNEL_MODULES := \
   $(vendor_lkm_dir)/gps_drv.ko \
   $(vendor_lkm_dir)/wmt_chrdev_wifi.ko
 
-BOARD_RECOVERY_KERNEL_MODULES := \
-  $(vendor_lkm_dir)/ilitek.ko \
-  $(vendor_lkm_dir)/sitronix-ts.ko \
-  $(vendor_lkm_dir)/hxchipset-i2c.ko \
-  $(vendor_lkm_dir)/focaltech.ko \
-  $(vendor_lkm_dir)/synaptics_dsx.ko \
-  $(vendor_lkm_dir)/jadard_touch.ko \
-  $(vendor_lkm_dir)/gsl37xx.ko \
-  $(vendor_lkm_dir)/hyn_cst3xx.ko
+#Touchscreen
+TW_LOAD_VENDOR_MODULES := \
+  ilitek.ko \
+  sitronix-ts.ko \
+  hxchipset-i2c.ko \
+  focaltech.ko \
+  synaptics_dsx.ko \
+  jadard_touch.ko \
+  gsl37xx.ko \
+  hyn_cst3xx.ko
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-TW_LOAD_RECOVERY_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
-TW_LOAD_VENDOR_MODULES := "*"
+# TW_LOAD_RECOVERY_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+# TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
 TW_LOAD_VENDOR_BOOT_MODULES := true

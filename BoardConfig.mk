@@ -26,7 +26,7 @@ TARGET_USES_64_BIT_BINDER := true
 ARCH_ARM_HAVE_NEON := true
 TARGET_CPU_SMP := false
 ARCH_ARM_HAVE_TLS_REGISTER := true
-TARGET_KERNEL_ARCH_EXCLUDES := -fPIC
+# TARGET_KERNEL_ARCH_EXCLUDES := -fPIC
 TARGET_BOARD_SUFFIX := _32
 TARGET_SUPPORTS_32_BIT_APPS := true
 TARGET_SUPPORTS_64_BIT_APPS := false
@@ -39,9 +39,9 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 # Kernel     # 0x00C3DA00
 BOARD_NAME := tb8163p3_bsp
 # TARGET_NO_KERNEL := false # Counter-intuitive, but tells the system a kernel DOES exist
-BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
+# BOARD_HAL_STATIC_LIBRARIES := libhealthd.mtk # Common for MT8163
 # BOARD_KERNEL_IMAGE_NAME := zImage-dtb
-BOARD_KERNEL_SEPARATED_DTBO := true
+# BOARD_KERNEL_SEPARATED_DTBO := true
 TARGET_FORCE_PREBUILT_KERNEL := true
 BOARD_KERNEL_IMAGE_NAME := zImage
 HAS_PREBUILT_KERNEL := true
@@ -64,16 +64,16 @@ BOARD_USES_MTK_HEADER := true
 BOARD_USES_MTK_KERNEL_HEADER := true
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive printk.devkmsg=on androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive printk.devkmsg=on androidboot.init_fatal_reboot_target=recovery console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 # skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_DTBO_SIZE := 40393
 BOARD_RAMDISK_OFFSET := 0x15000000
 BOARD_KERNEL_TAGS_OFFSET := 0x14000000
 BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_KERNEL_SECOND_OFFSET := 0x00f00000
-BOARD_DTBO_OFFSET := 12834816 # 0x00C3DA00
-BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 12834816
-# BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 0x00C3DA00
+BOARD_DTBO_OFFSET :=  0x00C3DA00 # 12834816
+# BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 12834816
+BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 0x00C3DA00
 BOARD_MKBOOTIMG_ARGS += --board $(BOARD_NAME)
 BOARD_MKBOOTIMG_ARGS += --base $(BOARD_KERNEL_BASE)
 BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
@@ -97,7 +97,7 @@ BOARD_RAMDISK_COMPRESSED := lzma-9
   # KERNEL_PATH := $(DEVICE_PATH)/prebuilt
   # DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
   # BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
-  # BOARD_KERNEL_SEPARATED_DTBO :=
+  BOARD_KERNEL_SEPARATED_DTBO :=
 # endif
 
 # APEX
@@ -260,11 +260,13 @@ else
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
   #DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 720                     # Device resolution width
+  BOARD_SCREEN_HEIGHT := 1280                     # Device resolution height
   DEVICE_SCREEN_WIDTH := 720
   DEVICE_SCREEN_HEIGHT := 1280
-  TW_THEME := portrait_hdpi # Force a 720x1280 theme
   TARGET_SCREEN_HEIGHT := 1280    # 1024 The height mdpi
   TARGET_SCREEN_WIDTH := 720      # 600         
+  TW_THEME := portrait_hdpi # Force a 720x1280 theme        
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
@@ -282,7 +284,7 @@ TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-# GRAPHIC_MEMORY_PROVIDER := uma
+GRAPHIC_MEMORY_PROVIDER := uma
 # TW_BOARD_CUSTOM_GRAPHICS :=
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 # Force the touch engine to use the Kernel's 'Ghost' range
@@ -290,10 +292,10 @@ BOARD_TOUCH_MAX_Y := 1280
 BOARD_TOUCH_MAX_X := 720
 # If the offset is still 'drifting' as you go down, 
 # tell TWRP to ignore the kernel's reported resolution
-TW_INPUT_BLACKLIST := "hbtp_vm"
-BOARD_USE_CUSTOM_RECOVERY_UI := true
+# TW_INPUT_BLACKLIST := "hbtp_vm"
+# BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
-RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
+# RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
 # TW_DISABLE_DOUBLE_BUFFERING := false
 # TARGET_DISABLE_TRIPLE_BUFFERING := false
 # TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
@@ -304,6 +306,40 @@ TW_ENABLE_ALL_PARTITION_TOOLS := true
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
 BOARD_USES_GENERIC_KERNEL_IMAGE := false
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
+
+# Auto copy files into ramdisk-recovery
+vendor_lkm_dir := vendor/lib/modules
+BOARD_VENDOR_KERNEL_MODULES := \
+  $(vendor_lkm_dir)/ilitek.ko \
+  $(vendor_lkm_dir)/wlan_drv_gen2.ko \
+  $(vendor_lkm_dir)/sitronix-ts.ko \
+  $(vendor_lkm_dir)/hxchipset-i2c.ko \
+  $(vendor_lkm_dir)/focaltech.ko \
+  $(vendor_lkm_dir)/wmt_drv.ko \
+  $(vendor_lkm_dir)/synaptics_dsx.ko \
+  $(vendor_lkm_dir)/jadard_touch.ko \
+  $(vendor_lkm_dir)/gsl37xx.ko \
+  $(vendor_lkm_dir)/tda7708LX.ko \
+  $(vendor_lkm_dir)/betterlife_ts.ko \
+  $(vendor_lkm_dir)/qn8035.ko \
+  $(vendor_lkm_dir)/si475x.ko \
+  $(vendor_lkm_dir)/atmel_mxt_ts.ko \
+  $(vendor_lkm_dir)/ak7604.ko \
+  $(vendor_lkm_dir)/fy7604.ko \
+  $(vendor_lkm_dir)/hyn_cst3xx.ko \
+  $(vendor_lkm_dir)/fmradio_drv.ko \
+  $(vendor_lkm_dir)/tp9951.ko \
+  $(vendor_lkm_dir)/tp9950.ko \
+  $(vendor_lkm_dir)/carstatus.ko \
+  $(vendor_lkm_dir)/tp2825.ko \
+  $(vendor_lkm_dir)/cd3313.ko \
+  $(vendor_lkm_dir)/f_iap_zj.ko \
+  $(vendor_lkm_dir)/f_iap_lt.ko \
+  $(vendor_lkm_dir)/qn8027.ko \
+  $(vendor_lkm_dir)/met.ko \
+  $(vendor_lkm_dir)/bt_drv.ko \
+  $(vendor_lkm_dir)/gps_drv.ko \
+  $(vendor_lkm_dir)/wmt_chrdev_wifi.ko
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
@@ -482,7 +518,7 @@ BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
-TW_USE_FB2PNG := true
+TW_USE_FB2PNG := false
 TW_INCLUDE_NANO := true
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
@@ -507,38 +543,4 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compa
 #TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
 
 # In BoardConfig.mk, the Android build defines a BOARD_VENDOR_KERNEL_MODULES variable that provides a full list of the kernel modules intended for the vendor image. The modules listed in this variable are copied into the vendor image at /lib/modules/, and, after being mounted in Android, appear in /vendor/lib/modules (in accordance with the above requirements). Example configuration of the vendor kernel modules:
-
-# Auto copy files into ramdisk-recovery
-vendor_lkm_dir := vendor/lib/modules
-BOARD_VENDOR_KERNEL_MODULES := \
-  $(vendor_lkm_dir)/ilitek.ko \
-  $(vendor_lkm_dir)/wlan_drv_gen2.ko \
-  $(vendor_lkm_dir)/sitronix-ts.ko \
-  $(vendor_lkm_dir)/hxchipset-i2c.ko \
-  $(vendor_lkm_dir)/focaltech.ko \
-  $(vendor_lkm_dir)/wmt_drv.ko \
-  $(vendor_lkm_dir)/synaptics_dsx.ko \
-  $(vendor_lkm_dir)/jadard_touch.ko \
-  $(vendor_lkm_dir)/gsl37xx.ko \
-  $(vendor_lkm_dir)/tda7708LX.ko \
-  $(vendor_lkm_dir)/betterlife_ts.ko \
-  $(vendor_lkm_dir)/qn8035.ko \
-  $(vendor_lkm_dir)/si475x.ko \
-  $(vendor_lkm_dir)/atmel_mxt_ts.ko \
-  $(vendor_lkm_dir)/ak7604.ko \
-  $(vendor_lkm_dir)/fy7604.ko \
-  $(vendor_lkm_dir)/hyn_cst3xx.ko \
-  $(vendor_lkm_dir)/fmradio_drv.ko \
-  $(vendor_lkm_dir)/tp9951.ko \
-  $(vendor_lkm_dir)/tp9950.ko \
-  $(vendor_lkm_dir)/carstatus.ko \
-  $(vendor_lkm_dir)/tp2825.ko \
-  $(vendor_lkm_dir)/cd3313.ko \
-  $(vendor_lkm_dir)/f_iap_zj.ko \
-  $(vendor_lkm_dir)/f_iap_lt.ko \
-  $(vendor_lkm_dir)/qn8027.ko \
-  $(vendor_lkm_dir)/met.ko \
-  $(vendor_lkm_dir)/bt_drv.ko \
-  $(vendor_lkm_dir)/gps_drv.ko \
-  $(vendor_lkm_dir)/wmt_chrdev_wifi.ko
 #

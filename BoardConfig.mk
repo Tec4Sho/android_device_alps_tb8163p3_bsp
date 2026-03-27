@@ -285,8 +285,8 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
-#TW_LOAD_VENDOR_MODULES := "*"
+#TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
 TW_LOAD_VENDOR_BOOT_MODULES := true
@@ -306,7 +306,7 @@ TW_USE_EXTERNAL_STORAGE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
 "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
-BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
+BOARD_USES_FULL_RECOVERY_IMAGE := true        # Uncomment this line if you want to remove size restriction
 TARGET_USES_AOSP := true
 
 # These two are for MTK Chipsets only
@@ -362,7 +362,7 @@ TW_HAS_USB_STORAGE := true
 TW_HAS_DUAL_STORAGE := true
 TW_HAS_REPACK_TOOLS := true
 TW_HAS_BOOT_PARTITION := true
-TW_HAS_RECOVERY_PARTITION := false
+TW_HAS_RECOVERY_PARTITION := true
 TW_ALLOW_PARTITION_SDCARD := true
 BOARD_SUPPRESS_SECURE_ERASE := true
 TWRP_INCLUDE_CRYPTO := false 

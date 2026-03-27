@@ -138,18 +138,18 @@ jobs:
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 24
+        swap-size-gb: 1
         
     - name: Prepare the environment
       run: |
         sudo apt-get -y -q -q update
+        sudo apt-get -y -q -q install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig  >/dev/null;
+        # sudo apt-get -y -q -q install x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc git repo liblzma-dev m4 libstdc++ >/dev/null;
+        sudo apt-get -y -q -q install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev >/dev/null
+        # sudo apt-get -y -q -q upgrade
         sudo apt-get -y -q -q install -f
-        sudo apt-get -y -q -q install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
-        # sudo apt-get -y -q -q install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig git repo liblzma-dev m4 libstdc++ >/dev/null;
-        sudo apt-get -y -q -q install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev >/dev/null
-        sudo apt-get -y -q -q upgrade
         sudo add-apt-repository universe
-        sudo apt-get -y -q -q install libncurses5
+        sudo apt-get -y -q -q install libncurses5 lib32ncurses5-dev
 
     - name: Install OpenJDK
       uses: actions/setup-java@v4
@@ -222,7 +222,7 @@ jobs:
         #  echo -e "\nChange verified!" || echo -e "\nEdit failed: string not found.";
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)
         echo "Done building your ${{ github.event.inputs.BUILD_TARGET }}.img"
       
     - name: Set Build Date # Output will be use in Release

@@ -35,8 +35,6 @@ LOCAL_PATH := device/alps/tb8163p3
 # Replace $$BRAND$$ with your Brand's / Manufacturer's Value.
 PRODUCT_COPY_FILES += device/alps/tb8163p3/prebuilt/zImage:kernel
 PRODUCT_COPY_FILES += device/alps/tb8163p3/prebuilt/dtbo.img:dtbo
-# Fles under $(LOCAL_PATH)/recovery/root/ gets automatically copied into recovery
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/recovery/root/*
 
 BOARD_VENDOR := tb8163p3_bsp
 TARGET_VENDOR := tb8163p3_bsp

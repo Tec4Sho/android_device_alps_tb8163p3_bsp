@@ -30,11 +30,7 @@ ifeq ($(RECOVERY_VARIANT),pbrp)
 #  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
 
-LOCAL_PATH := device/alps/tb8163p3
-# Replace $$DEVICE$$ with your Device Name's Value.
-# Replace $$BRAND$$ with your Brand's / Manufacturer's Value.
-PRODUCT_COPY_FILES += device/alps/tb8163p3/prebuilt/zImage:kernel
-PRODUCT_COPY_FILES += device/alps/tb8163p3/prebuilt/dtbo.img:dtbo
+LOCAL_PATH := device/alps/tb8163p3_bsp
 
 BOARD_VENDOR := tb8163p3_bsp
 TARGET_VENDOR := tb8163p3_bsp

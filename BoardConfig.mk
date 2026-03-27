@@ -111,6 +111,11 @@ TARGET_NO_BOOTLOADER := true
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
+# Replace $$DEVICE$$ with your Device Name's Value.
+# Replace $$BRAND$$ with your Brand's / Manufacturer's Value.
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/zImage:kernel
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo
+
 # Display
 TARGET_SCREEN_DENSITY := 160
 

@@ -71,7 +71,8 @@ BOARD_RAMDISK_OFFSET := 0x15000000
 BOARD_KERNEL_TAGS_OFFSET := 0x14000000
 BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_KERNEL_SECOND_OFFSET := 0x00f00000
-BOARD_DTBO_OFFSET := 12834816
+BOARD_DTBO_OFFSET := 15886336 # 12834816
+BOARD_RECOVERY_DTBO_OFFSET := 15886336
 # BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 12834816
 # BOARD_BOOTIMG_RECOVERY_DTBO_OFFSET := 0x00C3DA00
 BOARD_MKBOOTIMG_ARGS += --board $(BOARD_NAME)
@@ -297,10 +298,10 @@ BOARD_TOUCH_MAX_Y := 1280
 BOARD_TOUCH_MAX_X := 720
 # If the offset is still 'drifting' as you go down, 
 # tell TWRP to ignore the kernel's reported resolution
-# TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_INPUT_BLACKLIST := "hbtp_vm"
 BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
-RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 TW_DISABLE_DOUBLE_BUFFERING := false
 TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
@@ -357,10 +358,13 @@ TW_LOAD_VENDOR_MODULES := \
   gsl37xx.ko \
   hyn_cst3xx.ko
 
+# To load vendor dlkm modules for touch or etc
+TW_LOAD_VENDOR_DLKM_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
 # TW_LOAD_RECOVERY_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
-# TW_LOAD_VENDOR_MODULES := "*"
+TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
 TW_LOAD_VENDOR_BOOT_MODULES := true

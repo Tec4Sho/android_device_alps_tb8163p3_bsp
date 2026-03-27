@@ -61,6 +61,8 @@ BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_DTBO_SIZE := 40393
 BOARD_DTBO_OFFSET := 12834816
 BOARD_KERNEL_SECOND_OFFSET := 0x00f00000
+BOARD_NAME := tb8163p3_bsp
+BOARD_MKBOOTIMG_ARGS += --board $(BOARD_NAME)
 BOARD_MKBOOTIMG_ARGS += --base $(BOARD_KERNEL_BASE)
 BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
@@ -84,8 +86,8 @@ BOARD_RAMDISK_COMPRESSED := lzma-9
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
   KERNEL_PATH := $(DEVICE_PATH)/prebuilt
   DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
-  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel
-  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/kernel
+  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/zImage
+  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/zImage
   BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PREBUILT_PATH)/dtbo.img
   BOARD_KERNEL_SEPARATED_DTBO :=
 endif
@@ -139,6 +141,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 ##### TWRP Configuration below #####
 BOARD_TWRP_ENABLE := true
+RECOVERY_VARIANT := pbrp
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
@@ -179,13 +182,23 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   BOARD_VNDK_VERSION := current
   BOARD_VNDK_RUNTIME_DISABLE := true
   # Uses Custom ARM Busybox w/ Toybox
-  #RECOVERY_BUSYBOX_SYMLINKS := false
-  #RECOVERY_BUSYBOX_TOOLS := false
-  #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  #BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
-  #BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
-  #TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
-  #TARGET_SCREEN_WIDTH := 1080
+  # RECOVERY_BUSYBOX_SYMLINKS := false
+  # RECOVERY_BUSYBOX_TOOLS := false
+  #DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 720       # 600 True width mdpi
+  BOARD_SCREEN_HEIGHT := 1280     # 1024 True height mdpi
+  DEVICE_SCREEN_WIDTH := 720      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 1280    # Device resolution height
+  TARGET_SCREEN_WIDTH := 720    
+  TARGET_SCREEN_HEIGHT := 1280
+  # Force the touch engine to use the Kernel's 'Ghost' range
+  RECOVERY_GRAPHICS_USE_LINELENGTH := true
+  BOARD_TOUCH_MAX_Y := 1280
+  BOARD_TOUCH_MAX_X := 720
+  # If the offset is still 'drifting' as you go down,
+  TW_INPUT_BLACKLIST := "hbtp_vm"
+  # tell TWRP to ignore the kernel's reported resolution
+  BOARD_USE_CUSTOM_RECOVERY_UI := true
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
@@ -415,7 +428,7 @@ RECOVERY_TOUCHSCREEN_FLIP_Y := false
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-SF_PRIMARY_DISPLAY_ORIENTATION := 270
+# SF_PRIMARY_DISPLAY_ORIENTATION := 270
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO
@@ -505,3 +518,5 @@ BOARD_VENDOR_KERNEL_MODULES := \
   
 # Auto copy files into ramdisk-recovery
 #
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/zImage:kernel
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo

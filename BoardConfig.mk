@@ -114,8 +114,8 @@ BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # Replace $$DEVICE$$ with your Device Name's Value.
 # Replace $$BRAND$$ with your Brand's / Manufacturer's Value.
-# PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/zImage:kernel
-# PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/zImage:kernel
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo
 
 # Display
 TARGET_SCREEN_DENSITY := 160
@@ -150,7 +150,7 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
-BOARD_HAS_LARGE_FILESYSTEM := false
+BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 318767104
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -299,7 +299,7 @@ BOARD_TOUCH_MAX_X := 720
 # If the offset is still 'drifting' as you go down, 
 # tell TWRP to ignore the kernel's reported resolution
 TW_INPUT_BLACKLIST := "hbtp_vm"
-# BOARD_USE_CUSTOM_RECOVERY_UI := true
+BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 TW_DISABLE_DOUBLE_BUFFERING := false
@@ -307,7 +307,7 @@ TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
-TW_ENABLE_ALL_PARTITION_TOOLS := false
+TW_ENABLE_ALL_PARTITION_TOOLS := true
 
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
 BOARD_USES_GENERIC_KERNEL_IMAGE := false

@@ -229,12 +229,12 @@ jobs:
         cd workspace
         export RECOVERY_VARIANT="pbrp"
         source build/envsetup.sh
-        export USE_NINJA=false
+        export USE_NINJA=true
         export ALLOW_MISSING_DEPENDENCIES=true
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export LC_ALL=C
         ninja -t restat
-        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)
       
     - name: Set Build Date # Output will be use in Release
       run: |

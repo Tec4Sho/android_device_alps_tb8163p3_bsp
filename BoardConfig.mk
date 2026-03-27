@@ -150,7 +150,7 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
-BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_HAS_LARGE_FILESYSTEM := false
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 318767104
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -257,15 +257,15 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := true
+  TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
   BOARD_VNDK_RUNTIME_DISABLE := true
   # Uses Custom ARM Busybox w/ Toybox
-  #RECOVERY_BUSYBOX_SYMLINKS := true
-  #RECOVERY_BUSYBOX_TOOLS := true
-  #DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
+  # RECOVERY_BUSYBOX_SYMLINKS := true
+  # RECOVERY_BUSYBOX_TOOLS := true
+  # DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
   BOARD_SCREEN_WIDTH := 720                     # Device resolution width
   BOARD_SCREEN_HEIGHT := 1280                     # Device resolution height
   DEVICE_SCREEN_WIDTH := 720
@@ -277,8 +277,8 @@ else
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
   TW_Y_OFFSET := 0
-  #TW_W_OFFSET := 0
-  #TW_H_OFFSET := 0
+  # TW_W_OFFSET := 0
+  # TW_H_OFFSET := 0
 endif
 
 # twrp rotation for special devices
@@ -299,7 +299,7 @@ BOARD_TOUCH_MAX_X := 720
 # If the offset is still 'drifting' as you go down, 
 # tell TWRP to ignore the kernel's reported resolution
 TW_INPUT_BLACKLIST := "hbtp_vm"
-BOARD_USE_CUSTOM_RECOVERY_UI := true
+# BOARD_USE_CUSTOM_RECOVERY_UI := true
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 TW_DISABLE_DOUBLE_BUFFERING := false
@@ -307,7 +307,7 @@ TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
-TW_ENABLE_ALL_PARTITION_TOOLS := true
+TW_ENABLE_ALL_PARTITION_TOOLS := false
 
 # This is a build flag that tells the Android build system whether the device uses a generic kernel image or a custom, device-specific kernel image.
 BOARD_USES_GENERIC_KERNEL_IMAGE := false
@@ -532,14 +532,14 @@ TW_SUPPORT_INPUT_1_2_HAPTICS := false
 TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
 
-BOARD_RECOVERY_SWIPE := false
+BOARD_RECOVERY_SWIPE := true
 RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
 TW_USE_FB2PNG := false
-TW_INCLUDE_NANO := true
+TW_INCLUDE_NANO := false
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
 

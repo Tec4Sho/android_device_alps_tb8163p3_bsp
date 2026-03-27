@@ -375,7 +375,7 @@ TW_USE_EXTERNAL_STORAGE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
 "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
-BOARD_USES_FULL_RECOVERY_IMAGE := true        # Uncomment this line if you want to remove size restriction
+BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
 TARGET_USES_AOSP := true
 
 # These two are for MTK Chipsets only

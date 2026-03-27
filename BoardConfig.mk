@@ -70,10 +70,10 @@ BOARD_MKBOOTIMG_ARGS += --second_offset $(BOARD_KERNEL_SECOND_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
-TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
+# TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
+# TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
 CUSTOM_KERNEL_TOUCHPANEL ?= gt9xxtb_hotknot
-TARGET_FORCE_PREBUILT_KERNEL ?= false
+TARGET_FORCE_PREBUILT_KERNEL ?= true
 # Recovery LZMA Compression
 BOARD_RAMDISK_USE_LZMA := true
 LZMA_RAMDISK_TARGETS := recovery boot
@@ -245,8 +245,8 @@ else
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 270
-TW_HWROTATION := 270
+TW_ROTATION := 0
+TW_HWROTATION := 0
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
 TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
@@ -304,7 +304,7 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
 TARGET_RECOVERY_PIXEL_FORMAT := RGB_565
-TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
+# TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness

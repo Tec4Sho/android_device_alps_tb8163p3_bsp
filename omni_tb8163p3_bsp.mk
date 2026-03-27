@@ -6,7 +6,7 @@
 #
 
 # Inherit from those products. Most specific first.
-# $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Inherit some common Omni stuff.
 $(call inherit-product-if-exists, vendor/omni/config/common.mk)

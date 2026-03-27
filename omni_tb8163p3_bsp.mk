@@ -8,6 +8,13 @@
 # Inherit from those products. Most specific first.
 # $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
 
+# Add this line if your device is 64-bit
+# Otherwise, If you have 32-bit device, add the below line instead of above line
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_minimal.mk)
+
+# Another common config inclusion
+$(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
+
 # Inherit some common Omni stuff.
 $(call inherit-product-if-exists, vendor/omni/config/common.mk)
 
@@ -22,6 +29,14 @@ endif
 ifeq ($(RECOVERY_VARIANT),pbrp)
 #  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
+
+LOCAL_PATH := device/alps/tb8163p3
+# Replace $$DEVICE$$ with your Device Name's Value.
+# Replace $$BRAND$$ with your Brand's / Manufacturer's Value.
+PRODUCT_COPY_FILES += device/alps/tb8163p3/prebuilt/zImage:kernel
+PRODUCT_COPY_FILES += device/alps/tb8163p3/prebuilt/dtbo.img:dtbo
+# Fles under $(LOCAL_PATH)/recovery/root/ gets automatically copied into recovery
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/recovery/root/*
 
 BOARD_VENDOR := tb8163p3_bsp
 TARGET_VENDOR := tb8163p3_bsp

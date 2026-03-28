@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-RECOVERY_VARIANT ?= pbrp
+RECOVERY_VARIANT ?= twrp
 
 # Inherit from those products. Most specific first.
 # $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)

@@ -176,11 +176,11 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
 else ifeq ($(RECOVERY_VARIANT),pbrp)
   PB_BUILD_TYPE := UNOFFICIAL
   TW_OEM_BUILD := true
-  TW_THEME := portrait_hdpi
+  TW_THEME := landscape_hdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := false
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := pbrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -188,17 +188,17 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := false
   # RECOVERY_BUSYBOX_TOOLS := false
-  # DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1280       # 600 True width mdpi
-  BOARD_SCREEN_HEIGHT := 720     # 1024 True height mdpi
-  DEVICE_SCREEN_WIDTH := 1280      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 720    # Device resolution height
-  TARGET_SCREEN_WIDTH := 1280    
-  TARGET_SCREEN_HEIGHT := 720
+  DEVICE_RESOLUTION := 1024x600  # The Resolution of your Device
+  BOARD_SCREEN_WIDTH := 1024       # 600 True width mdpi
+  BOARD_SCREEN_HEIGHT := 600     # 1024 True height mdpi
+  DEVICE_SCREEN_WIDTH := 1024      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 600    # Device resolution height
+  TARGET_SCREEN_WIDTH := 1024    
+  TARGET_SCREEN_HEIGHT := 600
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 720
-  BOARD_TOUCH_MAX_X := 1280
+  BOARD_TOUCH_MAX_Y := 600
+  BOARD_TOUCH_MAX_X := 1024
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := "hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution
@@ -206,7 +206,7 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
+  TW_Y_OFFSET := -60
   # TW_W_OFFSET := 0
   # TW_H_OFFSET := 0
 else ifeq ($(RECOVERY_VARIANT),shrp)
@@ -446,7 +446,7 @@ RECOVERY_TOUCHSCREEN_FLIP_Y := false
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-# SF_PRIMARY_DISPLAY_ORIENTATION := 270
+SF_PRIMARY_DISPLAY_ORIENTATION := 270
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO

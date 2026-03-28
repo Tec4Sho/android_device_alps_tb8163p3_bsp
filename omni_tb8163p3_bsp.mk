@@ -17,7 +17,7 @@ RECOVERY_VARIANT ?= pbrp
 # $(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
 
 # Inherit some common Omni stuff.
-$(call inherit-product-if-exists, vendor/omni/config/common.mk)
+# $(call inherit-product-if-exists, vendor/omni/config/common.mk)
 
 # Inherit from tb8163p3_bsp device tree
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)

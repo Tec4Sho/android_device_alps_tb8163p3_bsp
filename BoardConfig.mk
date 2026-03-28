@@ -237,8 +237,8 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
 else
   TW_OEM_BUILD := false
   TW_THEME := landspace_hdpi
-  TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
-  TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
+  # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
   TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
@@ -253,16 +253,16 @@ else
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   #TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   #TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 1280       # 600 True width mdpi
-  BOARD_SCREEN_HEIGHT := 720     # 1024 True height mdpi
-  DEVICE_SCREEN_WIDTH := 1280      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 720    # Device resolution height
-  TARGET_SCREEN_WIDTH := 1280    
-  TARGET_SCREEN_HEIGHT := 720
+  BOARD_SCREEN_WIDTH := 1024       # 600 720 True width mdpi
+  BOARD_SCREEN_HEIGHT := 600     # 1024 1280 True height mdpi
+  DEVICE_SCREEN_WIDTH := 1024      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 600    # Device resolution height
+  TARGET_SCREEN_WIDTH := 1024    
+  TARGET_SCREEN_HEIGHT := 600
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 720
-  BOARD_TOUCH_MAX_X := 1280
+  BOARD_TOUCH_MAX_Y := 600
+  BOARD_TOUCH_MAX_X := 1024
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := "hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution
@@ -270,7 +270,7 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
-  TW_Y_OFFSET := -80
+  TW_Y_OFFSET := 0
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 endif

@@ -34,7 +34,7 @@ TARGET_SUPPORTS_64_BIT_APPS := false
 TARGET_IS_32_BIT := true
 
 TARGET_KERNEL_HEADER_ARCH := arm
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi- # arm-linux-androideabi-
 TARGET_USES_UNCOMPRESSED_KERNEL := false
 
 # APEX
@@ -269,7 +269,7 @@ TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Su
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
-#TW_BOARD_CUSTOM_GRAPHICS := 
+# TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
 TW_DISABLE_DOUBLE_BUFFERING := false
@@ -285,7 +285,7 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-#TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+# TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
 TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
@@ -371,13 +371,13 @@ TW_CUSTOM_TWRP_FLAGS := $(DEVICE_PATH)/recovery/root/etc/twrp.flags
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 
 # GPU MaliT720 support opengl aep
-BOARD_OPENGL_AEP := false
+BOARD_OPENGL_AEP := true
 
 # Copy your own init.rc file
-TARGET_PROVIDES_INIT_RC := false
+# TARGET_PROVIDES_INIT_RC := false
 
 # exclude recovery.USB.rc
-TW_EXCLUDE_DEFAULT_USB_INIT := true
+# TW_EXCLUDE_DEFAULT_USB_INIT := true
 
 # Explicitly set the kernel version for depmod
 KERNEL_VERSION := 4.9.117+

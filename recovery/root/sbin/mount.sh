@@ -21,7 +21,7 @@ setprop vendor.all.modules.ready 1
 # Check log for twrp mount.sh started
 log 'MOUNT.SH was started successfully' 2>/dev/null;
 	 
-	[[ ! -d $(dirname $log) ]] && mkdir -p /cache/logs;
+	[ ! -d $(dirname $log) ] && mkdir -p /cache/logs;
 
 	if [ -f $log ]; then
 		mv -f $log ${log}.old;
@@ -72,7 +72,7 @@ cd /dev/block/platform/tk-msdc.0/by-name/
 touch apd boot cache dkb dtbo expdb flashinfo frp kb lk lk2 logo metadata nvram nvrom para persist proinfo protect1 protect2 recovery seccfg secro system tee1 tee2 userdata vbmeta vendor
 
 # Full device partition MOUNT list
-if [[ -n `busybox` ]]; then
+if [ `which busybox` ]; then
    (
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd /dev/block/platform/mtk-msdc.0/by-name/apd          
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/boot /dev/block/platform/mtk-msdc.0/by-name/boot
@@ -107,4 +107,3 @@ if [[ -n `busybox` ]]; then
 fi;
 
 exit 0
-

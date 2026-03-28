@@ -271,10 +271,10 @@ BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := uma
 # TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
-RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := true
-TW_DISABLE_DOUBLE_BUFFERING := false
-TARGET_DISABLE_TRIPLE_BUFFERING := false
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
+# RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
+# TW_DISABLE_DOUBLE_BUFFERING := false
+# TARGET_DISABLE_TRIPLE_BUFFERING := false
+# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true
@@ -318,8 +318,8 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-TARGET_RECOVERY_PIXEL_FORMAT := RGB_565
-# TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
+TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888 # RGB_565
+TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness

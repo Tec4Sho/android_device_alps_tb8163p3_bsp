@@ -43,6 +43,7 @@ on fs
     chmod 0644 /dev/event-log-tags
     start logd
     start init_mount
+    start insmodc
     start drm
     start mediadrm
     setprop modules.loaded 1
@@ -59,6 +60,13 @@ service mediadrm /system/bin/mediadrmserver
     group mediadrm drmrpc
     ioprio rt 4
     write /dev/cpuset/foreground/tasks
+
+service insmodc /sbin/init.insmod.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
 
 service init_mount /sbin/mount.sh
     oneshot

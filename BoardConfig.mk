@@ -277,7 +277,7 @@ endif
 
 # twrp rotation for special devices
 TW_ROTATION := 270
-TW_HWROTATION := 270
+TW_HWROTATION := 0
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
 TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support

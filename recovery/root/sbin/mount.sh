@@ -11,7 +11,7 @@ file2='/data/media/0/Fox/log';
 file3='/data/media/0/TWRP/tw-recovery.log';
 file4='/data/media/0/Fox/of-recovery.log';
 
-resetprop ro.sf.hwrotation 0 2>/dev/null;
+# resetprop ro.sf.hwrotation 0 2>/dev/null;
 resetprop ro.build.characteristics tablet 2>/dev/null;
 resetprop ro.mtk_is_tablet 1 2>/dev/null;
 resetprop windowsmgr.support_rotation_270 true 2>/dev/null;

@@ -51,6 +51,19 @@ BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 # Display
 TARGET_SCREEN_DENSITY := 160
 
+# Set kernel
+TARGET_FORCE_PREBUILT_KERNEL ?= true
+
+# Kernel - prebuilt
+ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
+  KERNEL_PATH := $(DEVICE_PATH)/prebuilt
+  DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
+  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/zImage
+  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/zImage
+  BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PREBUILT_PATH)/dtbo.img
+  BOARD_KERNEL_SEPARATED_DTBO :=
+endif
+
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
@@ -71,28 +84,17 @@ BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --kernel_offset $(BOARD_KERNEL_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --second_offset $(BOARD_KERNEL_SECOND_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
+BOARD_MKBOOTIMG_ARGS += --recovery_dtbo $(BOARD_DTBO_OFFSET)
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_SEPARATED_DTBO := true
 # TARGET_KERNEL_CONFIG := tb8163p3_bsp_defconfig
 # TARGET_KERNEL_SOURCE := kernel/alps/tb8163p3_bsp
-CUSTOM_KERNEL_TOUCHPANEL ?= gt9xxtb_hotknot
-BOARD_RECOVERY_NEEDS_T_TOUCH ?= true
-TARGET_FORCE_PREBUILT_KERNEL ?= true
+CUSTOM_KERNEL_TOUCHPANEL := gt9xxtb_hotknot
+BOARD_RECOVERY_NEEDS_T_TOUCH := true
 # Recovery LZMA Compression
 BOARD_RAMDISK_USE_LZMA := true
 LZMA_RAMDISK_TARGETS := recovery
 BOARD_RAMDISK_COMPRESSED := lzma-9
-
-
-# Kernel - prebuilt
-ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
-  KERNEL_PATH := $(DEVICE_PATH)/prebuilt
-  DEVICE_PREBUILT_PATH := $(KERNEL_PATH)
-  TARGET_PREBUILT_KERNEL := $(DEVICE_PREBUILT_PATH)/zImage
-  TARGET_PREBUILT_RECOVERY_KERNEL := $(DEVICE_PREBUILT_PATH)/zImage
-  BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PREBUILT_PATH)/dtbo.img
-  BOARD_KERNEL_SEPARATED_DTBO :=
-endif
 
 # Partitions
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
@@ -187,16 +189,16 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   # RECOVERY_BUSYBOX_SYMLINKS := false
   # RECOVERY_BUSYBOX_TOOLS := false
   # DEVICE_RESOLUTION := 1080x600  # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 720       # 600 True width mdpi
-  BOARD_SCREEN_HEIGHT := 1280     # 1024 True height mdpi
-  DEVICE_SCREEN_WIDTH := 720      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 1280    # Device resolution height
-  TARGET_SCREEN_WIDTH := 720    
-  TARGET_SCREEN_HEIGHT := 1280
+  BOARD_SCREEN_WIDTH := 1280       # 600 True width mdpi
+  BOARD_SCREEN_HEIGHT := 720     # 1024 True height mdpi
+  DEVICE_SCREEN_WIDTH := 1280      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 720    # Device resolution height
+  TARGET_SCREEN_WIDTH := 1280    
+  TARGET_SCREEN_HEIGHT := 720
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 1280
-  BOARD_TOUCH_MAX_X := 720
+  BOARD_TOUCH_MAX_Y := 720
+  BOARD_TOUCH_MAX_X := 1280
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := "hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution
@@ -234,11 +236,11 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := false
-  TW_THEME := portrait_mdpi
+  TW_THEME := landspace_mdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  #TWRP_NEW_THEME := true
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -249,8 +251,22 @@ else
   #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
   #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
-  TARGET_SCREEN_WIDTH := 600         
+  #TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
+  #TARGET_SCREEN_WIDTH := 600
+  BOARD_SCREEN_WIDTH := 1280       # 600 True width mdpi
+  BOARD_SCREEN_HEIGHT := 720     # 1024 True height mdpi
+  DEVICE_SCREEN_WIDTH := 1280      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 720    # Device resolution height
+  TARGET_SCREEN_WIDTH := 1280    
+  TARGET_SCREEN_HEIGHT := 720
+  # Force the touch engine to use the Kernel's 'Ghost' range
+  RECOVERY_GRAPHICS_USE_LINELENGTH := true
+  BOARD_TOUCH_MAX_Y := 720
+  BOARD_TOUCH_MAX_X := 1280
+  # If the offset is still 'drifting' as you go down,
+  TW_INPUT_BLACKLIST := "hbtp_vm"
+  # tell TWRP to ignore the kernel's reported resolution
+  BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
@@ -260,8 +276,8 @@ else
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 0
-TW_HWROTATION := 0
+TW_ROTATION := 270
+TW_HWROTATION := 270
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
 TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
@@ -319,7 +335,7 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
 TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888 # RGB_565
-TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
+# TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness

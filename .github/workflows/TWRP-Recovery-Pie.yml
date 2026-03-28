@@ -22,15 +22,15 @@ on:
         required: true
         default: 'android-9.0'
       DEVICE_PATH:
-        description: 'Specify your Device Path' 
+        description: 'DEVICE PATH' 
         required: true
         default: 'device/alps/tb8163p3_bsp'
       DEVICE_NAME:
-        description: 'Specify your Device Codename' 
+        description: 'DEVICE NAME' 
         required: true
         default: 'tb8163p3_bsp'
       BUILD_TARGET:
-        description: 'Specify your Build Target' 
+        description: 'BUILD TARGET' 
         required: true
         default: 'recovery'
         type: choice
@@ -38,25 +38,21 @@ on:
         - boot
         - recovery
         - vendorboot
-      LDCHECK:
-        description: 'Path of blobs to check' 
-        required: true
-        default: 'system/bin/qseecomd'
-      RECOVERY_TAR:
-        description: 'Release Recovery.tar For Samsung devices'
-        required: false
-        default: false
-        type: string #boolean
       RECOVERY_INSTALLER:
-        description: 'Include recovery installer.zip'
-        type: string #boolean
-        required: true
-        default: true
-      SPACE_SAVER:
-        description: 'Cleans homebrew, docker, npm, apt & os swap'
-        type: string #boolean
+        description: ': RECOVERY INSTALLER'
+        type: boolean
         required: false
-        default: False
+        default: 'true'
+      CLEAN_ENVIRONMENT:
+        description: ': CLEAN ENVIRONMENT'
+        type: boolean
+        required: false
+        default: 'true'
+      MAXIMIZE_BUILD_SPACE:
+        description: ': MAXIMIZE BUILD SPACE'
+        type: boolean
+        required: false
+        default: 'true'
         
 jobs:
   build:
@@ -126,30 +122,31 @@ jobs:
     - name: Check working directory space
       run: du ${GITHUB_WORKSPACE} -h -d 1
         
-    - name: Get more space
-      run: |
-        df . -h
-        sudo rm -rf ${GITHUB_WORKSPACE}/.git
-        df . -h
-
-    - name: Cleanup extras
+          # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup environment 
+      if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main
-      
-    - name: Set Swap Space
-      uses: pierotofy/set-swap-space@master
+      # That's it! Now use your normal steps  
+
+    - name: Maximize build space
+      if: github.event.inputs.MAXIMIZE_BUILD_SPACE == 'true'
+      uses: easimon/maximize-build-space@master
       with:
-        swap-size-gb: 12
+        root-reserve-mb: 11000 # Example: Reserve 12 GB for the root directory
+        swap-size-mb: 2048 # Example: Reserve 4 GB for swap file
+        remove-dotnet: 'true' # Example: Remove the .NET SDK to free space 
+      continue-on-error: true
         
-    - name: Prepare the environment
+    - name: Prepare The Environment
       run: |
-        sudo apt-get -y -q -q update
-        # sudo apt-get -y -q -q install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig  >/dev/null;
-        # sudo apt-get -y -q -q install x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc git repo liblzma-dev m4 libstdc++ >/dev/null;
-        sudo apt-get -y -q -q install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev >/dev/null
-        # sudo apt-get -y -q -q upgrade
-        sudo apt-get -y -q -q install -f
+        sudo apt-get update
+        sudo apt-get -y upgrade
+        sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig
+        # sudo apt-get -y install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig git repo liblzma-dev m4 libstdc++
+        sudo apt-get -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev
         sudo add-apt-repository universe
-        sudo apt-get -y -q -q install libncurses5 lib32ncurses5-dev
+        sudo apt-get -y install libncurses5
+      continue-on-error: true
 
     - name: Install OpenJDK
       uses: actions/setup-java@v4

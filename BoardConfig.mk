@@ -145,7 +145,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 ##### TWRP Configuration below #####
 BOARD_TWRP_ENABLE := true
-RECOVERY_VARIANT := pbrp
+RECOVERY_VARIANT := twrp
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
@@ -237,14 +237,14 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
 else
   TW_OEM_BUILD := false
   TW_THEME := landspace_mdpi
-  #TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
-  #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
-  #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
+  # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
+  # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
   TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
-  BOARD_VNDK_RUNTIME_DISABLE := true
+  BOARD_VNDK_RUNTIME_DISABLE := false
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
@@ -270,7 +270,7 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
+  TW_Y_OFFSET := -80
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 endif
@@ -334,7 +334,7 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888 # RGB_565
+TARGET_RECOVERY_PIXEL_FORMAT := RGB_565 # RGBA_8888
 # TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
@@ -438,9 +438,9 @@ TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_SUPERSU := true
 
 # twrp touch
-RECOVERY_TOUCHSCREEN_SWAP_XY := false
-RECOVERY_TOUCHSCREEN_FLIP_X := false
-RECOVERY_TOUCHSCREEN_FLIP_Y := false
+# RECOVERY_TOUCHSCREEN_SWAP_XY := false
+# RECOVERY_TOUCHSCREEN_FLIP_X := false
+# RECOVERY_TOUCHSCREEN_FLIP_Y := false
 
 # This tells the build system to ignore neverallow rules when compiling the SELinux policy.
 SELINUX_IGNORE_NEVERALLOWS := true
@@ -477,7 +477,7 @@ BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has
 
 # Twrp Tools
 TW_USE_FB2PNG := false
-TW_INCLUDE_NANO := false
+TW_INCLUDE_NANO := true
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
 
@@ -488,9 +488,9 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
-TW_IGNORE_ABS_MT_TRACKING_ID := false
-TW_IGNORE_MAJOR_AXIS_0 := false
-TW_IGNORE_MT_POSITION_0 := false
+# TW_IGNORE_ABS_MT_TRACKING_ID := false
+# TW_IGNORE_MAJOR_AXIS_0 := false
+# TW_IGNORE_MT_POSITION_0 := false
 
 # VINTF
 DEVICE_FRAMEWORK_MANIFEST_FILE := $(DEVICE_PATH)/device_system_manifest.xml

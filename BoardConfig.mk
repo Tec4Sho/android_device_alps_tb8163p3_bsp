@@ -236,7 +236,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := false
-  TW_THEME := landscape_mdpi
+  TW_THEME := portrait_hdpi  #landscape_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -248,31 +248,31 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1280x720                 # The Resolution of your Device
+  DEVICE_RESOLUTION := 720x1280                 # The Resolution of your Device
   #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   #TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   #TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 1280       # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 720     # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 1280      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 720    # Device resolution height
-  TARGET_SCREEN_WIDTH := 1280    
-  TARGET_SCREEN_HEIGHT := 720
+  BOARD_SCREEN_WIDTH := 720       # 600 720 True width mdpi
+  BOARD_SCREEN_HEIGHT := 1280     # 1024 1280 True height mdpi
+  DEVICE_SCREEN_WIDTH := 720      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 1280    # Device resolution height
+  TARGET_SCREEN_WIDTH := 720    
+  TARGET_SCREEN_HEIGHT := 1280
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 720
-  BOARD_TOUCH_MAX_X := 1280
+  BOARD_TOUCH_MAX_Y := 1280
+  BOARD_TOUCH_MAX_X := 720
   # If the offset is still 'drifting' as you go down,
-  TW_INPUT_BLACKLIST := "hbtp_vm"
+  TW_INPUT_BLACKLIST := hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
-  TW_W_OFFSET := 0
-  TW_H_OFFSET := 0
+  # TW_X_OFFSET := 0
+  # TW_Y_OFFSET := 0
+  # TW_W_OFFSET := 0
+  # TW_H_OFFSET := 0
 endif
 
 # twrp rotation for special devices
@@ -284,7 +284,7 @@ TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-GRAPHIC_MEMORY_PROVIDER := "gralloc"
+GRAPHIC_MEMORY_PROVIDER := gralloc
 # TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false

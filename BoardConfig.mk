@@ -253,16 +253,16 @@ else
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   #TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   #TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 1024       # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 600     # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 1024      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 600    # Device resolution height
-  TARGET_SCREEN_WIDTH := 1024    
-  TARGET_SCREEN_HEIGHT := 600
+  BOARD_SCREEN_WIDTH := 800       # 600 720 True width mdpi
+  BOARD_SCREEN_HEIGHT := 480     # 1024 1280 True height mdpi
+  DEVICE_SCREEN_WIDTH := 800      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 480    # Device resolution height
+  TARGET_SCREEN_WIDTH := 800    
+  TARGET_SCREEN_HEIGHT := 480
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 600
-  BOARD_TOUCH_MAX_X := 1024
+  BOARD_TOUCH_MAX_Y := 480
+  BOARD_TOUCH_MAX_X := 800
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := "hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution
@@ -284,14 +284,14 @@ TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-GRAPHIC_MEMORY_PROVIDER := uma
+GRAPHIC_MEMORY_PROVIDER := "gralloc"
 # TW_BOARD_CUSTOM_GRAPHICS := 
 USE_OPENGL_RENDERER := true
-# RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
-# TW_DISABLE_DOUBLE_BUFFERING := false
-# TARGET_DISABLE_TRIPLE_BUFFERING := false
-# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
-
+RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
+TW_DISABLE_DOUBLE_BUFFERING := false
+TARGET_DISABLE_TRIPLE_BUFFERING := true
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+TW_EXCLUDE_MTP := false
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true
 
@@ -334,7 +334,8 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-TARGET_RECOVERY_PIXEL_FORMAT := RGB_565 # RGBA_8888
+# RGBA_8888 RGB_565
+TARGET_RECOVERY_PIXEL_FORMAT :=  RGBA_8888
 # TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)

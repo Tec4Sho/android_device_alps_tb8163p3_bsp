@@ -115,8 +115,9 @@ TARGET_COPY_OUT_VENDOR := vendor
 # Platform
 PRODUCT_KERNEL_ARCH := arm
 TARGET_BOARD_PLATFORM := mt8163
-TARGET_BOARD_PLATFORM_GPU := mali-t720mp2
+# TARGET_BOARD_PLATFORM_GPU := mali-t720mp2
 TARGET_BOARD_HARDWARE_EGL := mali
+TARGET_BOARD_PLATFORM_GPU := mali-t720
 
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
@@ -284,13 +285,13 @@ TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
 TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
-GRAPHIC_MEMORY_PROVIDER := mali-t720
+GRAPHIC_MEMORY_PROVIDER := ump
 # TW_BOARD_CUSTOM_GRAPHICS := 
-USE_OPENGL_RENDERER := true
+# USE_OPENGL_RENDERER := true
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 TW_DISABLE_DOUBLE_BUFFERING := false
-TARGET_DISABLE_TRIPLE_BUFFERING := true
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+# TARGET_DISABLE_TRIPLE_BUFFERING := true
+# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 TW_EXCLUDE_MTP := false
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true

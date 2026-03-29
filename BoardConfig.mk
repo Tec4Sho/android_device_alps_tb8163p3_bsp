@@ -235,12 +235,12 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 else
-  TW_OEM_BUILD := false
-  TW_THEME := portrait_hdpi  #landscape_mdpi
+  TW_OEM_BUILD := true
+  TW_THEME := portrait_hdpi  # landscape_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := true
+  # TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -322,7 +322,7 @@ TW_USE_EXTERNAL_STORAGE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
 "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
-BOARD_USES_FULL_RECOVERY_IMAGE := true        # Uncomment this line if you want to remove size restriction
+BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
 TARGET_USES_AOSP := true
 
 # These two are for MTK Chipsets only
@@ -369,8 +369,8 @@ TW_INCLUDE_FASTBOOTD := true
 TW_EXCLUDE_APEX := true
 
 # Custom Recovery 
-BOARD_USE_DRM := true
-TW_POWER_BUTTON := true
+BOARD_USE_DRM := false
+TW_POWER_BUTTON := false
 TW_HAS_INTERNAL := true
 TW_HAS_EXTERNAL := true
 TW_HAS_INJECTTWRP := false
@@ -471,13 +471,13 @@ TW_SUPPORT_INPUT_1_2_HAPTICS := false
 TW_DELAY_TOUCH_INIT_MS := 30
 TW_FRAMERATE := 30
 
-BOARD_RECOVERY_SWIPE := true
-RECOVERY_SDCARD_ON_DATA := false
+BOARD_RECOVERY_SWIPE := false
+# RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
-TW_USE_FB2PNG := true
+TW_USE_FB2PNG := false
 TW_INCLUDE_NANO := true
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true

@@ -236,7 +236,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := false
-  TW_THEME := landscape_mdpi
+  TW_THEME := landscape_hdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -248,21 +248,21 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := true
   #RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1024x600                 # The Resolution of your Device
+  DEVICE_RESOLUTION := 1280x720                 # The Resolution of your Device
   #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
   #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   #TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   #TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 800       # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 480     # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 800      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 480    # Device resolution height
-  TARGET_SCREEN_WIDTH := 800    
-  TARGET_SCREEN_HEIGHT := 480
+  BOARD_SCREEN_WIDTH := 1280       # 600 720 True width mdpi
+  BOARD_SCREEN_HEIGHT := 720     # 1024 1280 True height mdpi
+  DEVICE_SCREEN_WIDTH := 1280      # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 720    # Device resolution height
+  TARGET_SCREEN_WIDTH := 1280    
+  TARGET_SCREEN_HEIGHT := 720
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 480
-  BOARD_TOUCH_MAX_X := 800
+  BOARD_TOUCH_MAX_Y := 720
+  BOARD_TOUCH_MAX_X := 1280
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := "hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution

@@ -236,7 +236,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := false
-  TW_THEME := landscape_hdpi
+  TW_THEME := landscape_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -270,9 +270,9 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
-  #TW_W_OFFSET := 0
-  #TW_H_OFFSET := 0
+  TW_Y_OFFSET := 30
+  TW_W_OFFSET := 0
+  TW_H_OFFSET := 30
 endif
 
 # twrp rotation for special devices

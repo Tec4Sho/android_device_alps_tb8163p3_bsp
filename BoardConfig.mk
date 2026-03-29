@@ -270,13 +270,13 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
-  TW_Y_OFFSET := 30
+  TW_Y_OFFSET := 0
   TW_W_OFFSET := 0
-  TW_H_OFFSET := 30
+  TW_H_OFFSET := 0
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 270
+TW_ROTATION := 0
 TW_HWROTATION := 0
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
@@ -336,7 +336,7 @@ TW_USE_TOOLBOX := true
 
 # RGBA_8888 RGB_565
 TARGET_RECOVERY_PIXEL_FORMAT :=  RGBA_8888
-# TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
+TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
@@ -391,10 +391,10 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 BOARD_OPENGL_AEP := true
 
 # Copy your own init.rc file
-# TARGET_PROVIDES_INIT_RC := false
+TARGET_PROVIDES_INIT_RC := false
 
 # exclude recovery.USB.rc
-# TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
 
 # Explicitly set the kernel version for depmod
 KERNEL_VERSION := 4.9.117+
@@ -447,7 +447,7 @@ TW_EXCLUDE_SUPERSU := true
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-SF_PRIMARY_DISPLAY_ORIENTATION := 270
+SF_PRIMARY_DISPLAY_ORIENTATION := 0
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO
@@ -468,7 +468,7 @@ BOARD_USB_ACCESSORY_SUPPORT := true
 #TWRP_CUSTOM_KEYBOARD := $(DEVICE_PATH)/mtk-kpd.kl
 TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_SUPPORT_INPUT_1_2_HAPTICS := false
-TW_DELAY_TOUCH_INIT_MS := 300
+TW_DELAY_TOUCH_INIT_MS := 30
 TW_FRAMERATE := 30
 
 BOARD_RECOVERY_SWIPE := true
@@ -477,7 +477,7 @@ BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
 
 # Twrp Tools
-TW_USE_FB2PNG := false
+TW_USE_FB2PNG := true
 TW_INCLUDE_NANO := true
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true
@@ -489,7 +489,7 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 TW_HAS_NO_BOOT_PARTITION := false
 TW_HAS_NO_RECOVERY_PARTITION := false
 
-# TW_IGNORE_ABS_MT_TRACKING_ID := false
+TW_IGNORE_ABS_MT_TRACKING_ID := true
 # TW_IGNORE_MAJOR_AXIS_0 := false
 # TW_IGNORE_MT_POSITION_0 := false
 
@@ -499,7 +499,7 @@ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compatibility_matrix.xml
 
 # Define custom paths for battery.
-#TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
+TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
 
 # In BoardConfig.mk, the Android build defines a BOARD_VENDOR_KERNEL_MODULES variable that provides a full list of the kernel modules intended for the vendor image. The modules listed in this variable are copied into the vendor image at /lib/modules/, and, after being mounted in Android, appear in /vendor/lib/modules (in accordance with the above requirements). Example configuration of the vendor kernel modules:
 vendor_lkm_dir := vendor/lib/modules

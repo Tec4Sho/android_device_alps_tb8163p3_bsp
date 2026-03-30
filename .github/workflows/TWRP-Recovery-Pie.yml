@@ -146,7 +146,7 @@ jobs:
         gh extension install andyfeller/gh-artifact-purge
         gh artifact-purge ${{ github.repository }} 1
       env:
-        GH_TOKEN: ${{ github.token }}  
+        GH_TOKEN: ${{ env.GITHUB_TOKEN }}  
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions

@@ -81,7 +81,18 @@ jobs:
         
     - name: Check disk space
       run: df . -h
-      
+
+    - name: Releases cleanup
+      uses: dev-drprasad/delete-older-releases@v0.3.4
+      with:
+        repo: ${{ github.repository }} # defaults to current repo
+        keep_latest: 3
+        keep_min_download_counts: 5 # Optional parameters
+        delete_expired_data: 2 # Optional parameters
+        delete_tag_pattern: beta # defaults to ""
+      env:
+        GITHUB_TOKEN: ${{ secrets.TWRP }}
+    
     - name: Free disk space
       run: |
         docker rmi $(docker images -f "dangling=true" -q) || true

@@ -61,7 +61,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.TWRP }}
     permissions:
       contents: write
     steps:
@@ -91,7 +91,7 @@ jobs:
         delete_expired_data: 2 # Optional parameters
         delete_tag_pattern: beta # defaults to ""
       env:
-        GITHUB_TOKEN: ${{ secrets.TWRP }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
     
     - name: Free disk space
       run: |

@@ -84,7 +84,8 @@ jobs:
       
     - name: Free disk space
       run: |
-        sudo docker rmi $(docker image ls -aq) >/dev/null 2>&1 || true
+        docker rmi $(docker images -f "dangling=true" -q) || true
+        docker system prune -f || true
         sudo rm -rf \
         /usr/share/dotnet /usr/local/lib/android /opt/ghc \
         /usr/local/share/powershell /usr/share/swift /usr/local/.ghcup \
@@ -124,9 +125,9 @@ jobs:
       run: |
         sudo swapoff -a
         sudo rm -f /swapfile
-        sudo apt clean >/dev/null
-        sudo rm -rf /swapfile /usr/share/dotnet /usr/local/lib/android /opt/ghc 2>/dev/null
-        du ${GITHUB_WORKSPACE} -h -d 1
+        sudo apt-get clean >/dev/null
+        sudo rm -rf /swapfile 2>/dev/null
+        du -h
       continue-on-error: true
       
     - name: cleanup old action artifacts

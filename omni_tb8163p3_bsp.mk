@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-RECOVERY_VARIANT ?= twrp
+RECOVERY_VARIANT ?= pbrp
 
 # Inherit from those products. Most specific first.
 # $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
@@ -28,7 +28,7 @@ ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),false)
 endif
 
 ifeq ($(RECOVERY_VARIANT),pbrp)
-#  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
+  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
 
 LOCAL_PATH := device/alps/tb8163p3_bsp

@@ -11,10 +11,10 @@ RECOVERY_VARIANT ?= twrp
 
 # Add this line if your device is 64-bit
 # Otherwise, If you have 32-bit device, add the below line instead of above line
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_minimal.mk)
+# $(call inherit-product, $(SRC_TARGET_DIR)/product/core_minimal.mk)
 
 # Another common config inclusion
-$(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
+# $(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
 
 # Inherit some common Omni stuff.
 $(call inherit-product-if-exists, vendor/omni/config/common.mk)
@@ -28,7 +28,7 @@ ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),false)
 endif
 
 ifeq ($(RECOVERY_VARIANT),pbrp)
-  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
+#  $(call inherit-product-if-exists, vendor/pb/config/common.mk)
 endif
 
 LOCAL_PATH := device/alps/tb8163p3_bsp

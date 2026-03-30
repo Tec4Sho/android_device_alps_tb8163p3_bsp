@@ -126,10 +126,14 @@ jobs:
         sudo apt clean >/dev/null
         sudo rm -rf /swapfile /usr/share/dotnet /usr/local/lib/android /opt/ghc 2>/dev/null
         du ${GITHUB_WORKSPACE} -h -d 1
-        
+      continue-on-error: true
+      
     - name: cleanup old action artifacts
-      run: .github/workflows/purge_artifacts.sh ${{ secrets.TWRP }}
-        
+      run: | 
+        gh extension install andyfeller/gh-artifact-purge
+        gh artifact-purge ${{ github.repository }} 1
+      continue-on-error: true
+      
       # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Cleanup environment 
       if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'

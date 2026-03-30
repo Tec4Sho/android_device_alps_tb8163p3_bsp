@@ -61,7 +61,6 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
-      GH_TOKEN: ${{ secrets.TWRP }}
     permissions:
       contents: write
     steps:
@@ -90,8 +89,6 @@ jobs:
         keep_min_download_counts: 5 # Optional parameters
         delete_expired_data: 2 # Optional parameters
         delete_tag_pattern: beta # defaults to ""
-      env:
-        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
     
     - name: Free disk space
       run: |
@@ -146,7 +143,7 @@ jobs:
         gh extension install andyfeller/gh-artifact-purge
         gh artifact-purge ${{ github.repository }} 1
       env:
-        GH_TOKEN: ${{ env.GITHUB_TOKEN }}  
+        GH_TOKEN: ${{ env.GITHUB_TOKEN }}
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions

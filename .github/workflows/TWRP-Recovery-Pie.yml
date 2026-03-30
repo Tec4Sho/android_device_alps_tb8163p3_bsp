@@ -61,6 +61,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.TWRP }}
+      GH_TOKEN: ${{ github.token }}
     permissions:
       contents: write
     steps:
@@ -132,6 +133,8 @@ jobs:
       run: | 
         gh extension install andyfeller/gh-artifact-purge
         gh artifact-purge ${{ github.repository }} 1
+      env:
+        GH_TOKEN: ${{ github.token }}  
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions

@@ -120,9 +120,12 @@ jobs:
       uses: actions/checkout@v3
       
     - name: Check working directory space
-      run: du ${GITHUB_WORKSPACE} -h -d 1
+      run: |
+        sudo swapoff /swapfile
+        sudo rm -rf /swapfile /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        du ${GITHUB_WORKSPACE} -h -d 1
         
-          # Cleanup The Actions Workspace Using Custom Composite Run Actions
+      # Cleanup The Actions Workspace Using Custom Composite Run Actions
     - name: Cleanup environment 
       if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: rokibhasansagar/slimhub_actions@main

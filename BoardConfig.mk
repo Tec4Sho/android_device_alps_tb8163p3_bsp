@@ -237,23 +237,23 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  TW_THEME := portrait_hdpi  # landscape_mdpi
+  TW_THEME := portrait_mdpi  # landscape_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  # TWRP_NEW_THEME := true
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
   BOARD_VNDK_RUNTIME_DISABLE := false
   # Uses Custom ARM Busybox w/ Toybox
-  #RECOVERY_BUSYBOX_SYMLINKS := true
-  #RECOVERY_BUSYBOX_TOOLS := true
+  # RECOVERY_BUSYBOX_SYMLINKS := true
+  # RECOVERY_BUSYBOX_TOOLS := true
   DEVICE_RESOLUTION := 720x1280                 # The Resolution of your Device
-  #BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  #BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  #TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
-  #TARGET_SCREEN_WIDTH := 600
+  # BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
+  # BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
+  # TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
+  # TARGET_SCREEN_WIDTH := 600
   BOARD_SCREEN_WIDTH := 720       # 600 720 True width mdpi
   BOARD_SCREEN_HEIGHT := 1280     # 1024 1280 True height mdpi
   DEVICE_SCREEN_WIDTH := 720      # Device resolution width
@@ -291,7 +291,7 @@ GRAPHIC_MEMORY_PROVIDER := ump
 RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 TW_DISABLE_DOUBLE_BUFFERING := false
 # TARGET_DISABLE_TRIPLE_BUFFERING := true
-# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 TW_EXCLUDE_MTP := false
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true
@@ -323,7 +323,8 @@ TW_USE_EXTERNAL_STORAGE := true
 TW_OVERRIDE_SYSTEM_PROPS := \
 "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
-BOARD_USES_FULL_RECOVERY_IMAGE := false        # Uncomment this line if you want to remove size restriction
+# Uncomment this line if you want to remove size restriction
+BOARD_USES_FULL_RECOVERY_IMAGE := false
 TARGET_USES_AOSP := true
 
 # These two are for MTK Chipsets only
@@ -392,7 +393,7 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/recovery.fstab
 BOARD_OPENGL_AEP := true
 
 # Copy your own init.rc file
-TARGET_PROVIDES_INIT_RC := false
+# TARGET_PROVIDES_INIT_RC := false
 
 # exclude recovery.USB.rc
 TW_EXCLUDE_DEFAULT_USB_INIT := true

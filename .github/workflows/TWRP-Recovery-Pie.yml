@@ -123,9 +123,8 @@ jobs:
       run: |
         sudo swapoff -a
         sudo rm -f /swapfile
-        sudo apt clean
-        docker rmi $(docker image ls -aq)
-        sudo rm -rf /swapfile /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo apt clean >/dev/null
+        sudo rm -rf /swapfile /usr/share/dotnet /usr/local/lib/android /opt/ghc 2>/dev/null
         du ${GITHUB_WORKSPACE} -h -d 1
         
     - name: cleanup old action artifacts

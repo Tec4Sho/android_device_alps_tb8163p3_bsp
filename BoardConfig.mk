@@ -146,7 +146,7 @@ PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
 
 ##### TWRP Configuration below #####
 BOARD_TWRP_ENABLE := true
-RECOVERY_VARIANT := twrp
+RECOVERY_VARIANT ?= twrp
 
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)

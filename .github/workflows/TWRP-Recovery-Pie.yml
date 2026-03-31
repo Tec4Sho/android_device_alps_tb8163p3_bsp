@@ -124,9 +124,9 @@ jobs:
           
     - name: Check disk space again 
       run: |
-        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr
+        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | head -n 20
         df -h
-        rm -vrf /opt/hostedtoolcache
+        rm -rf /opt/hostedtoolcache && \
         df -h
         sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr
         

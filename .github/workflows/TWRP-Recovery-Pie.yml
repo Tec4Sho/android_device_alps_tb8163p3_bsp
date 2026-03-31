@@ -79,9 +79,10 @@ jobs:
         echo "::endgroup::"
         
     - name: Check disk space
-      run: df . -h
+      run: df -h
 
     - name: Releases cleanup
+      if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       uses: Nats-ji/delete-old-releases@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -123,11 +124,11 @@ jobs:
     - name: Check disk space again 
       run: |
         sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head
-        df . -h
+        rm -Rf /opt/hostedtoolcache
+        df -h
         sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr | head
         
     - name: Clone Recovery Repo
-      if: steps.restore-workspace-cache.outputs.cache-hit != 'true'
       uses: actions/checkout@v6
       with:
         repository: ${{ github.repository }}
@@ -144,6 +145,7 @@ jobs:
       continue-on-error: true
       
     - name: cleanup old action artifacts
+      if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'
       run: | 
         gh extension install andyfeller/gh-artifact-purge
         gh artifact-purge ${{ github.repository }} 1

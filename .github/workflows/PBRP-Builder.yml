@@ -214,8 +214,8 @@ jobs:
         sudo df -h
         cd workspace
         echo
-        echo '### Workspace directory ###'
-        sudo df . -h
+        echo '### Workspace root ###'
+        sudo df -i
         echo
         echo '### large files in workspace dir ###'
         sudo find . -type f -size +100M -exec du -ha {} +

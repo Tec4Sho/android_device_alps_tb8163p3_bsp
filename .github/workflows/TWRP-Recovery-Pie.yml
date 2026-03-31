@@ -94,8 +94,8 @@ jobs:
     
     - name: Free disk space
       run: |
-        docker rmi $(docker images -f "dangling=true" -q) || true
-        docker system prune -f || true
+        docker rmi $(docker images -f "dangling=true" -q) || docker system prune -af || true
+        docker system prune -f || docker system df || echo "::notice::docker $?"
         sudo rm -rf \
         /usr/share/dotnet /usr/local/lib/android /opt/ghc \
         /usr/local/share/powershell /usr/share/swift /usr/local/.ghcup \
@@ -124,11 +124,13 @@ jobs:
           
     - name: Check disk space again 
       run: |
-        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | head -n 20
+        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 20 2>/dev/null;
         df -h
         rm -rf /opt/hostedtoolcache && \
+        sudo rm -vrf /tmp/* && \
+        find /var/log -name "*.gz" -mtime +30 -delete && \
         df -h
-        sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr
+        sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr | head -n 20 2>/dev/null;
         
     - name: Clone Recovery Repo
       uses: actions/checkout@v6

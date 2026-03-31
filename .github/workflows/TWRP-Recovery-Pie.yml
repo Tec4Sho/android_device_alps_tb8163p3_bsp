@@ -90,12 +90,12 @@ jobs:
         keep-count: 5
         remove-tag: true
         keep-old-minor-releases: false
-        keep-old-minor-releases-count: 1
+        keep-old-minor-releases-count: 5
     
     - name: Free disk space
       run: |
-        docker rmi $(docker images -f "dangling=true" -q) || docker system prune -af || true
-        docker system prune -f || docker system df || echo "::notice::docker $?"
+        # docker rmi $(docker images -f "dangling=true" -q) || docker system prune -af || true
+        docker system prune -f 2>&1 || docker system df 2>&1 || echo "::notice::docker $?"
         sudo rm -rf \
         /usr/share/dotnet /usr/local/lib/android /opt/ghc \
         /usr/local/share/powershell /usr/share/swift /usr/local/.ghcup \
@@ -124,13 +124,13 @@ jobs:
           
     - name: Check disk space again 
       run: |
-        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head -n 20 2>/dev/null;
-        df -h
-        rm -rf /opt/hostedtoolcache && \
+        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr 2>/dev/null | head -n 20
+        sudo df -h
+        sudo rm -rf /opt/hostedtoolcache && \
         sudo rm -vrf /tmp/* && \
-        find /var/log -name "*.gz" -mtime +30 -delete && \
-        df -h
-        sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr | head -n 20 2>/dev/null;
+        sudo find /var/log -xdev -name "*.gz" -mtime +30 -delete && \
+        sudo df -h
+        sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr 2>/dev/null | head -n 20
         
     - name: Clone Recovery Repo
       uses: actions/checkout@v6

@@ -177,7 +177,7 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
 else ifeq ($(RECOVERY_VARIANT),pbrp)
   PB_BUILD_TYPE := UNOFFICIAL
   TW_OEM_BUILD := true
-  TW_THEME := portrait_hdpi # landscape_hdpi
+  TW_THEME := landscape_hdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/pbrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)

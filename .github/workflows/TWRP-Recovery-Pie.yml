@@ -123,10 +123,11 @@ jobs:
           
     - name: Check disk space again 
       run: |
-        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr | head
+        sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr
+        df -h
         rm -Rf /opt/hostedtoolcache
         df -h
-        sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr | head
+        sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr
         
     - name: Clone Recovery Repo
       uses: actions/checkout@v6
@@ -149,8 +150,6 @@ jobs:
       run: | 
         gh extension install andyfeller/gh-artifact-purge
         gh artifact-purge ${{ github.repository }} 1
-      env:
-        GH_TOKEN: ${{ env.GITHUB_TOKEN }}
       continue-on-error: true
       
       # Cleanup The Actions Workspace Using Custom Composite Run Actions

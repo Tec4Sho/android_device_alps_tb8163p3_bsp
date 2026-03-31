@@ -59,7 +59,7 @@ on:
 jobs:
   build:
     name: Build PBRP by ${{ github.actor }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     if: github.event.repository.owner.id == github.event.sender.id
     env:
       GITHUB_TOKEN: ${{ secrets.PBRP }}
@@ -121,7 +121,7 @@ jobs:
       run: |
         sudo apt-get -yqq update >/dev/null;
         sudo apt-get -yqq upgrade >/dev/null;
-        sudo apt-get -yqq install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 unzip fontconfig >/dev/null;
+        sudo apt-get -yqq install git-core gnupg flex bison build-essential zip curl zlib1g-dev unzip fontconfig golang-go >/dev/null;
         # sudo apt-get -yqq install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig git repo liblzma-dev m4 libstdc++
         sudo apt-get -yqq install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib lib32ncurses5-dev x11proto-core-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libtinfo5 libgflags-dev >/dev/null;
         sudo add-apt-repository universe

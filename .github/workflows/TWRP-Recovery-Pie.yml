@@ -125,7 +125,7 @@ jobs:
       run: |
         sudo dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -nr
         df -h
-        rm -Rf /opt/hostedtoolcache
+        rm -vrf /opt/hostedtoolcache
         df -h
         sudo du /usr/ -hx -d 4 --threshold=1G | sort -hr
         
@@ -135,15 +135,6 @@ jobs:
         repository: ${{ github.repository }}
         path: ./workspace/${{ github.event.inputs.DEVICE_PATH }}
         ref: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
-      
-    - name: free disk space
-      run: |
-        sudo swapoff -a
-        sudo rm -f /swapfile
-        sudo apt-get clean >/dev/null
-        sudo rm -rf /swapfile 2>/dev/null
-        du -h
-      continue-on-error: true
       
     - name: cleanup old action artifacts
       if: github.event.inputs.CLEAN_ENVIRONMENT == 'true'

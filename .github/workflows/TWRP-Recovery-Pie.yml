@@ -243,7 +243,7 @@ jobs:
         #  echo -e "\nChange verified!" || echo -e "\nEdit failed: string not found.";
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        export RECOVERY_VARIANT := twrp
+        export RECOVERY_VARIANT=twrp
         export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
         export LC_ALL=C
         lunch ${{ env.DEVICE_MAKEFILE }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc)

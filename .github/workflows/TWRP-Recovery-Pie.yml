@@ -239,6 +239,7 @@ jobs:
         # [[ -e ./build/make/core/Makefile ]] && [[ -e ./${{ github.event.inputs.DEVICE_PATH }}/scripts/mkimage ]] && sudo chmod 0755 ./${{ github.event.inputs.DEVICE_PATH }}/scripts/mkimage && sed -i '1525a \\t$(hide) $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mkimage $@ $(CURDIR)/device/alps/tb8163p3_bsp/scripts/mtk_ramdisk.cfg > $@.mtk && mv -vf $@.mtk $@' ./build/make/core/Makefile && \
         #  grep -q "mtk_ramdisk.cfg" ./build/make/core/Makefile && \
         #  echo -e "\nChange verified!" || echo -e "\nEdit failed: string not found.";
+        df -h
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         export RECOVERY_VARIANT=twrp

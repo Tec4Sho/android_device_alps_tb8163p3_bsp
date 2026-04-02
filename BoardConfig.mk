@@ -163,10 +163,10 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := false
   #RECOVERY_BUSYBOX_TOOLS := false
-  DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
-  BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
-  TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  DEVICE_RESOLUTION := 1080x600
+  BOARD_SCREEN_WIDTH := 1080
+  BOARD_SCREEN_HEIGHT := 600
+  TARGET_SCREEN_HEIGHT := 600
   TARGET_SCREEN_WIDTH := 1080
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
@@ -194,10 +194,10 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   # BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
   # TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 720       # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 1280     # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 720      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 1280    # Device resolution height
+  BOARD_SCREEN_WIDTH := 720
+  BOARD_SCREEN_HEIGHT := 1280
+  DEVICE_SCREEN_WIDTH := 720
+  DEVICE_SCREEN_HEIGHT := 1280
   TARGET_SCREEN_WIDTH := 720    
   TARGET_SCREEN_HEIGHT := 1280
   # Force the touch engine to use the Kernel's 'Ghost' range
@@ -241,7 +241,8 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  TW_THEME := portrait_mdpi # landscape_mdpi portrait_mdpi
+  TW_THEME := portrait_mdpi
+  # landscape_mdpi portrait_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
@@ -253,16 +254,24 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 720x1280                 # The Resolution of your Device
-  # BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  # BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  # TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
+  DEVICE_RESOLUTION := 720x1280
+  # The Resolution of your Device
+  # BOARD_SCREEN_WIDTH := 1280
+  # Device resolution width
+  # BOARD_SCREEN_HEIGHT := 720
+  # Device resolution height
+  # TARGET_SCREEN_HEIGHT := 1024
+  # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 720       # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 1280     # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 720      # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 1280    # Device resolution height
-  TARGET_SCREEN_WIDTH := 720    
+  BOARD_SCREEN_WIDTH := 720
+  # 600 720 True width mdpi
+  BOARD_SCREEN_HEIGHT := 1280
+  # 1024 1280 True height mdpi
+  DEVICE_SCREEN_WIDTH := 720
+  # Device resolution width
+  DEVICE_SCREEN_HEIGHT := 1280
+  # Device resolution height
+  TARGET_SCREEN_WIDTH := 720
   TARGET_SCREEN_HEIGHT := 1280
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
@@ -284,9 +293,12 @@ endif
 TW_ROTATION := 0
 TW_HWROTATION := 0
 TW_MAX_BRIGHTNESS := 255
-TW_DEFAULT_BRIGHTNESS := 80                   # Set custom brightness, low is better
-TW_INCLUDE_NTFS_3G := true                    # Include NTFS Filesystem Support
-TW_INCLUDE_FUSE_EXFAT := true                 # Include Fuse-ExFAT Filesystem Support
+TW_DEFAULT_BRIGHTNESS := 80
+# Set custom brightness, low is better
+TW_INCLUDE_NTFS_3G := true
+# Include NTFS Filesystem Support
+TW_INCLUDE_FUSE_EXFAT := true
+# Include Fuse-ExFAT Filesystem Support
 TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := ump
@@ -341,7 +353,7 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
 # RGBA_8888 RGB_565
-TARGET_RECOVERY_PIXEL_FORMAT :=  RGBA_8888
+TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
 TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
@@ -423,8 +435,8 @@ TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 TW_NO_BATT_PERCENT := false
 
 # Allows you to map a custom keycode for power button, takes in a number, usually three digits
-#TW_USE_KEY_CODE_TOUCH_SYNC := 330
-TW_CUSTOM_POWER_BUTTON := 116
+# TW_USE_KEY_CODE_TOUCH_SYNC := 330
+# TW_CUSTOM_POWER_BUTTON := 116
 
 # Vendor Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
@@ -462,7 +474,7 @@ DOUBLE_SCREEN := NO
 BOARD_USB_ALLOW_DEFAULT_MTP := true
 
 # Force app can see udisk 
-BOARD_FORCE_UDISK_VISIBLE := true 
+BOARD_FORCE_UDISK_VISIBLE := true
 BOARD_IS_SUPPORT_NTFS := true
 USE_RECOVERY_INSTALLER := true
 
@@ -480,7 +492,8 @@ TW_FRAMERATE := 30
 BOARD_RECOVERY_SWIPE := false
 # RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_REAL_SDCARD := false
-BOARD_HAS_NO_MISC_PARTITION := true         # Delete if your partition table has /misc
+BOARD_HAS_NO_MISC_PARTITION := true
+# Delete if your partition table has /misc
 
 # Twrp Tools
 TW_USE_FB2PNG := false
@@ -545,7 +558,6 @@ BOARD_VENDOR_KERNEL_MODULES := \
 #
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
-    $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin
-
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/zImage:kernel
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo
+    $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \
+    $(LOCAL_PATH)/prebuilt/zImage:kernel \
+    $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo

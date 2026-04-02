@@ -246,7 +246,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  TW_THEME := portrait_mdpi
+  TW_THEME := portrait_hdpi
   # landscape_mdpi portrait_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -295,7 +295,7 @@ else
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 0
+TW_ROTATION := 270
 TW_HWROTATION := 0
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80

@@ -34,7 +34,8 @@ TARGET_SUPPORTS_64_BIT_APPS := false
 TARGET_IS_32_BIT := true
 
 TARGET_KERNEL_HEADER_ARCH := arm
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi- # arm-linux-androideabi-
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-eabi-
+# arm-linux-androideabi-
 TARGET_USES_UNCOMPRESSED_KERNEL := false
 
 # APEX
@@ -189,10 +190,14 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := false
   # RECOVERY_BUSYBOX_TOOLS := false
-  DEVICE_RESOLUTION := 720x1280                 # The Resolution of your Device
-  # BOARD_SCREEN_WIDTH := 1280                     # Device resolution width
-  # BOARD_SCREEN_HEIGHT := 720                     # Device resolution height
-  # TARGET_SCREEN_HEIGHT := 1024                    # The height mdpi
+  DEVICE_RESOLUTION := 720x1280
+  # The Resolution of your Device
+  # BOARD_SCREEN_WIDTH := 1280
+  # Device resolution width
+  # BOARD_SCREEN_HEIGHT := 720
+  # Device resolution height
+  # TARGET_SCREEN_HEIGHT := 1024
+  # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
   BOARD_SCREEN_WIDTH := 720
   BOARD_SCREEN_HEIGHT := 1280
@@ -228,10 +233,10 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   # Uses Custom ARM Busybox w/ Toybox
   #RECOVERY_BUSYBOX_SYMLINKS := false
   #RECOVERY_BUSYBOX_TOOLS := false
-  #DEVICE_RESOLUTION := 1080x600                 # The Resolution of your Device
-  #BOARD_SCREEN_WIDTH := 1080                     # Device resolution width
-  #BOARD_SCREEN_HEIGHT := 600                     # Device resolution height
-  #TARGET_SCREEN_HEIGHT := 600                    # The height mdpi
+  #DEVICE_RESOLUTION := 1080x600
+  #BOARD_SCREEN_WIDTH := 1080
+  #BOARD_SCREEN_HEIGHT := 600
+  #TARGET_SCREEN_HEIGHT := 600
   #TARGET_SCREEN_WIDTH := 1080
   # OF Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
@@ -555,7 +560,6 @@ BOARD_VENDOR_KERNEL_MODULES := \
   $(vendor_lkm_dir)/wmt_chrdev_wifi.ko
   
 # Auto copy files into ramdisk-recovery
-#
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \

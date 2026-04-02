@@ -246,7 +246,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := true
-  TW_THEME := portrait_hdpi
+  TW_THEME := landscape_hdpi
   # landscape_mdpi portrait_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -259,7 +259,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 720x1280
+  DEVICE_RESOLUTION := 1280x800
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -268,20 +268,20 @@ else
   # TARGET_SCREEN_HEIGHT := 1024
   # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 720
+  BOARD_SCREEN_WIDTH := 1280
   # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 1280
+  BOARD_SCREEN_HEIGHT := 800
   # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 720
+  DEVICE_SCREEN_WIDTH := 1280
   # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 1280
+  DEVICE_SCREEN_HEIGHT := 800
   # Device resolution height
-  TARGET_SCREEN_WIDTH := 720
-  TARGET_SCREEN_HEIGHT := 1280
+  TARGET_SCREEN_WIDTH := 1280
+  TARGET_SCREEN_HEIGHT := 800
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 1280
-  BOARD_TOUCH_MAX_X := 720
+  BOARD_TOUCH_MAX_Y := 720
+  BOARD_TOUCH_MAX_X := 1280
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution
@@ -470,7 +470,7 @@ TW_EXCLUDE_SUPERSU := true
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-SF_PRIMARY_DISPLAY_ORIENTATION := 0
+SF_PRIMARY_DISPLAY_ORIENTATION := 270
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO

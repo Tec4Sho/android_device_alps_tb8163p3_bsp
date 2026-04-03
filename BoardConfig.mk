@@ -50,7 +50,7 @@ BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # Display
-TARGET_SCREEN_DENSITY := 160
+TARGET_SCREEN_DENSITY := 213
 
 # Set kernel
 TARGET_FORCE_PREBUILT_KERNEL ?= true
@@ -116,9 +116,8 @@ TARGET_COPY_OUT_VENDOR := vendor
 # Platform
 PRODUCT_KERNEL_ARCH := arm
 TARGET_BOARD_PLATFORM := mt8163
-# TARGET_BOARD_PLATFORM_GPU := mali-t720mp2
+TARGET_BOARD_PLATFORM_GPU := mali-t720mp2
 TARGET_BOARD_HARDWARE_EGL := mali
-TARGET_BOARD_PLATFORM_GPU := mali-t720
 
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
@@ -245,7 +244,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_W_OFFSET := 0
   #TW_H_OFFSET := 0
 else
-  TW_OEM_BUILD := true
+  TW_OEM_BUILD := false
   TW_THEME := landscape_hdpi
   # landscape_mdpi portrait_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
@@ -259,7 +258,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1280x800
+  DEVICE_RESOLUTION := 1280x720
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -270,20 +269,22 @@ else
   # TARGET_SCREEN_WIDTH := 600
   BOARD_SCREEN_WIDTH := 1280
   # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 800
+  BOARD_SCREEN_HEIGHT := 720
   # 1024 1280 True height mdpi
   DEVICE_SCREEN_WIDTH := 1280
   # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 800
+  DEVICE_SCREEN_HEIGHT := 720
   # Device resolution height
   TARGET_SCREEN_WIDTH := 1280
-  TARGET_SCREEN_HEIGHT := 800
+  TARGET_SCREEN_HEIGHT := 720
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 720
   BOARD_TOUCH_MAX_X := 1280
+  RECOVERY_TOUCHSCREEN_X2 := 1280
+  RECOVERY_TOUCHSCREEN_Y2 := 720
   # If the offset is still 'drifting' as you go down,
-  TW_INPUT_BLACKLIST := hbtp_vm
+  TW_INPUT_BLACKLIST := "TS_GT9xx hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
@@ -296,7 +297,7 @@ endif
 
 # twrp rotation for special devices
 TW_ROTATION := 270
-TW_HWROTATION := 0
+TW_HWROTATION := 270
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80
 # Set custom brightness, low is better
@@ -359,7 +360,8 @@ TW_USE_TOOLBOX := true
 
 # RGBA_8888 RGB_565
 TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
-TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_LEFT
+TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_NONE
+# ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
@@ -491,8 +493,8 @@ BOARD_USB_ACCESSORY_SUPPORT := true
 #TWRP_CUSTOM_KEYBOARD := $(DEVICE_PATH)/mtk-kpd.kl
 TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_SUPPORT_INPUT_1_2_HAPTICS := false
-TW_DELAY_TOUCH_INIT_MS := 30
-TW_FRAMERATE := 30
+TW_DELAY_TOUCH_INIT_MS := 300
+TW_FRAMERATE := 60
 
 BOARD_RECOVERY_SWIPE := false
 # RECOVERY_SDCARD_ON_DATA := false

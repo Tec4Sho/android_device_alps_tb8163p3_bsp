@@ -50,7 +50,7 @@ BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # Display
-TARGET_SCREEN_DENSITY := 240
+TARGET_SCREEN_DENSITY := 160
 
 # Set kernel
 TARGET_FORCE_PREBUILT_KERNEL ?= true
@@ -68,7 +68,7 @@ endif
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery printk.devkmsg=on console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 androidboot.primary_display_orientation=ORIENTATION_270 video=LVDS-1:1280x720M@60,rotate=270 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000 goodix.swap_xy=1 goodix.invert_x=1
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery printk.devkmsg=on console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 androidboot.primary_display_orientation=ORIENTATION_270 video=LVDS-1:1280x720M@60,rotate=270 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_RAMDISK_OFFSET := 0x15000000
 BOARD_KERNEL_TAGS_OFFSET := 0x14000000
@@ -245,7 +245,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := false
-  TW_THEME := landscape_hdpi
+  # TW_THEME := landscape_hdpi
   # landscape_mdpi portrait_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -284,7 +284,9 @@ else
   RECOVERY_TOUCHSCREEN_X2 := 1280
   RECOVERY_TOUCHSCREEN_Y2 := 720
   # If the offset is still 'drifting' as you go down,
-  TW_INPUT_BLACKLIST := "TS_GT9xx_virtual_keys TS_GT9xx hbtp_vm"
+  TW_INPUT_BLACKLIST := TS_GT9xx_virtual_keys
+  TW_INPUT_BLACKLIST += TS_GT9xx
+  TW_INPUT_BLACKLIST += hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
@@ -292,7 +294,7 @@ else
   # TW_X_OFFSET := 0
   # TW_Y_OFFSET := 0
   # TW_W_OFFSET := 0
-  # TW_H_OFFSET := 0
+  TW_H_OFFSET := 00
 endif
 
 # twrp rotation for special devices
@@ -358,7 +360,8 @@ TW_EXTRA_LANGUAGES := false
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_USE_TOOLBOX := true
 
-# RGBA_8888 RGB_565
+# RGBA_8888 RGB_565 BGRA_8888
+# RECOVERY_BGRA := true
 TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
 TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_NONE
 # ROTATION_LEFT

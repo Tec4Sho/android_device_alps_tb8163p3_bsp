@@ -284,9 +284,7 @@ else
   RECOVERY_TOUCHSCREEN_X2 := 1280
   RECOVERY_TOUCHSCREEN_Y2 := 720
   # If the offset is still 'drifting' as you go down,
-  TW_INPUT_BLACKLIST := TS_GT9xx_virtual_keys
-  TW_INPUT_BLACKLIST += TS_GT9xx
-  TW_INPUT_BLACKLIST += hbtp_vm
+  TW_INPUT_BLACKLIST := "TS_GT9xx_virtual_keys TS_GT9xx hbtp_vm"
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y

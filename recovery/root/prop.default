@@ -10,6 +10,7 @@ ro.debuggable=1
 ro.hwrotation=270
 ro.sf.rotation=270
 ro.sf.hwrotation=270
+ro.sf.lcd_density=160
 tombstoned.max_tombstone_count=50
 dalvik.vm.image-dex2oat-Xms=64m
 dalvik.vm.image-dex2oat-Xmx=64m

@@ -15,7 +15,8 @@ file4='/data/media/0/Fox/of-recovery.log';
 resetprop ro.build.characteristics tablet 2>/dev/null;
 resetprop ro.mtk_is_tablet 1 2>/dev/null;
 resetprop windowsmgr.support_rotation_270 true 2>/dev/null;
-setprop modules.loaded 1 
+resetprop persist.sys.touch.config 1
+setprop modules.loaded 1
 setprop vendor.all.modules.ready 1
 
 # Check log for twrp mount.sh started

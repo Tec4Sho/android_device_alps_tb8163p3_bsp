@@ -250,7 +250,7 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := true
+  # TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -258,7 +258,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 600x1024
+  DEVICE_RESOLUTION := 1280x720
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -295,10 +295,14 @@ else
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  #TW_X_OFFSET := 00
-  #TW_Y_OFFSET := 00
-  #TW_W_OFFSET := 00
-  #TW_H_OFFSET := 00
+  TW_RECOVERY_MAX_X := 1007
+  TW_RECOVERY_MIN_X := 34
+  TW_RECOVERY_MAX_Y := 583
+  TW_RECOVERY_MIN_Y := 22
+  # TW_X_OFFSET := 00
+  # TW_Y_OFFSET := 00
+  # TW_W_OFFSET := 00
+  # TW_H_OFFSET := 00
 endif
 
 # twrp rotation for special devices

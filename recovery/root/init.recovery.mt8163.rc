@@ -107,3 +107,7 @@ on post-fs-data
     mkdir /data/mediadrm 0770 mediadrm mediadrm
     mkdir /data/drm/wv 0770 drm system
 
+on boot
+    setprop persist.sys.touch.config 1
+
+

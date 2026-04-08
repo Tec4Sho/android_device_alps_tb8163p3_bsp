@@ -250,7 +250,7 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := 1280x720
+  TWRP_NEW_THEME := false
   RECOVERY_VARIANT := twrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -275,8 +275,8 @@ else
   # Device resolution width
   DEVICE_SCREEN_HEIGHT := 720
   # Device resolution height
-  TARGET_SCREEN_WIDTH := 1280
-  TARGET_SCREEN_HEIGHT := 720
+  TARGET_SCREEN_WIDTH := 1024
+  TARGET_SCREEN_HEIGHT := 600
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 1024
@@ -336,7 +336,7 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 # Need to add back Stock kernel without builtin modules
 # Remove prebuilt modules, it's now loaded by kernel modules loader from vendor
-# TW_LOAD_VENDOR_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
+# TW_LOAD_VENDOR_DLKM_MODULES := "ilitek.ko sitronix-ts.ko hxchipset-i2c.ko focaltech.ko synaptics_dsx.ko jadard_touch.ko gsl37xx.ko hyn_cst3xx.ko"
 TW_LOAD_VENDOR_MODULES := "*"
 
 # to use TWRP module loader code for vendor_boot module loading.
@@ -372,7 +372,7 @@ TW_USE_TOOLBOX := true
 
 # RGBA_8888 RGB_565 BGRA_8888
 # RECOVERY_BGRA := true
-TARGET_RECOVERY_FORCE_PIXEL_FORMAT := RGB_565
+TARGET_RECOVERY_FORCE_PIXEL_FORMAT := RGBA_8888
 # TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_NONE
 # ROTATION_LEFT
 
@@ -388,9 +388,9 @@ TW_INTERNAL_MOUNT := /data
 TW_INTERNAL_STORAGE_PATH := /data/media/0
 TW_INTERNAL_STORAGE_MOUNT_POINT := data
 TW_EXTERNAL_LABEL := storage
-TW_EXTERNAL_PATH := /storage/udisk*
+TW_EXTERNAL_PATH := "/storage/udisk*"
 TW_EXTERNAL_MOUNT := /storage
-TW_EXTERNAL_STORAGE_PATH := /storage/udisk*
+TW_EXTERNAL_STORAGE_PATH := "/storage/udisk*"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := storage
 
 TW_HAS_MTP := true
@@ -407,8 +407,8 @@ TW_INCLUDE_FASTBOOTD := true
 TW_EXCLUDE_APEX := true
 
 # Custom Recovery 
-BOARD_USE_DRM := false
-TW_POWER_BUTTON := false
+BOARD_USE_DRM := true
+TW_POWER_BUTTON := true
 TW_HAS_INTERNAL := true
 TW_HAS_EXTERNAL := true
 TW_HAS_INJECTTWRP := false
@@ -448,14 +448,14 @@ TWRP_INCLUDE_LOGCAT := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
-TW_GRAPHICS_USE_LINELENGTH := twrp
+TW_GRAPHICS_USE_LINELENGTH := true
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly
 TW_NO_BATT_PERCENT := false
 
 # Allows you to map a custom keycode for power button, takes in a number, usually three digits
-TW_USE_KEY_CODE_TOUCH_SYNC := true
+# TW_USE_KEY_CODE_TOUCH_SYNC := true
 TW_CUSTOM_POWER_BUTTON := 116
 
 # Vendor Properties
@@ -578,5 +578,8 @@ BOARD_VENDOR_KERNEL_MODULES := \
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \
+    $(DEVICE_PATH)/recovery/root/system/usr/idc/TS_GT9xx.idc:/recovery/root/system/usr/idc/TS_GT9xx.idc \
+    $(DEVICE_PATH)/recovery/root/system/usr/idc/qwerty2.idc:/recovery/root/system/usr/idc/qwerty2.idc \
+    $(DEVICE_PATH)/recovery/root/system/usr/idc/qwerty.idc:/recovery/root/system/usr/idc/qwerty.idc \
     $(LOCAL_PATH)/prebuilt/zImage:kernel \
     $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo

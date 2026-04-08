@@ -448,14 +448,14 @@ TWRP_INCLUDE_LOGCAT := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
-TW_GRAPHICS_USE_LINELENGTH := false
+TW_GRAPHICS_USE_LINELENGTH := twrp
 TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 
 # Disable the battery percentage for devices where it doesn't work properly
 TW_NO_BATT_PERCENT := false
 
 # Allows you to map a custom keycode for power button, takes in a number, usually three digits
-# TW_USE_KEY_CODE_TOUCH_SYNC :=
+TW_USE_KEY_CODE_TOUCH_SYNC := true
 TW_CUSTOM_POWER_BUTTON := 116
 
 # Vendor Properties
@@ -507,7 +507,7 @@ BOARD_USB_ACCESSORY_SUPPORT := true
 TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_SUPPORT_INPUT_1_2_HAPTICS := false
 TW_DELAY_TOUCH_INIT_MS := 300
-TW_FRAMERATE := 60
+TW_FRAMERATE := 30
 
 BOARD_RECOVERY_SWIPE := false
 RECOVERY_SDCARD_ON_DATA := false

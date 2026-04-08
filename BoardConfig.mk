@@ -288,6 +288,8 @@ else
   # You almost certainly need these because the kernel is 600x1024
   TW_RECOVERY_MAX_X := 1024
   TW_RECOVERY_MAX_Y := 600
+  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1024
+  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 600
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_WHITELIST := TS_GT9xx
   TW_INPUT_BLACKLIST := hbtp_vm
@@ -296,7 +298,7 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_RECOVERY_MAX_X := 1007
-  TW_RECOVERY_MIN_X := 34
+  TW_RECOVERY_MIN_X := 44
   TW_RECOVERY_MAX_Y := 583
   TW_RECOVERY_MIN_Y := 22
   # TW_X_OFFSET := 00

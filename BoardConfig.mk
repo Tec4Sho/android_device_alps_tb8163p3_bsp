@@ -278,7 +278,7 @@ else
   TARGET_SCREEN_WIDTH := 1280
   TARGET_SCREEN_HEIGHT := 720
   # Force the touch engine to use the Kernel's 'Ghost' range
-  RECOVERY_GRAPHICS_USE_LINELENGTH := false
+  RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 1024
   BOARD_TOUCH_MAX_X := 600
   RECOVERY_TOUCHSCREEN_X2 := 1024
@@ -324,7 +324,7 @@ GRAPHIC_MEMORY_PROVIDER := gralloc
 USE_OPENGL_RENDERER := true
 # RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 # TW_DISABLE_DOUBLE_BUFFERING := false
-# TARGET_DISABLE_TRIPLE_BUFFERING := true
+TARGET_DISABLE_TRIPLE_BUFFERING := true
 # TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 TW_EXCLUDE_MTP := false
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools

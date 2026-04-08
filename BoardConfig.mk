@@ -455,7 +455,7 @@ TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 TW_NO_BATT_PERCENT := false
 
 # Allows you to map a custom keycode for power button, takes in a number, usually three digits
-TW_USE_KEY_CODE_TOUCH_SYNC := true
+# TW_USE_KEY_CODE_TOUCH_SYNC :=
 TW_CUSTOM_POWER_BUTTON := 116
 
 # Vendor Properties

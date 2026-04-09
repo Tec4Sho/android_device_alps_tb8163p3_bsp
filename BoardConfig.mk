@@ -68,7 +68,7 @@ endif
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery printk.devkmsg=on console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 androidboot.primary_display_orientation=ORIENTATION_270 video=LVDS-1:1024x600-24@60D rotate=270 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery printk.devkmsg=on console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 androidboot.primary_display_orientation=ORIENTATION_270 video=LVDS-1:600x1024-24@60D rotate=270 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_RAMDISK_OFFSET := 0x15000000
 BOARD_KERNEL_TAGS_OFFSET := 0x14000000
@@ -258,7 +258,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1280x720
+  DEVICE_RESOLUTION := 600x1024
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -267,29 +267,29 @@ else
   # TARGET_SCREEN_HEIGHT := 1024
   # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 1280
+  BOARD_SCREEN_WIDTH := 1024
   # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 720
+  BOARD_SCREEN_HEIGHT := 600
   # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 1024
+  DEVICE_SCREEN_WIDTH := 600
   # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 600
+  DEVICE_SCREEN_HEIGHT := 1024
   # Device resolution height
-  TARGET_SCREEN_WIDTH := 1280
-  TARGET_SCREEN_HEIGHT := 720
+  TARGET_SCREEN_WIDTH := 720
+  TARGET_SCREEN_HEIGHT := 1280
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 1024
   BOARD_TOUCH_MAX_X := 600
-  RECOVERY_TOUCHSCREEN_X2 := 1024
-  RECOVERY_TOUCHSCREEN_Y2 := 600
-  BOARD_RECOVERY_CHAR_WIDTH := 1024
-  BOARD_RECOVERY_CHAR_HEIGHT := 600
+  RECOVERY_TOUCHSCREEN_X2 := 600
+  RECOVERY_TOUCHSCREEN_Y2 := 1024
+  BOARD_RECOVERY_CHAR_WIDTH := 600
+  BOARD_RECOVERY_CHAR_HEIGHT := 1024
   # You almost certainly need these because the kernel is 600x1024
   # TW_RECOVERY_MAX_X := 1024
   # TW_RECOVERY_MAX_Y := 600
-  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 583
-  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1007
+  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 1007
+  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 583
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_WHITELIST := TS_GT9xx
   TW_INPUT_BLACKLIST := hbtp_vm
@@ -297,10 +297,10 @@ else
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_RECOVERY_MAX_X := 1007
-  TW_RECOVERY_MIN_X := 44
-  TW_RECOVERY_MAX_Y := 583
-  TW_RECOVERY_MIN_Y := 22
+  TW_RECOVERY_MAX_X := 583
+  TW_RECOVERY_MIN_X := 22
+  TW_RECOVERY_MAX_Y := 1007
+  TW_RECOVERY_MIN_Y := 44
   # TW_X_OFFSET := 44
   # TW_Y_OFFSET := 22
   # TW_W_OFFSET := 00
@@ -358,7 +358,7 @@ TW_OVERRIDE_SYSTEM_PROPS := \
 "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
 # Uncomment this line if you want to remove size restriction
-BOARD_USES_FULL_RECOVERY_IMAGE := false
+BOARD_USES_FULL_RECOVERY_IMAGE := true
 TARGET_USES_AOSP := true
 
 # These two are for MTK Chipsets only

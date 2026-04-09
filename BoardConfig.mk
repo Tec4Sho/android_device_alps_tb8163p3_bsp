@@ -542,7 +542,8 @@ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compatibility_matrix.xml
 
 # Define custom paths for battery.
-# TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
+TW_CUSTOM_BATTERY_PATH := /proc/mtk_battery_cmd/current_cmd
+# /sys/devices/platform/battery/power_supply/battery
 
 # In BoardConfig.mk, the Android build defines a BOARD_VENDOR_KERNEL_MODULES variable that provides a full list of the kernel modules intended for the vendor image. The modules listed in this variable are copied into the vendor image at /lib/modules/, and, after being mounted in Android, appear in /vendor/lib/modules (in accordance with the above requirements). Example configuration of the vendor kernel modules:
 vendor_lkm_dir := vendor/lib/modules

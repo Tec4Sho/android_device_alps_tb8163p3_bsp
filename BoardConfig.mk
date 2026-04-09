@@ -444,7 +444,11 @@ TARGET_USES_LOGD := true
 # Include LogCat Binary
 TWRP_INCLUDE_LOGCAT := true
 
-# Twrp settings 
+# Twrp settings
+# This tells TWRP to ignore the 'Resolution 0' report from getevent 
+# and use your manual MAX values instead.
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_RECOVERY_IGNORE_WIND_SCALING := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true

@@ -296,7 +296,7 @@ else
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
-  TARGET_RECOVERY_OVERSCAN_PERCENT := 0,0
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_RECOVERY_MAX_X := 1024
   TW_RECOVERY_MIN_X := 63
   TW_RECOVERY_MAX_Y := 600

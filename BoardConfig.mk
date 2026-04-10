@@ -258,7 +258,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 600x1024
+  DEVICE_RESOLUTION := 720x1280
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -279,36 +279,35 @@ else
   TARGET_SCREEN_HEIGHT := 1280
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 1024
-  BOARD_TOUCH_MAX_X := 600
-  RECOVERY_TOUCHSCREEN_X2 := 600
-  RECOVERY_TOUCHSCREEN_Y2 := 1024
-  BOARD_RECOVERY_CHAR_WIDTH := 600
-  BOARD_RECOVERY_CHAR_HEIGHT := 1024
+  BOARD_TOUCH_MAX_Y := 600
+  BOARD_TOUCH_MAX_X := 1024
+  RECOVERY_TOUCHSCREEN_X2 := 1024
+  RECOVERY_TOUCHSCREEN_Y2 := 600
+  BOARD_RECOVERY_CHAR_WIDTH := 1024
+  BOARD_RECOVERY_CHAR_HEIGHT := 600
   # You almost certainly need these because the kernel is 600x1024
   # TW_RECOVERY_MAX_X := 1024
   # TW_RECOVERY_MAX_Y := 600
-  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 1024
-  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 600
+  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 600
+  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1024
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_WHITELIST := ts_gt9xx
   TW_INPUT_BLACKLIST := hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
-  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_RECOVERY_MAX_X := 600
-  TW_RECOVERY_MIN_X := -60
-  TW_RECOVERY_MAX_Y := 1024
-  TW_RECOVERY_MIN_Y := 0
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0,0
+  TW_RECOVERY_MAX_X := 1024
+  TW_RECOVERY_MIN_X := 63
+  TW_RECOVERY_MAX_Y := 600
+  TW_RECOVERY_MIN_Y := 33
   # BoardConfig.mk
   # Shift the grid to the right to include left-side buttons
-  TW_X_OFFSET := 30 
-  TW_Y_OFFSET := -20
+  TW_X_OFFSET := 63 
+  TW_Y_OFFSET := 33
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
-  TW_X_SCALING := 1.15
-  TW_Y_SCALING := 1.25
-
+  TW_X_SCALING := 1.25
+  TW_Y_SCALING := 1.15
   # TW_X_OFFSET := 44
   # TW_Y_OFFSET := 20
   # TW_W_OFFSET := 00
@@ -332,8 +331,8 @@ GRAPHIC_MEMORY_PROVIDER := gralloc
 USE_OPENGL_RENDERER := true
 # RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 # TW_DISABLE_DOUBLE_BUFFERING := false
-TARGET_DISABLE_TRIPLE_BUFFERING := true
-# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+# TARGET_DISABLE_TRIPLE_BUFFERING := false
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 TW_EXCLUDE_MTP := false
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true
@@ -486,7 +485,7 @@ TW_NO_SCREEN_TIMEOUT := true
 TW_NO_SCREEN_BLANK := true
 
 # exclude SuperSu e.g. to save some space or for different other reasons (supersu still included by default?)
-TW_EXCLUDE_SUPERSU := true
+TW_EXCLUDE_SUPERSU := false
 
 # twrp touch
 # RECOVERY_TOUCHSCREEN_SWAP_XY := false
@@ -521,14 +520,14 @@ TW_SUPPORT_INPUT_1_2_HAPTICS := false
 TW_DELAY_TOUCH_INIT_MS := 300
 TW_FRAMERATE := 30
 
-BOARD_RECOVERY_SWIPE := false
-RECOVERY_SDCARD_ON_DATA := false
+BOARD_RECOVERY_SWIPE := true
+# RECOVERY_SDCARD_ON_DATA := false
 BOARD_HAS_NO_REAL_SDCARD := false
 BOARD_HAS_NO_MISC_PARTITION := true
 # Delete if your partition table has /misc
 
 # Twrp Tools
-TW_USE_FB2PNG := false
+TW_USE_FB2PNG := true
 TW_INCLUDE_NANO := true
 TW_HAS_EDT_PANEL := true
 TW_FLASH_FROM_STORAGE := true

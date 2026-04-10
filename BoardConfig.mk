@@ -303,11 +303,11 @@ else
   TW_RECOVERY_MIN_Y := 0
   # BoardConfig.mk
   # Shift the grid to the right to include left-side buttons
-  BOARD_RECOVERY_DEFINES += TW_X_OFFSET := -60 
-  BOARD_RECOVERY_DEFINES += TW_Y_OFFSET := 0
+  TW_X_OFFSET := 30 
+  TW_Y_OFFSET := -20
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
-  BOARD_RECOVERY_DEFINES += TW_X_SCALING := 1.15
-  BOARD_RECOVERY_DEFINES += TW_Y_SCALING := 1.25
+  TW_X_SCALING := 1.15
+  TW_Y_SCALING := 1.25
 
   # TW_X_OFFSET := 44
   # TW_Y_OFFSET := 20

@@ -245,7 +245,7 @@ else ifeq ($(RECOVERY_VARIANT),shrp)
   #TW_H_OFFSET := 0
 else
   TW_OEM_BUILD := false
-  # TW_THEME := landscape_hdpi
+  TW_THEME := portrait_mdpi
   # landscape_mdpi portrait_mdpi
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
@@ -267,13 +267,13 @@ else
   # TARGET_SCREEN_HEIGHT := 1024
   # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 1024
+  BOARD_SCREEN_WIDTH := 720
   # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 600
+  BOARD_SCREEN_HEIGHT := 1280
   # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 600
+  DEVICE_SCREEN_WIDTH := 720
   # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 1024
+  DEVICE_SCREEN_HEIGHT := 1280
   # Device resolution height
   TARGET_SCREEN_WIDTH := 720
   TARGET_SCREEN_HEIGHT := 1280
@@ -288,21 +288,29 @@ else
   # You almost certainly need these because the kernel is 600x1024
   # TW_RECOVERY_MAX_X := 1024
   # TW_RECOVERY_MAX_Y := 600
-  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 1007
-  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 583
+  BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 1024
+  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 600
   # If the offset is still 'drifting' as you go down,
-  TW_INPUT_WHITELIST := TS_GT9xx
+  TW_INPUT_WHITELIST := ts_gt9xx
   TW_INPUT_BLACKLIST := hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_RECOVERY_MAX_X := 583
-  TW_RECOVERY_MIN_X := 31
-  TW_RECOVERY_MAX_Y := 1007
-  TW_RECOVERY_MIN_Y := 45
+  TW_RECOVERY_MAX_X := 600
+  TW_RECOVERY_MIN_X := -60
+  TW_RECOVERY_MAX_Y := 1024
+  TW_RECOVERY_MIN_Y := 0
+  # BoardConfig.mk
+  # Shift the grid to the right to include left-side buttons
+  BOARD_RECOVERY_DEFINES += TW_X_OFFSET := -60 
+  BOARD_RECOVERY_DEFINES += TW_Y_OFFSET := 0
+  # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
+  BOARD_RECOVERY_DEFINES += TW_X_SCALING := 1.15
+  BOARD_RECOVERY_DEFINES += TW_Y_SCALING := 1.25
+
   # TW_X_OFFSET := 44
-  TW_Y_OFFSET := 20
+  # TW_Y_OFFSET := 20
   # TW_W_OFFSET := 00
   # TW_H_OFFSET := 00
 endif
@@ -448,7 +456,7 @@ TWRP_INCLUDE_LOGCAT := true
 # This tells TWRP to ignore the 'Resolution 0' report from getevent 
 # and use your manual MAX values instead.
 BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_IGNORE_WIND_SCALING := true
+BOARD_RECOVERY_IGNORE_WIND_SCALING := false
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true

@@ -1,3 +1,5 @@
+import /vendor/etc/init/hw/init.mt8163.rc
+
 on init
     setprop sys.usb.controller musb-hdrc
 
@@ -109,5 +111,9 @@ on post-fs-data
 
 on boot
     setprop persist.sys.touch.config 1
+# Force input system to map 1024 to 720 and 600 to 1280
+    write /sys/class/input/input1/device/abs_x/max 720
+    write /sys/class/input/input1/device/abs_y/max 1280
+    write /sys/class/input/input1/device/abs_x/min 63
 
 

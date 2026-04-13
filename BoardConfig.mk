@@ -299,12 +299,12 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_RECOVERY_MAX_X := 1024
-  TW_RECOVERY_MIN_X := 63
+  TW_RECOVERY_MIN_X := -20
   TW_RECOVERY_MAX_Y := 600
-  TW_RECOVERY_MIN_Y := 33
+  TW_RECOVERY_MIN_Y := 0
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
   TW_X_SCALING := 1.25
-  TW_Y_SCALING := 1.15
+  TW_Y_SCALING := 1.2
   # TW_X_OFFSET := 44
   # TW_Y_OFFSET := 20
   # TW_W_OFFSET := 00
@@ -312,8 +312,8 @@ else
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 270
-TW_HWROTATION := 270
+TW_ROTATION := 90
+TW_HWROTATION := 90
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80
 # Set custom brightness, low is better
@@ -493,7 +493,7 @@ TW_EXCLUDE_SUPERSU := false
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-SF_PRIMARY_DISPLAY_ORIENTATION := 270
+SF_PRIMARY_DISPLAY_ORIENTATION := 90
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO
@@ -546,8 +546,7 @@ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vendor_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/device_system_compatibility_matrix.xml
 
 # Define custom paths for battery.
-TW_CUSTOM_BATTERY_PATH := /proc/mtk_battery_cmd/current_cmd
-# /sys/devices/platform/battery/power_supply/battery
+TW_CUSTOM_BATTERY_PATH := /sys/devices/platform/battery/power_supply/battery
 
 # In BoardConfig.mk, the Android build defines a BOARD_VENDOR_KERNEL_MODULES variable that provides a full list of the kernel modules intended for the vendor image. The modules listed in this variable are copied into the vendor image at /lib/modules/, and, after being mounted in Android, appear in /vendor/lib/modules (in accordance with the above requirements). Example configuration of the vendor kernel modules:
 vendor_lkm_dir := vendor/lib/modules

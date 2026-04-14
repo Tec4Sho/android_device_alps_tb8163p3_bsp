@@ -250,7 +250,7 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TW_THEME_RES := 720
+  TW_THEME_RES := 1280
   TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
@@ -259,7 +259,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 720x1280
+  DEVICE_RESOLUTION := 1280x720
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -268,29 +268,29 @@ else
   # TARGET_SCREEN_HEIGHT := 1024
   # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 720
+  BOARD_SCREEN_WIDTH := 1280
   # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 1280
+  BOARD_SCREEN_HEIGHT := 720
   # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 720
+  DEVICE_SCREEN_WIDTH := 1280
   # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 1280
+  DEVICE_SCREEN_HEIGHT := 720
   # Device resolution height
-  TARGET_SCREEN_WIDTH := 720
-  TARGET_SCREEN_HEIGHT := 1280
+  TARGET_SCREEN_WIDTH := 1280
+  TARGET_SCREEN_HEIGHT := 720
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 600
-  BOARD_TOUCH_MAX_X := 1024
-  RECOVERY_TOUCHSCREEN_X2 := 1024
+  BOARD_TOUCH_MAX_X := 1080
+  RECOVERY_TOUCHSCREEN_X2 := 1080
   RECOVERY_TOUCHSCREEN_Y2 := 600
-  BOARD_RECOVERY_CHAR_WIDTH := 1024
+  BOARD_RECOVERY_CHAR_WIDTH := 1080
   BOARD_RECOVERY_CHAR_HEIGHT := 600
   # You almost certainly need these because the kernel is 600x1024
-  # TW_RECOVERY_MAX_X := 1024
+  # TW_RECOVERY_MAX_X := 1080
   # TW_RECOVERY_MAX_Y := 600
   BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 600
-  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1024
+  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1080
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_WHITELIST := ts_gt9xx
   TW_INPUT_BLACKLIST := hbtp_vm
@@ -298,13 +298,16 @@ else
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  TW_RECOVERY_MAX_X := 1024
-  TW_RECOVERY_MIN_X := -20
+  BOARD_TOUCH_RECOVERY_X_PADDING := 20
+  TW_RECOVERY_MAX_X := 1080
+  TW_RECOVERY_MIN_X := 0
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
   TW_X_SCALING := 1.25
   TW_Y_SCALING := 1.2
+  TW_W_SCALING := 1.25
+  TW_H_SCALING := 1.2
   # TW_X_OFFSET := 44
   # TW_Y_OFFSET := 20
   # TW_W_OFFSET := 00
@@ -312,8 +315,8 @@ else
 endif
 
 # twrp rotation for special devices
-TW_ROTATION := 90
-TW_HWROTATION := 90
+TW_ROTATION := 270
+TW_HWROTATION := 270
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 80
 # Set custom brightness, low is better
@@ -493,7 +496,7 @@ TW_EXCLUDE_SUPERSU := false
 SELINUX_IGNORE_NEVERALLOWS := true
 
 # For Surface Flinger Rotation
-SF_PRIMARY_DISPLAY_ORIENTATION := 90
+SF_PRIMARY_DISPLAY_ORIENTATION := 270
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
 DOUBLE_SCREEN := NO

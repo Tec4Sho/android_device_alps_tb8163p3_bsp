@@ -281,18 +281,18 @@ else
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 600
-  BOARD_TOUCH_MAX_X := 1024
-  RECOVERY_TOUCHSCREEN_X2 := 1024
+  BOARD_TOUCH_MAX_X := 1080
+  RECOVERY_TOUCHSCREEN_X2 := 1080
   RECOVERY_TOUCHSCREEN_Y2 := 600
   RECOVERY_TOUCHSCREEN_X2X := true
   RECOVERY_TOUCHSCREEN_Y2Y := true
-  BOARD_RECOVERY_CHAR_WIDTH := 1024
+  BOARD_RECOVERY_CHAR_WIDTH := 1080
   BOARD_RECOVERY_CHAR_HEIGHT := 600
   # You almost certainly need these because the kernel is 600x1024
   # TW_RECOVERY_MAX_X := 1024
   # TW_RECOVERY_MAX_Y := 600
   BOARD_RECOVERY_TOUCH_SCREEN_Y_MAX := 600
-  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1024
+  BOARD_RECOVERY_TOUCH_SCREEN_X_MAX := 1080
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_WHITELIST := ts_gt9xx
   TW_INPUT_BLACKLIST := hbtp_vm
@@ -301,22 +301,22 @@ else
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   BOARD_TOUCH_RECOVERY_X_PADDING := 0
-  TW_RECOVERY_MAX_X := 1024
+  TW_RECOVERY_MAX_X := 1080
   TW_RECOVERY_MIN_X := 0
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Touchscreen Absolute Min/Max Resolutions
   TW_INPUT_ABS_MIN_X := 0
-  TW_INPUT_ABS_MAX_X := 1024  # Replace with your screen width
+  TW_INPUT_ABS_MAX_X := 1080  # Replace with your screen width
   TW_INPUT_ABS_MIN_Y := 0
   TW_INPUT_ABS_MAX_Y := 600  # Replace with your screen height
   # Optional: Add axis calibration if input is mirrored or swapped
   TW_INPUT_ROTATION := 270
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
-  TW_X_SCALING := 1.25
-  TW_Y_SCALING := 1.2
-  TW_W_SCALING := 1.25
-  TW_H_SCALING := 1.2
+  # TW_X_SCALING := 1.25
+  # TW_Y_SCALING := 1.2
+  # TW_W_SCALING := 1.25
+  # TW_H_SCALING := 1.2
   # TW_X_OFFSET := 44
   # TW_Y_OFFSET := 20
   # TW_W_OFFSET := 00
@@ -337,7 +337,7 @@ TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := gralloc
 # TW_BOARD_CUSTOM_GRAPHICS := 
-USE_OPENGL_RENDERER := true
+USE_OPENGL_RENDERER := false
 # RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 # TW_DISABLE_DOUBLE_BUFFERING := false
 # TARGET_DISABLE_TRIPLE_BUFFERING := false

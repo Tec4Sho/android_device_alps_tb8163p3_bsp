@@ -250,7 +250,7 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TW_THEME_RES := 1280x720
+  TW_THEME_RES := 1280
   TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
@@ -298,11 +298,18 @@ else
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  BOARD_TOUCH_RECOVERY_X_PADDING := 20
+  BOARD_TOUCH_RECOVERY_X_PADDING := 56
   TW_RECOVERY_MAX_X := 1080
   TW_RECOVERY_MIN_X := 0
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
+  # Touchscreen Absolute Min/Max Resolutions
+  TW_INPUT_ABS_MIN_X := 0
+  TW_INPUT_ABS_MAX_X := 1024  # Replace with your screen width
+  TW_INPUT_ABS_MIN_Y := 0
+  TW_INPUT_ABS_MAX_Y := 600  # Replace with your screen height
+  # Optional: Add axis calibration if input is mirrored or swapped
+  TW_INPUT_ROTATION := 270
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
   TW_X_SCALING := 1.25
   TW_Y_SCALING := 1.2

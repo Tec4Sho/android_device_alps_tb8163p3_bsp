@@ -90,3 +90,6 @@ PRODUCT_SOONG_NAMESPACES += \
 # OEM otacerts
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     $(LOCAL_PATH)/security/testkey
+
+PRODUCT_COPY_FILES += $()/recovery/root/system/usr/idc/touchscreen.idc:system/usr/idc/touchscreen.idc
+

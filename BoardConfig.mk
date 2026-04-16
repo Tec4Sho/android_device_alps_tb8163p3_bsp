@@ -251,7 +251,7 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TW_THEME_RES := 1280
+  TW_THEME_RES := 720
   TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
@@ -269,13 +269,13 @@ else
   # TARGET_SCREEN_HEIGHT := 1024
   # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 1280
+  # BOARD_SCREEN_WIDTH := 1280
   # 600 720 True width mdpi
-  BOARD_SCREEN_HEIGHT := 720
+  # BOARD_SCREEN_HEIGHT := 720
   # 1024 1280 True height mdpi
-  DEVICE_SCREEN_WIDTH := 1280
+  # DEVICE_SCREEN_WIDTH := 1280
   # Device resolution width
-  DEVICE_SCREEN_HEIGHT := 720
+  # DEVICE_SCREEN_HEIGHT := 720
   # Device resolution height
   TARGET_SCREEN_WIDTH := 1280
   TARGET_SCREEN_HEIGHT := 720
@@ -301,27 +301,30 @@ else
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  BOARD_TOUCH_RECOVERY_X_PADDING := 0
+  BOARD_TOUCH_RECOVERY_X_PADDING := 60
+  BOARD_TOUCH_RECOVERY_Y_PADDING := 10
   TW_RECOVERY_MAX_X := 1080
   TW_RECOVERY_MIN_X := 0
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Touchscreen Absolute Min/Max Resolutions
   TW_INPUT_ABS_MIN_X := 0
-  TW_INPUT_ABS_MAX_X := 1080  # Replace with your screen width
+  TW_INPUT_ABS_MAX_X := 1080
+  # Replace with your screen width
   TW_INPUT_ABS_MIN_Y := 0
-  TW_INPUT_ABS_MAX_Y := 600  # Replace with your screen height
+  TW_INPUT_ABS_MAX_Y := 600
+  # Replace with your screen height
   # Optional: Add axis calibration if input is mirrored or swapped
   TW_INPUT_ROTATION := 270
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
-  # TW_X_SCALING := 1.25
-  # TW_Y_SCALING := 1.2
+  TW_X_SCALING := 1
+  TW_Y_SCALING := 1
   # TW_W_SCALING := 1.25
   # TW_H_SCALING := 1.2
-  TW_X_OFFSET := 0
-  TW_Y_OFFSET := 0
-  TW_W_OFFSET := 1080
-  TW_H_OFFSET := 600
+  TW_X_OFFSET :=
+  TW_Y_OFFSET :=
+  TW_W_OFFSET :=
+  TW_H_OFFSET :=
 endif
 
 # twrp rotation for special devices
@@ -424,8 +427,8 @@ TW_INCLUDE_FASTBOOTD := true
 TW_EXCLUDE_APEX := true
 
 # Custom Recovery 
-BOARD_USE_DRM := true
-TW_POWER_BUTTON := true
+BOARD_USE_DRM := false
+TW_POWER_BUTTON := false
 TW_HAS_INTERNAL := true
 TW_HAS_EXTERNAL := true
 TW_HAS_INJECTTWRP := false
@@ -465,7 +468,7 @@ TWRP_INCLUDE_LOGCAT := true
 # This tells TWRP to ignore the 'Resolution 0' report from getevent 
 # and use your manual MAX values instead.
 BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_IGNORE_WIND_SCALING := false
+BOARD_RECOVERY_IGNORE_WIND_SCALING := true
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
@@ -477,7 +480,7 @@ TW_NO_BATT_PERCENT := false
 
 # Allows you to map a custom keycode for power button, takes in a number, usually three digits
 # TW_USE_KEY_CODE_TOUCH_SYNC := true
-TW_CUSTOM_POWER_BUTTON := 116
+# TW_CUSTOM_POWER_BUTTON := 116
 
 # Vendor Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop

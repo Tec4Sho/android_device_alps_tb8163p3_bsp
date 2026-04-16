@@ -251,7 +251,7 @@ else
   # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
   # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TW_THEME_RES := 720
+  TW_THEME_RES := 1080
   TWRP_NEW_THEME := true
   RECOVERY_VARIANT := twrp
   # VNDK Fix
@@ -260,7 +260,7 @@ else
   # Uses Custom ARM Busybox w/ Toybox
   # RECOVERY_BUSYBOX_SYMLINKS := true
   # RECOVERY_BUSYBOX_TOOLS := true
-  DEVICE_RESOLUTION := 1280x720
+  DEVICE_RESOLUTION := 1080x600
   # The Resolution of your Device
   # BOARD_SCREEN_WIDTH := 1280
   # Device resolution width
@@ -273,12 +273,12 @@ else
   # 600 720 True width mdpi
   # BOARD_SCREEN_HEIGHT := 720
   # 1024 1280 True height mdpi
-  # DEVICE_SCREEN_WIDTH := 1280
+  DEVICE_SCREEN_WIDTH := 1080
   # Device resolution width
-  # DEVICE_SCREEN_HEIGHT := 720
+  DEVICE_SCREEN_HEIGHT := 600
   # Device resolution height
-  TARGET_SCREEN_WIDTH := 1280
-  TARGET_SCREEN_HEIGHT := 720
+  TARGET_SCREEN_WIDTH := 1080
+  TARGET_SCREEN_HEIGHT := 600
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
   BOARD_TOUCH_MAX_Y := 600
@@ -301,8 +301,8 @@ else
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  BOARD_TOUCH_RECOVERY_X_PADDING := 60
-  BOARD_TOUCH_RECOVERY_Y_PADDING := 10
+  BOARD_TOUCH_RECOVERY_X_PADDING := 0
+  BOARD_TOUCH_RECOVERY_Y_PADDING := 0
   TW_RECOVERY_MAX_X := 1080
   TW_RECOVERY_MIN_X := 0
   TW_RECOVERY_MAX_Y := 600
@@ -317,7 +317,7 @@ else
   # Optional: Add axis calibration if input is mirrored or swapped
   TW_INPUT_ROTATION := 270
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
-  TW_X_SCALING := 1
+  TW_X_SCALING := -1
   TW_Y_SCALING := 1
   # TW_W_SCALING := 1.25
   # TW_H_SCALING := 1.2

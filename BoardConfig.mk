@@ -68,7 +68,7 @@ endif
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery printk.devkmsg=on console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 androidboot.primary_display_orientation=ORIENTATION_270 video=LVDS-1:1280x720-24@60D rotate=270 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,32N2 androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery printk.devkmsg=on console=ttyS0,921600n1 root=/dev/ram androidboot.hardware=mt8163 firmware_class.path=/vendor/firmware build=06_12_24(gA1A470FC) lcm_id=4000 brightness=8388613 avdd=52 vcom=46 androidboot.primary_display_orientation=ORIENTATION_270 video=LVDS-1:1080x600-24@60D rotate=270 skip_initramfs ro rootwait init=/init root=PARTUUID=e7099731-95a6-45a6-a1e5-1b6aba032cf1 androidboot.verifiedbootstate=orange androidboot.atm=disabled androidboot.meta_log_disable=0 androidboot.dtbo_idx=0 printk.disable_uart=0 bootprof.pl_t=1680 bootprof.lk_t=7245 boot_reason=4 androidboot.serialno=SC5SKNLBEYIRBMR4 androidboot.bootreason=reboot mrdump_ddrsv=yes mrdump_rsvmem=0x56000000,0x400000,0x42000000,0x17f740,0x54000000,0x80000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_RAMDISK_OFFSET := 0x15000000
 BOARD_KERNEL_TAGS_OFFSET := 0x14000000
@@ -304,11 +304,11 @@ else
   BOARD_TOUCH_RECOVERY_X_PADDING := 0
   BOARD_TOUCH_RECOVERY_Y_PADDING := 0
   TW_RECOVERY_MAX_X := 1080
-  TW_RECOVERY_MIN_X := 0
+  TW_RECOVERY_MIN_X := 10
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Touchscreen Absolute Min/Max Resolutions
-  TW_INPUT_ABS_MIN_X := 0
+  TW_INPUT_ABS_MIN_X := 10
   TW_INPUT_ABS_MAX_X := 1080
   # Replace with your screen width
   TW_INPUT_ABS_MIN_Y := 0
@@ -317,11 +317,12 @@ else
   # Optional: Add axis calibration if input is mirrored or swapped
   TW_INPUT_ROTATION := 270
   # Recalculate scaling based on the NEW total width (e.g., 600 + button width)
-  TW_X_SCALING := -1
-  TW_Y_SCALING := 1
+  # TW_X_SCALING := 1
+  # TW_Y_SCALING := 1
   # TW_W_SCALING := 1.25
   # TW_H_SCALING := 1.2
-  TW_X_OFFSET :=
+  BOARD_RECOVERY_TOUCH_SURFACE_SCALE := 1.2
+  TW_X_OFFSET := 20
   TW_Y_OFFSET :=
   TW_W_OFFSET :=
   TW_H_OFFSET :=

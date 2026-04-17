@@ -300,18 +300,18 @@ else
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
   # TW Offset X Y
-  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
-  BOARD_TOUCH_RECOVERY_X_PADDING := 0
-  BOARD_TOUCH_RECOVERY_Y_PADDING := 0
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 5
+  BOARD_TOUCH_RECOVERY_X_PADDING := 5
+  BOARD_TOUCH_RECOVERY_Y_PADDING := 5
   TW_RECOVERY_MAX_X := 1080
   TW_RECOVERY_MIN_X := 10
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Touchscreen Absolute Min/Max Resolutions
-  TW_INPUT_ABS_MIN_X := 10
+  TW_INPUT_ABS_MIN_X := -200
   TW_INPUT_ABS_MAX_X := 1080
   # Replace with your screen width
-  TW_INPUT_ABS_MIN_Y := 0
+  TW_INPUT_ABS_MIN_Y := -120
   TW_INPUT_ABS_MAX_Y := 600
   # Replace with your screen height
   # Optional: Add axis calibration if input is mirrored or swapped
@@ -322,7 +322,7 @@ else
   # TW_W_SCALING := 1.25
   # TW_H_SCALING := 1.2
   BOARD_RECOVERY_TOUCH_SURFACE_SCALE := 1.2
-  TW_X_OFFSET := 20
+  TW_X_OFFSET := 10
   TW_Y_OFFSET :=
   TW_W_OFFSET :=
   TW_H_OFFSET :=
@@ -342,7 +342,7 @@ TARGET_RECOVERY_SELINUX := permissive
 BOARD_SELINUX_ENFORCING := false
 GRAPHIC_MEMORY_PROVIDER := gralloc
 # TW_BOARD_CUSTOM_GRAPHICS := 
-USE_OPENGL_RENDERER := false
+USE_OPENGL_RENDERER := true
 # RECOVERY_GRAPHICS_FORCE_SINGLE_BUFFER := false
 # TW_DISABLE_DOUBLE_BUFFERING := false
 # TARGET_DISABLE_TRIPLE_BUFFERING := false
@@ -394,7 +394,7 @@ TW_USE_TOOLBOX := true
 # RGBA_8888 RGB_565 BGRA_8888
 # RECOVERY_BGRA := true
 TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
-# TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_NONE
+TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_RIGHT
 # ROTATION_LEFT
 
 # Set the Brightness Control File Path below (as per your chip/device)
@@ -468,8 +468,8 @@ TWRP_INCLUDE_LOGCAT := true
 # Twrp settings
 # This tells TWRP to ignore the 'Resolution 0' report from getevent 
 # and use your manual MAX values instead.
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_IGNORE_WIND_SCALING := true
+BOARD_HAS_NO_SELECT_BUTTON := false
+BOARD_RECOVERY_IGNORE_WIND_SCALING := false
 TW_SUPPORT_INPUT_AOSP := true
 TW_DEFAULT_MOUNT_RW := true
 TW_ENABLE_ADB_SIDELOAD := true
@@ -500,6 +500,7 @@ TW_NO_SCREEN_BLANK := true
 
 # exclude SuperSu e.g. to save some space or for different other reasons (supersu still included by default?)
 TW_EXCLUDE_SUPERSU := false
+TW_INCLUDE_SUPERSU := true
 
 # twrp touch
 # RECOVERY_TOUCHSCREEN_SWAP_XY := false
@@ -513,7 +514,7 @@ SELINUX_IGNORE_NEVERALLOWS := true
 SF_PRIMARY_DISPLAY_ORIENTATION := 270
 
 #Screen to Double, Single - YES = Screen to Double - NO = Screen to single
-DOUBLE_SCREEN := NO
+DOUBLE_SCREEN := YES
 
 # Enable UsbDevice to Mtp mode,default is charge mode 
 BOARD_USB_ALLOW_DEFAULT_MTP := true
@@ -531,7 +532,7 @@ BOARD_USB_ACCESSORY_SUPPORT := true
 #TWRP_CUSTOM_KEYBOARD := $(DEVICE_PATH)/mtk-kpd.kl
 TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_SUPPORT_INPUT_1_2_HAPTICS := false
-TW_DELAY_TOUCH_INIT_MS := 300
+TW_DELAY_TOUCH_INIT_MS := 0
 TW_FRAMERATE := 30
 
 BOARD_RECOVERY_SWIPE := true

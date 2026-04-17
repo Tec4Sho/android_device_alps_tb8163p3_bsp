@@ -309,10 +309,10 @@ else
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Touchscreen Absolute Min/Max Resolutions
-  TW_INPUT_ABS_MIN_X := 200
+  TW_INPUT_ABS_MIN_X := 0
   TW_INPUT_ABS_MAX_X := 1080
   # Replace with your screen width
-  TW_INPUT_ABS_MIN_Y := 120
+  TW_INPUT_ABS_MIN_Y := 0
   TW_INPUT_ABS_MAX_Y := 600
   # Replace with your screen height
   # Optional: Add axis calibration if input is mirrored or swapped
@@ -603,6 +603,7 @@ BOARD_VENDOR_KERNEL_MODULES := \
   
 # Auto copy files into ramdisk-recovery
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/recovery/root/etc/virtualkeys.TS_GT9xx:recovery/root/etc/virtualkeys.TS_GT9xx \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \
     $(DEVICE_PATH)/recovery/root/system/usr/idc/TS_GT9xx.idc:/recovery/root/system/usr/idc/TS_GT9xx.idc \

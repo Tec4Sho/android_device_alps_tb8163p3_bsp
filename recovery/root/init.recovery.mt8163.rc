@@ -109,11 +109,14 @@ on post-fs-data
     mkdir /data/mediadrm 0770 mediadrm mediadrm
     mkdir /data/drm/wv 0770 drm system
 
-on boot
+on post-fs
+    # Create the directory if the driver hasn't already
+    mkdir /sys/board_properties 0755 root root
+    
+    # Copy the fixed file from the ramdisk to the sysfs node
+    copy /etc/virtualkeys.TS_GT9xx /sys/board_properties/virtualkeys.TS_GT9xx
+    
+    # Set permissions so the touch driver can read it
+    chmod 0644 /sys/board_properties/virtualkeys.TS_GT9xx
+    chown root root /sys/board_properties/virtualkeys.TS_GT9xx
     setprop persist.sys.touch.config 1
-# Force input system to map 1024 to 720 and 600 to 1280
-    write /sys/class/input/input1/device/abs_x/max 720
-    write /sys/class/input/input1/device/abs_y/max 1280
-    write /sys/class/input/input1/device/abs_x/min 63
-
-

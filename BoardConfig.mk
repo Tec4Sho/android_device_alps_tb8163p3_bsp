@@ -299,19 +299,20 @@ else
   TW_INPUT_BLACKLIST := hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution
   BOARD_USE_CUSTOM_RECOVERY_UI := true
+  BOARD_RECOVERY_SWIPE_ONLY := true
   # TW Offset X Y
-  TARGET_RECOVERY_OVERSCAN_PERCENT := 5
-  BOARD_TOUCH_RECOVERY_X_PADDING := 5
-  BOARD_TOUCH_RECOVERY_Y_PADDING := 5
+  TARGET_RECOVERY_OVERSCAN_PERCENT := 0
+  BOARD_TOUCH_RECOVERY_X_PADDING := 0
+  BOARD_TOUCH_RECOVERY_Y_PADDING := 0
   TW_RECOVERY_MAX_X := 1080
   TW_RECOVERY_MIN_X := 10
   TW_RECOVERY_MAX_Y := 600
   TW_RECOVERY_MIN_Y := 0
   # Touchscreen Absolute Min/Max Resolutions
-  TW_INPUT_ABS_MIN_X := -200
+  TW_INPUT_ABS_MIN_X := 200
   TW_INPUT_ABS_MAX_X := 1080
   # Replace with your screen width
-  TW_INPUT_ABS_MIN_Y := -120
+  TW_INPUT_ABS_MIN_Y := 120
   TW_INPUT_ABS_MAX_Y := 600
   # Replace with your screen height
   # Optional: Add axis calibration if input is mirrored or swapped
@@ -322,7 +323,7 @@ else
   # TW_W_SCALING := 1.25
   # TW_H_SCALING := 1.2
   BOARD_RECOVERY_TOUCH_SURFACE_SCALE := 1.2
-  TW_X_OFFSET := 10
+  TW_X_OFFSET :=
   TW_Y_OFFSET :=
   TW_W_OFFSET :=
   TW_H_OFFSET :=

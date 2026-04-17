@@ -11,13 +11,15 @@
 
 # Add this line if your device is 64-bit
 # Otherwise, If you have 32-bit device, add the below line instead of above line
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_minimal.mk)
-
-# Another common config inclusion
-# $(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/core_minimal.mk)
+# Inherit from those products. Most specific first.
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/embedded.mk)
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Inherit some common Omni stuff.
-$(call inherit-product-if-exists, vendor/omni/config/common.mk)
+$(call inherit-product, vendor/omni/config/common.mk)
+$(call inherit-product-if-exists, vendor/omni/config/gsm.mk)
 
 # Inherit from tb8163p3_bsp device tree
 $(call inherit-product, device/alps/tb8163p3_bsp/device.mk)

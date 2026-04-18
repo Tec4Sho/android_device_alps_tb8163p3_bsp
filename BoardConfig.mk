@@ -430,7 +430,7 @@ TW_EXCLUDE_APEX := true
 
 # Custom Recovery 
 BOARD_USE_DRM := false
-TW_POWER_BUTTON := false
+TW_POWER_BUTTON := true
 TW_HAS_INTERNAL := true
 TW_HAS_EXTERNAL := true
 TW_HAS_INJECTTWRP := false
@@ -482,7 +482,7 @@ TW_NO_BATT_PERCENT := false
 
 # Allows you to map a custom keycode for power button, takes in a number, usually three digits
 # TW_USE_KEY_CODE_TOUCH_SYNC := true
-# TW_CUSTOM_POWER_BUTTON := 116
+TW_CUSTOM_POWER_BUTTON := 116
 
 # Vendor Properties
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
@@ -603,7 +603,6 @@ BOARD_VENDOR_KERNEL_MODULES := \
   
 # Auto copy files into ramdisk-recovery
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/recovery/root/etc/virtualkeys.TS_GT9xx:recovery/root/etc/virtualkeys.TS_GT9xx \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \
     $(DEVICE_PATH)/recovery/root/system/usr/idc/TS_GT9xx.idc:/recovery/root/system/usr/idc/TS_GT9xx.idc \

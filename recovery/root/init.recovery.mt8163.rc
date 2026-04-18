@@ -1,5 +1,3 @@
-import /vendor/etc/init/hw/init.mt8163.rc
-
 on init
     setprop sys.usb.controller musb-hdrc
 
@@ -34,8 +32,10 @@ on fs
     write /sys/class/power_supply/usb/otg_switch 1
 
 	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system / ro wait
-	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor /vendor ro wait
-	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache /cache rw wait
+	mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor /vendor ro wait
+	mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache /cache rw wait
+    #mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd /apd ro wait
+  
     #mount_all /fstab.mt8163 --early 
     
     write /proc/bootprof "INIT:Mount_END"
@@ -43,25 +43,12 @@ on fs
 	write /dev/event-log-tags "# content owned by logd"
     chown logd logd /dev/event-log-tags
     chmod 0644 /dev/event-log-tags
+    
     start logd
     start init_mount
     start insmodc
-    start drm
-    start mediadrm
+    start set_touchscreen
     setprop modules.loaded 1
-
-service drm /system/bin/drmserver
-    class main
-    user drm
-    group drm system inet drmrpc readproc sdcard_rw media_rw root
-    writepid /dev/cpuset/foreground/tasks
-
-service mediadrm /system/bin/mediadrmserver
-    class main
-    user media
-    group mediadrm drmrpc
-    ioprio rt 4
-    write /dev/cpuset/foreground/tasks
 
 service insmodc /sbin/init.insmod.sh
     oneshot
@@ -108,15 +95,19 @@ on post-fs-data
     mkdir /data/drm 0770 drm drm
     mkdir /data/mediadrm 0770 mediadrm mediadrm
     mkdir /data/drm/wv 0770 drm system
+    write /data/media/0/touch_calibration virtualkeys-set
 
-on post-fs
-    # Create the directory if the driver hasn't already
-    mkdir /sys/board_properties 0755 root root
+service set_touchscreen /sbin/touchscreen.sh
+    oneshot
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+ 
+on boot
+    # Wait for the driver to initialize the sysfs node
+    # wait /sys/board_properties/virtualkeys.TS_GT9xx
     
-    # Copy the fixed file from the ramdisk to the sysfs node
-    copy /etc/virtualkeys.TS_GT9xx /sys/board_properties/virtualkeys.TS_GT9xx
-    
-    # Set permissions so the touch driver can read it
-    chmod 0644 /sys/board_properties/virtualkeys.TS_GT9xx
-    chown root root /sys/board_properties/virtualkeys.TS_GT9xx
-    setprop persist.sys.touch.config 1
+    # Force the 6-parameter calibration string directly into the driver
+    # This overwrites the legacy hex string that causes the 4 % 6 error
+    # write /sys/board_properties/virtualkeys.TS_GT9xx "0x01:116:30:60:60:80:0x01:102:30:180:60:80:0x01:158:30:300:60:80:0x01:115:30:420:60:80:0x01:114:30:540:60:80"

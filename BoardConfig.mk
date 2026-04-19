@@ -152,12 +152,12 @@ RECOVERY_VARIANT ?= twrp
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_OEM_BUILD := false
-  TW_THEME_RES := 720
-  TW_THEME := portrait_hdpi
+  TW_THEME_RES := 1080
+  # TW_THEME := portrait_hdpi
   TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
-  #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := true
+  # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
+  # TWRP_NEW_THEME := true
   RECOVERY_VARIANT := ofrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current

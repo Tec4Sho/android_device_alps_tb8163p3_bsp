@@ -111,7 +111,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export OF_NO_MIUI_PATCH_WARNING=1
  
  # Magisk
-   export FOX_USE_SPECIFIC_MAGISK_ZIP="~/Magisk/Magisk-v25.2.zip"
+   export FOX_USE_SPECIFIC_MAGISK_ZIP="device/alps/tb8163p3_bsp/Magisk-v30.7.zip"
 
  # Debugging
  ##export FOX_RESET_SETTINGS=0
@@ -121,7 +121,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    export OF_RUN_POST_FORMAT_PROCESS=1
 
  # fux screen height for tablets
-   export OF_SCREEN_H="600"
+   export OF_SCREEN_H="1280"
  
  # Maintainer 
    export OF_MAINTAINER="Tec4Sho"

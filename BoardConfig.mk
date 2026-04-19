@@ -152,11 +152,11 @@ RECOVERY_VARIANT ?= twrp
 # TWRP or OrangeFox Theme Auto Configuration
 ifeq ($(RECOVERY_VARIANT),ofrp)
   TW_OEM_BUILD := false
-  TW_THEME := portrait_hdpi
+  #TW_THEME := portrait_hdpi
   #TW_CUSTOM_THEME := $(DEVICE_PATH)/ofrp/twres
   #TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   #TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
-  TWRP_NEW_THEME := false
+  TWRP_NEW_THEME := true
   RECOVERY_VARIANT := ofrp
   # VNDK Fix
   BOARD_VNDK_VERSION := current
@@ -170,11 +170,12 @@ ifeq ($(RECOVERY_VARIANT),ofrp)
   TARGET_SCREEN_HEIGHT := 600
   TARGET_SCREEN_WIDTH := 1080
   # OF Offset X Y
+  BOARD_USE_CUSTOM_RECOVERY_UI := true
   TARGET_RECOVERY_OVERSCAN_PERCENT := 0
   TW_X_OFFSET := 0
   TW_Y_OFFSET := 0
-  #TW_W_OFFSET := 0
-  #TW_H_OFFSET := 0
+  TW_W_OFFSET := 0
+  TW_H_OFFSET := 0
 else ifeq ($(RECOVERY_VARIANT),pbrp)
   PB_BUILD_TYPE := UNOFFICIAL
   TW_OEM_BUILD := true

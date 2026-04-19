@@ -250,8 +250,8 @@ else
   TW_OEM_BUILD := false
   # TW_THEME := portrait_mdpi
   # landscape_mdpi portrait_mdpi
-  # TW_CUSTOM_THEME := $(DEVICE_PATH)/twrp/twres
-  # TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
+  TW_CUSTOM_THEME := $(DEVICE_PATH)/custom/twres
+  TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
   # TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
   TW_THEME_RES := 1080
   TWRP_NEW_THEME := true
@@ -325,10 +325,10 @@ else
   # TW_W_SCALING := 1.25
   # TW_H_SCALING := 1.2
   BOARD_RECOVERY_TOUCH_SURFACE_SCALE := 1.2
-  TW_X_OFFSET :=
-  TW_Y_OFFSET :=
-  TW_W_OFFSET :=
-  TW_H_OFFSET :=
+  TW_X_OFFSET := 0
+  TW_Y_OFFSET := 0
+  TW_W_OFFSET := 0
+  TW_H_OFFSET := 0
 endif
 
 # twrp rotation for special devices

@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-# RECOVERY_VARIANT ?= pbrp
+RECOVERY_VARIANT ?= pbrp
 
 # Inherit from those products. Most specific first.
 # $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base.mk)
@@ -18,7 +18,7 @@ $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/full_base_telephony.
 $(call inherit-product-if-exists, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Inherit some common Omni stuff.
-$(call inherit-product, vendor/omni/config/common.mk)
+$(call inherit-product-if-exists, vendor/omni/config/common.mk)
 $(call inherit-product-if-exists, vendor/omni/config/gsm.mk)
 
 # Inherit from tb8163p3_bsp device tree

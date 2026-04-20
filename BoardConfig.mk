@@ -201,16 +201,18 @@ else ifeq ($(RECOVERY_VARIANT),pbrp)
   # TARGET_SCREEN_HEIGHT := 1024
   # The height mdpi
   # TARGET_SCREEN_WIDTH := 600
-  BOARD_SCREEN_WIDTH := 720
-  BOARD_SCREEN_HEIGHT := 1280
-  DEVICE_SCREEN_WIDTH := 720
-  DEVICE_SCREEN_HEIGHT := 1280
-  TARGET_SCREEN_WIDTH := 720    
-  TARGET_SCREEN_HEIGHT := 1280
+  # BOARD_SCREEN_WIDTH := 1280
+  # BOARD_SCREEN_HEIGHT := 720
+  DEVICE_SCREEN_WIDTH := 1280
+  DEVICE_SCREEN_HEIGHT := 720
+  TARGET_SCREEN_WIDTH := 1280    
+  TARGET_SCREEN_HEIGHT := 720
   # Force the touch engine to use the Kernel's 'Ghost' range
   RECOVERY_GRAPHICS_USE_LINELENGTH := true
-  BOARD_TOUCH_MAX_Y := 1280
-  BOARD_TOUCH_MAX_X := 720
+  TW_RECOVERY_MAX_X := 1080
+  TW_RECOVERY_MIN_X := 0
+  TW_RECOVERY_MAX_Y := 600
+  TW_RECOVERY_MIN_Y := 0
   # If the offset is still 'drifting' as you go down,
   TW_INPUT_BLACKLIST := hbtp_vm
   # tell TWRP to ignore the kernel's reported resolution

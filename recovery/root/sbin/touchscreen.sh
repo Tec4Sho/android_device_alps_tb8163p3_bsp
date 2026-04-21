@@ -13,5 +13,5 @@ fi;
     chown root root /sys/board_properties/virtualkeys.TS_GT9xx
     setprop persist.sys.touch.config 1
     mkdir -p /cache/recovery >/dev/null 2>&1
-    echo -e "$(date)\n virtualkeys mounted to virtualkeys.TS_GT9xx" >/cache/recovery/recovery_touch_calibration >/dev/null 2>&1
+    echo -e "$(date)\nSTATUS: virtualkeys mounted to virtualkeys.TS_GT9xx" >/cache/recovery/recovery_touch_calibration >/dev/null 2>&1
     

@@ -608,8 +608,6 @@ BOARD_VENDOR_KERNEL_MODULES := \
   
 # Auto copy files into ramdisk-recovery
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
-    $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \
     $(DEVICE_PATH)/recovery/root/system/usr/idc/TS_GT9xx.idc:/recovery/root/system/usr/idc/TS_GT9xx.idc \
     $(LOCAL_PATH)/prebuilt/zImage:kernel \
     $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo

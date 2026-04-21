@@ -611,7 +611,5 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_cfg_group.bin:recovery/root/vendor/firmware/goodix_cfg_group.bin \
     $(DEVICE_PATH)/recovery/root/vendor/firmware/goodix_firmware.bin:recovery/root/vendor/firmware/goodix_firmware.bin \
     $(DEVICE_PATH)/recovery/root/system/usr/idc/TS_GT9xx.idc:/recovery/root/system/usr/idc/TS_GT9xx.idc \
-    $(DEVICE_PATH)/recovery/root/system/usr/idc/qwerty2.idc:/recovery/root/system/usr/idc/qwerty2.idc \
-    $(DEVICE_PATH)/recovery/root/system/usr/idc/qwerty.idc:/recovery/root/system/usr/idc/qwerty.idc \
     $(LOCAL_PATH)/prebuilt/zImage:kernel \
     $(LOCAL_PATH)/prebuilt/dtbo.img:dtbo

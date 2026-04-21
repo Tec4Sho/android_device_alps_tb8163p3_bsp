@@ -214,7 +214,7 @@
 		<!-- Power Menu 320 -->
 		<variable name="pc_y" value="%cutout_w%+108"/>
 		<variable name="pc_icon_y" value="%cutout_w%+240"/>
-		<variable name="pc_text_y" value="%cutout_w%+240"/>
+		<variable name="pc_text_y" value="%cutout_w%+320"/>
 		
 		<!-- Content placement -->
 		<variable name="col1_x" value="48"/>

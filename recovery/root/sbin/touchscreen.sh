@@ -1,6 +1,6 @@
 #!/sbin/sh
 
-mount /apd
+mount /apd >/dev/null 2>&1
 
 if mount | grep -qsF '/apd'; then
     [ -s /apd/virtualkeys ] && paste -sd ":" /apd/virtualkeys > /sbin/virtualkeys

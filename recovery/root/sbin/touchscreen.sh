@@ -3,7 +3,7 @@
 mount /apd
 
 if mount | grep -qsF '/apd'; then
-    paste -sd ":" /apd/virtualkeys > /sbin/virtualkeys
+    [ -s /apd/virtualkeys ] && paste -sd ":" /apd/virtualkeys > /sbin/virtualkeys
     mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx
 else
     mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx

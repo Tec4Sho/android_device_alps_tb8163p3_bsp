@@ -12,18 +12,18 @@
 	<resources>
 		<image name="splash_logo_w" filename="Splash/logo_w" retainaspect="1"/>
 		<image name="splash_bg" filename="Splash/original" retainaspect="1"/>
-		<font name="of" filename="EuclidFlex-Medium.ttf" size="64"/>
-		<font name="recovery" filename="EuclidFlex-Regular.ttf" size="52"/>
+		<font name="of" filename="EuclidFlex-Medium.ttf" size="60"/>
+		<font name="recovery" filename="EuclidFlex-Regular.ttf" size="50"/>
 	</resources>
 
 	<variables>
-		<variable name="of" value="%screen_h%-400"/>
-		<variable name="rec" value="%screen_h%-320"/>
+		<variable name="of" value="%screen_h%-320"/>
+		<variable name="rec" value="%screen_h%-420"/>
 	</variables>
 
 	<pages>
 		<page name="splash">
-			<background color="#D34E38"/>
+			<background color="#f00514"/>
 			<fill color="#FF8038">
 				<placement x="0" y="0" w="1080" h="%center_y%"/>
 			</fill>
@@ -38,13 +38,13 @@
 
 			<text style="menu_text">
 				<placement x="540" y="%of%" placement="4"/>
-				<font resource="of" color="#ffffff"/>
-				<text>OrangeFox</text>
+				<font resource="of" color="#303030"/>
+				<text>Android Radio</text>
 			</text>
 			<text style="menu_text">
 				<placement x="540" y="%rec%" placement="4"/>
-				<font resource="recovery" color="#ffffff"/>
-				<text>Recovery</text>
+				<font resource="recovery" color="#303030"/>
+				<text>OrangeFox Recovery</text>
 			</text>
 		</page>
 	</pages>

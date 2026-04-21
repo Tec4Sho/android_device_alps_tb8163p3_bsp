@@ -1,6 +1,6 @@
 #!/sbin/sh
 
-mount /apd || mount /apd >/dev/null 2>&1
+busybox mount /apd || mount /apd >/dev/null 2>&1
 mkdir -p /cache/touch >/dev/null 2>&1
 
 if mount | grep -qsF '/apd'; then

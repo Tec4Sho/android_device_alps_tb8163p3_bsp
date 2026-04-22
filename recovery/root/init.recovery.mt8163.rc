@@ -27,6 +27,9 @@ on property:ro.debuggable=1
 
 on fs
     write /proc/bootprof "INIT:Mount_START"
+    mkdir /apd
+    mkdir /cache
+    mkdir /vendor
     mkdir /dev/block/platform/mtk-msdc.0
     symlink ../soc/11230000.mmc /dev/block/platform/mtk-msdc.0/11230000.MSDC0
     write /sys/class/power_supply/usb/otg_switch 1
@@ -47,7 +50,7 @@ on fs
     start logd
     start init_mount
     start insmodc
-    start set_touchscreen
+    start cal_touchscreen
     setprop modules.loaded 1
 
 service insmodc /sbin/init.insmod.sh
@@ -95,9 +98,8 @@ on post-fs-data
     mkdir /data/drm 0770 drm drm
     mkdir /data/mediadrm 0770 mediadrm mediadrm
     mkdir /data/drm/wv 0770 drm system
-    write /data/media/0/touch_calibration virtualkeys-set
-
-service set_touchscreen /sbin/touchscreen.sh
+    
+service cal_touchscreen /sbin/touchscreen.sh
     oneshot
     disabled
     user root
@@ -105,6 +107,8 @@ service set_touchscreen /sbin/touchscreen.sh
     seclabel u:r:recovery:s0
  
 on boot
+    write /data/media/0/recovery_touch_calibration "Recovery Mode: virtualkeys calibration update file /cache/touch/recovery_touch_calibration"
+
     # Wait for the driver to initialize the sysfs node
     # wait /sys/board_properties/virtualkeys.TS_GT9xx
     

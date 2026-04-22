@@ -9,10 +9,12 @@
 
 if mount | grep -qsF '/apd'; then
     [ -s /apd/virtualkeys ] && paste -sd ":" /apd/virtualkeys > /sbin/virtualkeys && export apd=true;
-    mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx && echo -e "$(date)\nTOUCH STATUS: sbin/virtualkeys was bind mounted to sys/board_properties/virtualkeys.TS_GT9xx" > /cache/touch/recovery_touch_calibration 2>/dev/null
+    mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx && \
+    echo -e "$(date)\nTOUCH STATUS: sbin/virtualkeys was bind mounted to sys/board_properties/virtualkeys.TS_GT9xx" > /cache/touch/recovery_touch_calibration 2>/dev/null;
     [ "$apd" == 'true' ] && echo -e "\nVIRTUALKEYS IN USE: sbin/virtualkeys touch calibration was updated from default apd/virtualkeys" >> /cache/touch/recovery_touch_calibration 2>/dev/null
 else
-    mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx && echo -e "$(date)\nTOUCH STATUS: sbin/virtualkeys was bind mounted to sys/board_properties/virtualkeys.TS_GT9xx" > /cache/touch/recovery_touch_calibration 2>/dev/null
+    mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx && \
+    echo -e "$(date)\nTOUCH STATUS: sbin/virtualkeys was bind mounted to sys/board_properties/virtualkeys.TS_GT9xx" > /cache/touch/recovery_touch_calibration 2>/dev/null;
 fi;
     # Set permissions so the touch driver can read it
     chmod 0444 /sys/board_properties/virtualkeys.TS_GT9xx

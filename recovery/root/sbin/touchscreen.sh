@@ -6,7 +6,7 @@
     mount -o rw,remount /apd || mount /apd 2>/dev/null
     mkdir -p /cache/touch 2>/dev/null
 
-if mount | grep -qsF '/apd'; then
+if mountpoint -q /apd; then
     [ -s /apd/virtualkeys ] && paste -sd ":" /apd/virtualkeys > /sbin/virtualkeys && export apd=true;
     mount --bind /sbin/virtualkeys /sys/board_properties/virtualkeys.TS_GT9xx && \
     echo -e "$(date)\nTOUCH STATUS: sbin/virtualkeys was bind mounted to sys/board_properties/virtualkeys.TS_GT9xx" > /cache/touch/recovery_touch_calibration 2>/dev/null;

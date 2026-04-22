@@ -34,7 +34,7 @@ on fs
 	#mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/system / ro wait
 	mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/vendor /vendor ro wait
 	mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache /cache rw wait
-    #mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd /apd ro wait
+    mount ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/apd /apd ro wait
   
     #mount_all /fstab.mt8163 --early 
     

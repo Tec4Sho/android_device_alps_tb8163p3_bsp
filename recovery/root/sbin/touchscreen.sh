@@ -1,7 +1,11 @@
 #!/sbin/sh
 
-busybox mount /apd || mount /apd 2>/dev/null
-mkdir -p /cache/touch 2>/dev/null
+# Read/Write mount default partitions
+    mount -o rw,remount /system || mount /system 2>/dev/null
+    mount -o rw,remount /vendor || mount /vendor 2>/dev/null
+    mount -o rw,remount /cache || mount /cache 2>/dev/null
+    mount -o rw,remount /apd || mount /apd 2>/dev/null
+    mkdir -p /cache/touch 2>/dev/null
 
 if mount | grep -qsF '/apd'; then
     [ -s /apd/virtualkeys ] && paste -sd ":" /apd/virtualkeys > /sbin/virtualkeys && export apd=true;

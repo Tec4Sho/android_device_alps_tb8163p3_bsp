@@ -1,7 +1,6 @@
 #!/sbin/sh
 
 # Read/Write mount default partitions
-    mount -o rw,remount /system || mount /system 2>/dev/null
     mount -o rw,remount /vendor || mount /vendor 2>/dev/null
     mount -o rw,remount /cache || mount /cache 2>/dev/null
     mount -o rw,remount /apd || mount /apd 2>/dev/null

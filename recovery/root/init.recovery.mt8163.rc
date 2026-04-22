@@ -107,9 +107,7 @@ service cal_touchscreen /sbin/touchscreen.sh
     seclabel u:r:recovery:s0
  
 on boot
-    copy /cache/touch/recovery_touch_calibration /data/media/0/recovery_touch_calibration 
-    # "Recovery Mode: virtualkeys calibration update file /cache/touch/recovery_touch_calibration"
-
+    
     # Wait for the driver to initialize the sysfs node
     # wait /sys/board_properties/virtualkeys.TS_GT9xx
     

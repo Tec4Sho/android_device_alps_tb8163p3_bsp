@@ -69,7 +69,7 @@ log 'MOUNT.SH was started successfully' 2>/dev/null;
 # That can be "/dev/block/bootdevice/by-name" or something like that.
 
 mkdir -p /dev/block/platform/mtk-msdc.0/by-name/
-cd /dev/block/platform/tk-msdc.0/by-name/
+cd /dev/block/platform/mtk-msdc.0/by-name/
 touch apd boot cache dkb dtbo expdb flashinfo frp kb lk lk2 logo metadata nvram nvrom para persist proinfo protect1 protect2 recovery seccfg secro system tee1 tee2 userdata vbmeta vendor
 
 # Full device partition MOUNT list
@@ -80,7 +80,7 @@ if [ `which busybox` ]; then
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/cache /dev/block/platform/mtk-msdc.0/by-name/cache 
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dkb /dev/block/platform/mtk-msdc.0/by-name/dkb
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/dtbo /dev/block/platform/mtk-msdc.0/by-name/dtbo
-	busybox mount -o bind/dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/expdb /dev/block/platform/mtk-msdc.0/by-name/expdb
+	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/expdb /dev/block/platform/mtk-msdc.0/by-name/expdb
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/flashinfo /dev/block/platform/mtk-msdc.0/by-name/flashinfo
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/frp /dev/block/platform/mtk-msdc.0/by-name/frp
 	busybox mount -o bind /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/kb /dev/block/platform/mtk-msdc.0/by-name/kb

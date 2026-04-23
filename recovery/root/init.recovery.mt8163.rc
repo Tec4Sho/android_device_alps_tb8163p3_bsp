@@ -48,12 +48,12 @@ on fs
     chmod 0644 /dev/event-log-tags
     
     start logd
+    start modules
     start init_mount
-    start insmodc
-    start cal_touchscreen
+    start touch_calibration
     setprop modules.loaded 1
 
-service insmodc /sbin/init.insmod.sh
+service modules /sbin/init.insmod.sh
     oneshot
     disabled
     user root
@@ -99,20 +99,22 @@ on post-fs-data
     mkdir /data/mediadrm 0770 mediadrm mediadrm
     mkdir /data/drm/wv 0770 drm system
     
-service cal_touchscreen /sbin/touchscreen.sh
+service touch_calibration /sbin/touchscreen.sh
     oneshot
     disabled
     user root
     group root
     seclabel u:r:recovery:s0
  
-on boot
-    # Wait for the driver to initialize the sysfs node
-    # wait /sys/board_properties/virtualkeys.TS_GT9xx
+service touch_sync /sbin/sh -c "while [ ! -d /data/media/0 ]; do sleep 1; done; cp /cache/touch/recovery_touch_calibration /data/media/0/; chown 1023:1023 /data/media/0/recovery_touch_calibration; chmod 664 /data/media/0/recovery_touch_calibration"
+    user root
+    group root
+    oneshot
+    disabled
+    seclabel u:r:recovery:s0
 
-on property:sys.boot_completed=1
-    copy /cache/touch/recovery_touch_calibration /data/media/0/recovery_touch_calibration
-    copy /cache/touch/recovery_touch_calibration /sdcard/recovery_touch_calibration
+on boot && property:init.svc.recovery=running
+    exec_start touch_sync
 
     # Force the 6-parameter calibration string directly into the driver
     # This overwrites the legacy hex string that causes the 4 % 6 error

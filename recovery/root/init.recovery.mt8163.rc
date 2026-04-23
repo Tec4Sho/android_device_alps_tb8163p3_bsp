@@ -110,9 +110,10 @@ on boot
     # Wait for the driver to initialize the sysfs node
     # wait /sys/board_properties/virtualkeys.TS_GT9xx
 
-on property:init.svc.recovery=running
+on property:sys.boot_completed=1
+    copy /cache/touch/recovery_touch_calibration /data/media/0/recovery_touch_calibration
     copy /cache/touch/recovery_touch_calibration /sdcard/recovery_touch_calibration
-   
+
     # Force the 6-parameter calibration string directly into the driver
     # This overwrites the legacy hex string that causes the 4 % 6 error
     # write /sys/board_properties/virtualkeys.TS_GT9xx "0x01:116:30:60:60:80:0x01:102:30:180:60:80:0x01:158:30:300:60:80:0x01:115:30:420:60:80:0x01:114:30:540:60:80"

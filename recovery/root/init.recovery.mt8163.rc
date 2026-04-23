@@ -110,7 +110,7 @@ on boot
     # Wait for the driver to initialize the sysfs node
     # wait /sys/board_properties/virtualkeys.TS_GT9xx
 
-on property:service.recovery.ready=true
+on property:init.svc.recovery=running
     start copy_cal
 
 service copy_cal /system/bin/sh -c "cp /cache/touch/recovery_touch_calibration /data/media/0/recovery_touch_calibration"

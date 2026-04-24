@@ -50,7 +50,6 @@ on fs
     start logd
     start modules
     start init_mount
-    start touch_calibration
     setprop modules.loaded 1
 
 service modules /sbin/init.insmod.sh
@@ -95,10 +94,12 @@ service logd-reinit /sbin/logd --reinit
     writepid /dev/cpuset/system-background/tasks
 
 on post-fs-data
+    mkdir /data 0771 system system
     mkdir /data/drm 0770 drm drm
     mkdir /data/mediadrm 0770 mediadrm mediadrm
     mkdir /data/drm/wv 0770 drm system
-    
+    start touch_calibration
+
 service touch_calibration /sbin/touchscreen.sh
     oneshot
     disabled

@@ -3,8 +3,8 @@
 	<details>
 		<resolution width="1920" height="1200"/>
 		<author>TeamWin</author>
-		<title>Red</title>
-		<description>custom theme for android radio</description>
+		<title>Backup Naowz</title>
+		<description>Default basic theme</description>
 		<preview>preview.png</preview>
 		<themeversion>5</themeversion>
 	</details>
@@ -52,7 +52,7 @@
 		<image name="slider_touch" filename="slider_touch"/>
 		<image name="handle" filename="handle"/>
 		<image name="cursor" filename="cursor" retainaspect="1"/>
-<!-- background image goes here don't forget to uncomment in template below -->
+
 		<image name="backspace" filename="backspace" retainaspect="1"/>
 		<image name="backspace_terminal" filename="backspace_terminal" retainaspect="1"/>
 		<image name="enter" filename="enter" retainaspect="1"/>
@@ -169,7 +169,7 @@
 		<variable name="navbar_y" value="1104"/>
 		<variable name="navbar_btn_y" value="1152"/>
 		<variable name="keyboard_y" value="592"/>
-<!-- adjust colors -->		
+        <!-- adjust colors -->		
 		<variable name="background_color" value="#070707"/>
 		<variable name="accent_color" value="#8d0300"/>
 		<variable name="accent_color_semitransparent" value="#003380"/>
@@ -186,7 +186,7 @@
 		<variable name="highlight" value="#00134d"/>
 		<variable name="fileselector_linecolor" value="#555555"/>
 		<variable name="fileselector_highlight_color" value="#555555"/>
-<!-- end colors -->		
+        <!-- end colors -->
 		<variable name="fileselector_separatorheight" value="2"/>
 		<variable name="fileselector_spacing" value="0"/>
 		<variable name="fileselector_install_height" value="840"/>
@@ -201,6 +201,7 @@
 		<variable name="partitionlist_backup_height" value="528"/>
 		<variable name="listbox_timezone_height" value="768"/>
 		<variable name="listbox_settings_height" value="648"/>
+		<variable name="listbox_options_height" value="304"/>
 		<variable name="fastscroll_w" value="18"/>
 		<variable name="fastscroll_linew" value="2"/>
 		<variable name="fastscroll_rectw" value="18"/>
@@ -238,12 +239,7 @@
 	<templates>
 		<template name="page">
 			<background color="%background_color%"/>
-<!--
-<image> 
-<image resource="background"/> 
-<placement y="0" x="0"/> 
-</image>
--->
+
 			<fill color="%accent_color%">
 				<placement x="0" y="0" w="%screen_width%" h="%header_height%"/>
 			</fill>
@@ -303,6 +299,7 @@
 			</text>
 
 			<fill color="#000000">
+				<condition var1="tw_busy" var2="0"/>
 				<placement x="0" y="%navbar_y%" w="%screen_width%" h="%navbar_height%"/>
 			</fill>
 
@@ -440,7 +437,7 @@
 
 			<action>
 				<touch key="power"/>
-				<action function="overlay">lock</action>
+				<action function="togglebacklight"/>
 			</action>
 
 			<action>
@@ -723,6 +720,28 @@
 					<keylabel key="0:layout1" text="ABC"/>
 					<keylabel key="0:layout3" text="?123"/>
 				</layout4>
+			</keyboard>
+		</template>
+		<template name="keyboardnum">
+			<keyboard>
+				<placement x="0" y="%keyboard_y%" w="1920" h="512"/>
+				<keymargin x="6" y="6"/>
+				<background color="#090909"/>
+				<key-alphanumeric color="#090909" font="keylabel" textcolor="#EEEEEE"/>
+				<key-other color="#090909" font="keylabel-small" textcolor="#777777ff"/>
+				<longpress font="keylabel-longpress" textcolor="#eb001aff" x="40" y="4"/>
+				<keylabel key="0:c:8" text="Bksp" resource="backspace"/>
+				<keylabel key="0:action" text="Enter" resource="enter"/>
+				<keylabel key=" " text="Space" resource="space"/>
+				<highlight color="%highlight_color%"/>
+				<capshighlight color="%highlight_color%"/>
+				<layout1>
+					<keysize height="127" width="376"/>
+					<row1 key01="396:" key02="1" key03="2" key04="3" key05="396:"/>
+					<row2 key01="396:" key02="4" key03="5" key04="6" key05="396:"/>
+					<row3 key01="396:" key02="7" key03="8" key04="9" key05="396:"/>
+					<row4 key01="396:" key02="376:c:8" key03="0" key04="378:action" key05="396:"/>
+				</layout1>
 			</keyboard>
 		</template>
 	</templates>

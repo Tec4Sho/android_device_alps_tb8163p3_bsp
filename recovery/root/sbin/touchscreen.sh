@@ -32,6 +32,15 @@ fi;
     while [ ! -d /data/media/0 ]; do 
       sleep 1
     done;
+    
+    mkdir -p /vendor/media
+
+    if [ -e /data/media/0/TWRP/bootanimation.zip ]; then
+      cp -vf /data/media/0/TWRP/bootanimation.zip /vendor/media/ && \
+      chmod 0775 /vendor/media/bootanimation.zip && \
+      chown 0:0 /vendor/media/bootanimation.zip && \
+      chcon u:object_r:vendor_configs_file:s0 /vendor/media/bootanimation.zip;
+    fi;
     cp -f /cache/touch/recovery_touch_calibration /data/media/0/ && \
     chown 1023:1023 /data/media/0/recovery_touch_calibration && \
     chmod 664 /data/media/0/recovery_touch_calibration;

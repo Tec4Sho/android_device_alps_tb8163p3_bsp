@@ -3,7 +3,7 @@
 # Read/Write mount default partitions
     mkdir -p /cache/touch 2>/dev/null;
     mkdir -p /data 2>/dev/null;
-    mount -o rw,remount /system || mount /system 2>/dev/null;
+    mount -o rw,remount /vendor || mount /vendor 2>/dev/null;
     mount -o rw,remount /cache || mount -o rw /cache 2>/dev/null;
     mount -t ext4 /dev/block/platform/mtk-msdc.0/11230000.MSDC0/by-name/userdata /data || mount /data 2>/dev/null;
     mount -o rw,remount /apd || mount /apd 2>/dev/null;
@@ -33,13 +33,13 @@ fi;
       sleep 1
     done;
     
-    mkdir -p /system/media
+    mkdir -p /system_root/system/media
 
     if [ -e /data/media/0/TWRP/bootanimation.zip ]; then
-      cp -vf /data/media/0/TWRP/bootanimation.zip /system/media/ && \
-      chmod 0775 /system/media/bootanimation.zip && \
-      chown 0:0 /system/media/bootanimation.zip && \
-      chcon u:object_r:system_file:s0 /system/media/bootanimation.zip;
+      cp -vf /data/media/0/TWRP/bootanimation.zip /system_root/system/media/ && \
+      chmod 0775 /system_root/system/media/bootanimation.zip && \
+      chown 0:0 /system_root/system/media/bootanimation.zip && \
+      chcon u:object_r:system_file:s0 /system_root/system/media/bootanimation.zip;
     fi;
     cp -f /cache/touch/recovery_touch_calibration /data/media/0/ && \
     chown 1023:1023 /data/media/0/recovery_touch_calibration && \

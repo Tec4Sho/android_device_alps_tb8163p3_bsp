@@ -491,11 +491,10 @@
 				</actions>
 			</button>
 
-			<button style="main_button">
-				<placement x="%col1_x_right%" y="%row15a_y%"/>
-				<text>{@zip_add_btn=Flash}</text>
+			<slider>
+				<text>{@swipe_flash=Swipe to confirm Flash}</text>
 				<action function="flash">flash_zip</action>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="back"/>
@@ -570,7 +569,7 @@
 					<action function="set">tw_text1={@wipe_cache_dalvik_confirm=Wipe Cache &amp; Dalvik?}</action>
 					<action function="set">tw_action_text1={@wiping_cache_dalvik=Wiping Cache &amp; Dalvik...}</action>
 					<action function="set">tw_complete_text1={@wipe_cache_dalvik_complete=Cache &amp; Dalvik Wipe Complete}</action>
-					<action function="set">tw_button_text={@swipe_wipe=Press to Wipe}</action>
+					<action function="set">tw_slider_text={@swipe_wipe=Swipe to Wipe}</action>
 					<action function="page">confirm_action</action>
 				</actions>
 			</button>
@@ -586,7 +585,7 @@
 					<action function="set">tw_text1={@wipe_dalvik_confirm=Wipe Dalvik?}</action>
 					<action function="set">tw_action_text1={@wiping_cache_dalvik=Wiping Dalvik...}</action>
 					<action function="set">tw_complete_text1={@wipe_dalvik_complete=Dalvik Wipe Complete}</action>
-					<action function="set">tw_button_text={@swipe_wipe=Press to Wipe}</action>
+					<action function="set">tw_slider_text={@swipe_wipe=Swipe to Wipe}</action>
 					<action function="page">confirm_action</action>
 				</actions>
 			</button>
@@ -754,9 +753,8 @@
 				<action function="set">tw_flash_both_slots=0</action>
 			</button>
 
-			<button style="main_button">
-				<placement x="%col1_x_left%" y="%row15_y%"/>
-				<text>{@swipe_flash=Press to confirm Flash}</text>
+			<slider>
+				<text>{@swipe_flash=Swipe to confirm Flash}</text>
 				<actions>
 					<action function="set">tw_back=flashimage_confirm</action>
 					<action function="set">tw_action=flashimage</action>
@@ -767,7 +765,7 @@
 					<action function="page">action_page</action>
 				</actions>
 				<action function="flashimage"/>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="back"/>
@@ -866,11 +864,10 @@
 				<text>{@back_cancel=Press back button to cancel.}</text>
 			</text>
 
-			<button style="main_button_half_width">
-				<placement x="%center_x%" y="%row15a_y%"/>
+			<slider style="slider_centered">
 				<text>%tw_slider_text%</text>
 				<action function="page">action_page</action>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="back"/>
@@ -3801,10 +3798,9 @@
 				<text>EXT4</text>
 				<action function="set">tw_sdpart_file_system=ext4</action>
 			</button>
-            
-            <button style="button_quarter_width">
-				<placement x="%center_x%" y="%row13_y%"/>
-				<text>{@swipe_part_sd=Press to Partition}</text>
+
+			<slider style="slider_centered">
+				<text>{@swipe_part_sd=Swipe to Partition}</text>
 				<action function="page">partsdcardaction</action>
 				<actions>
 					<action function="set">tw_back=partsdcard</action>
@@ -3814,10 +3810,10 @@
 					<action function="set">tw_action2_param=tw_zip_location=/sdcard</action>
 					<action function="set">tw_action_text1={@partitioning_sd=Partitioning SD Card...}</action>
 					<action function="set">tw_action_text2={@partitioning_sd2=This will take a few minutes.}</action>
-					<action function="set">tw_complete_text1={@sd_btn=Partitioning Complete}</action>
+					<action function="set">tw_complete_text1={@part_sd_complete=Partitioning Complete}</action>
 					<action function="page">action_page</action>
 				</actions>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="home"/>
@@ -4006,9 +4002,8 @@
 				<action function="page">repackselect</action>
 			</button>
 
-            <button style="main_button_half_width">
-				<placement x="%center_x%" y="%row15a_y%"/>
-				<text>{@swipe_to_install=Press to Install}</text>
+			<slider style="slider_centered">
+				<text>{@swipe_to_install=Swipe to Install}</text>
 				<actions>
 					<action function="set">tw_back=advanced</action>
 					<action function="set">tw_action=repackimage</action>
@@ -4018,7 +4013,7 @@
 					<action function="set">tw_complete_text1={@install_complete=Install Complete}</action>
 					<action function="page">action_page</action>
 				</actions>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="back"/>
@@ -4039,9 +4034,8 @@
 				<placement x="%center_x%" y="%row8_y%" placement="4"/>
 			</image>
 
-			<button style="main_button_half_width">
-				<placement x="%center_x%" y="%row15a_y%"/>
-				<text>{@swipe_to_unlock=Press to Unlock}</text>
+			<slider style="slider_centered">
+				<text>{@swipe_to_unlock=Swipe to Unlock}</text>
 				<action function="overlay"/>
 			</slider>
 
@@ -4509,11 +4503,10 @@ edi				<conditions>
 				<text>{@back_cancel=Press back button to cancel.}</text>
 			</text>
 
-			<button style="button_quarter_width">
-				<placement x="%center_x%" y="%row13_y%"/>
-				<text>{@swipe_to_confirm=Press to Confirm}</text>
+			<slider style="slider_centered">
+				<text>{@swipe_to_confirm=Swipe to Confirm}</text>
 				<action function="page">filemanageraction</action>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="back"/>
@@ -5194,9 +5187,8 @@ edi				<conditions>
 				<data variable="tw_wipe_cache"/>
 			</checkbox>
 
-            <button style="main_button">
-				<placement x="%center_x%" y="%row15a_y%"/>
-				<text>{@swipe_to_sideload=Press to Start Sideload}</text>
+			<slider style="slider_centered">
+				<text>{@swipe_to_sideload=Swipe to Start Sideload}</text>
 				<actions>
 					<action function="set">tw_back=advanced</action>
 					<action function="set">tw_action=adbsideload</action>
@@ -5208,7 +5200,7 @@ edi				<conditions>
 					<action function="set">tw_cancel_action=adbsideloadcancel</action>
 					<action function="page">action_page</action>
 				</actions>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="home"/>
@@ -5249,19 +5241,18 @@ edi				<conditions>
 				<text>{@fix_contexts_note3=your device to not boot properly.}</text>
 			</text>
 
-            <button style="button_quarter_width">
-				<placement x="%center_x%" y="%row13_y%"/>
+			<slider style="slider_centered">
 				<text>{@swipe_to_fix_contexts=Swipe to Fix Contexts}</text>
 				<actions>
 					<action function="set">tw_back=advanced</action>
 					<action function="set">tw_action=fixcontexts</action>
 					<action function="set">tw_action_text1={@fixing_contexts=Fixing Contexts...}</action>
 					<action function="set">tw_complete_text1={@fix_contexts_complete=Fix Contexts Complete}</action>
-					<action function="set">tw_button_text={@confirm_btn=Confirm}</action>
+					<action function="set">tw_slider_text={@swipe_to_confirm=Swipe to Confirm}</action>
 					<action function="set">tw_show_reboot=1</action>
 					<action function="page">action_page</action>
 				</actions>
-			</button>
+			</slider>
 
 			<action>
 				<touch key="home"/>

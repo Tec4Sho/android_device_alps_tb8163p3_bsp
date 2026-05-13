@@ -223,7 +223,7 @@
 
 			<text style="text_l">
 				<placement x="%col1_x_header%" y="%row3_header_y%"/>
-				<text>{@twrp_header=Team Win Recovery Project}</text>
+				<text>{@twrp_header=Android Radio T W R P}</text>
 			</text>
 
 			<text style="text_m">

@@ -33,7 +33,7 @@
 		<string name="autostorage">Storage</string>
 
 		<!-- GUI XML strings -->
-		<string name="twrp_header">Team Win Recovery Project</string>
+		<string name="twrp_header">Android Radio T W R P</string>
 		<string name="twrp_watch_header">TWRP %tw_version%</string>
 		<string name="cpu_temp">CPU: %tw_cpu_temp% &#xB0;C</string>
 		<string name="battery_pct">Battery: %tw_battery%</string>
@@ -111,13 +111,13 @@
 		<string name="wiping_cache_dalvik">Wiping Cache &amp; Dalvik...</string>
 		<string name="wipe_cache_dalvik_complete">Cache &amp; Dalvik Wipe Complete</string>
 		<string name="wipe_dalvik_complete">Dalvik Wipe Complete</string>
-		<string name="swipe_wipe">Swipe to Wipe</string>
+		<string name="swipe_wipe">Press to Wipe</string>
 		<string name="swipe_wipe_s">   Wipe</string>
 		<string name="no_os1">No OS Installed! Are you</string>
 		<string name="no_osrb">sure you wish to reboot?</string>
 		<string name="no_ospo">sure you wish to power off?</string>
 		<string name="rebooting">Rebooting...</string>
-		<string name="swipe_reboot">Swipe to Reboot</string>
+		<string name="swipe_reboot">Press to Reboot</string>
 		<string name="swipe_reboot_s">   Reboot</string>
 		<string name="reboot_install_app_hdr">Install TWRP App</string>
 		<string name="reboot_install_app1">Would you like to install the Official TWRP App?</string>
@@ -125,12 +125,12 @@
 		<string name="reboot_install_app_prompt_install">Prompt to install TWRP app if not installed</string>
 		<string name="reboot_install_app_system">Install as a System App</string>
 		<string name="reboot_installing_app">Installing App...</string>
-		<string name="swipe_to_install_app">Swipe to Install TWRP App</string>
+		<string name="swipe_to_install_app">Press to Install TWRP App</string>
 		<string name="uninstall_twrp_system_app">Uninstall TWRP App from System</string>
 		<string name="uninstall_twrp_system_app_confirm">Uninstall TWRP App from System?</string>
 		<string name="uninstalling_twrp_system_app">Uninstalling TWRP App from System...</string>
 		<string name="uninstall_twrp_system_app_complete">Uninstall TWRP App from System Complete</string>
-		<string name="swipe_flash">Swipe to confirm Flash</string>
+		<string name="swipe_flash">Press to confirm Flash</string>
 		<string name="confirm_action">Confirm Action</string>
 		<string name="back_cancel">Press back button to cancel.</string>
 		<string name="cancel_btn">Cancel</string>
@@ -147,7 +147,7 @@
 		<string name="advanced_wipe_btn">Advanced Wipe</string>
 		<string name="wipe_enc_confirm">Wipe Encryption from Data?</string>
 		<string name="formatting_data">Formatting Data...</string>
-		<string name="swipe_format_data">Swipe to Format Data</string>
+		<string name="swipe_format_data">Press to Format Data</string>
 		<string name="swipe_format_data_s">   Format Data</string>
 		<string name="factory_reset_complete">Factory Reset Complete</string>
 		<string name="sel_part_hdr">Select Partitions</string>
@@ -189,14 +189,14 @@
 		<string name="resize_confirm">Resize %tw_partition_name%?</string>
 		<string name="resizing">Resizing...</string>
 		<string name="resize_complete">Resize Complete</string>
-		<string name="swipe_resize">Swipe to Resize</string>
+		<string name="swipe_resize">Press to Resize</string>
 		<string name="swipe_resize_s">   Resize</string>
 		<string name="repair_btn">Repair File System</string>
 		<string name="repair_btn_s">Repair</string>
 		<string name="repair_confirm">Repair %tw_partition_name%?</string>
 		<string name="repairing">Repairing...</string>
 		<string name="repair_complete">Repair Complete</string>
-		<string name="swipe_repair">Swipe to Repair</string>
+		<string name="swipe_repair">Press to Repair</string>
 		<string name="swipe_repair_s">   Repair</string>
 		<string name="change_fs_btn">Change File System</string>
 		<string name="change_fs_btn_s">Change</string>
@@ -207,11 +207,11 @@
 		<string name="change_fs_confirm">Change %tw_partition_name%?</string>
 		<string name="formatting">Formatting...</string>
 		<string name="format_complete">Format Complete</string>
-		<string name="swipe_change_fs">Swipe to Change</string>
+		<string name="swipe_change_fs">Press to Change</string>
 		<string name="swipe_change_s">   Change</string>
 		<string name="back_btn">Back</string>
 		<string name="wipe_enc_btn">Wipe Encryption</string>
-		<string name="swipe_factory_reset">Swipe to Factory Reset</string>
+		<string name="swipe_factory_reset">Press to Factory Reset</string>
 		<string name="repair_change_btn">Repair or Change File System</string>
 		<string name="storage_hdr">Storage: %tw_storage_display_name% (%tw_storage_free_size% MB)</string>
 		<string name="backup_hdr">Backup</string>
@@ -233,7 +233,7 @@
 		<string name="changing_boot_slot">Changing Boot Slot</string>
 		<string name="changing_boot_slot_complete">Changing Boot Slot Complete</string>
 		<string name="refresh_sizes_btn">Refresh Sizes</string>
-		<string name="swipe_backup">Swipe to Backup</string>
+		<string name="swipe_backup">Press to Backup</string>
 		<string name="append_date_btn">Append Date</string>
 		<string name="backup_name_exists">A backup with that name already exists!</string>
 		<string name="encrypt_backup">Encrypt your Backup?</string>
@@ -257,7 +257,7 @@
 		<string name="del_backup_confirm2">This cannot be undone!</string>
 		<string name="deleting_backup">Deleting Backup...</string>
 		<string name="backup_deleted">Backup Delete Complete</string>
-		<string name="swipe_delete">Swipe to Delete</string>
+		<string name="swipe_delete">Press to Delete</string>
 		<string name="swipe_delete_s">   Delete</string>
 		<string name="restore_try_decrypt">Encrypted Backup - Trying Decryption</string>
 		<string name="restore_try_decrypt_s">Trying Decryption</string>
@@ -265,14 +265,14 @@
 		<string name="restore_sel_part">Select Partitions to Restore:</string>
 		<string name="restore_enable_digest_chk" version="2">Enable Digest Verification of Backup Files</string>
 		<string name="restore_complete">Restore Complete</string>
-		<string name="swipe_restore">Swipe to Restore</string>
+		<string name="swipe_restore">Press to Restore</string>
 		<string name="swipe_restore_s">   Restore</string>
 		<string name="rename_backup_hdr">Rename Backup</string>
 		<string name="rename_backup_confirm">Rename Backup?</string>
 		<string name="rename_backup_confirm2">This cannot be undone!</string>
 		<string name="renaming_backup">Renaming Backup...</string>
 		<string name="rename_backup_complete">Backup Rename Complete</string>
-		<string name="swipe_to_rename">Swipe to Rename</string>
+		<string name="swipe_to_rename">Press to Rename</string>
 		<string name="swipe_rename">   Rename</string>
 		<string name="confirm_hdr">Confirm</string>
 		<string name="mount_hdr">Mount</string>
@@ -295,7 +295,7 @@
 		<string name="rb_download_btn">Download</string>
 		<string name="rb_edl_btn">EDL</string>
 		<string name="turning_off">Turning Off...</string>
-		<string name="swipe_power_off">Swipe to Power Off</string>
+		<string name="swipe_power_off">Press to Power Off</string>
 		<string name="swipe_power_off_s">Power Off</string>
 		<string name="sys_ro_hdr">Unmodified System Partition</string>
 		<string name="sys_ro_keep">Keep System Read only?</string>
@@ -310,7 +310,7 @@
 		<string name="sys_rol3">Installing zips or performing adb operations may still modify the system partition.</string>
 		<string name="sys_ro_never_show_chk">Never show this screen during boot again</string>
 		<string name="sys_ro_keep_ro_btn">Keep Read Only</string>
-		<string name="swipe_allow_mod">Swipe to Allow Modifications</string>
+		<string name="swipe_allow_mod">Press to Allow Modifications</string>
 		<string name="swipe_allow_mod_s">Allow Modifications</string>
 		<string name="settings_hdr">Settings</string>
 		<string name="settings_gen_hdr">General</string>
@@ -404,7 +404,7 @@
 		<string name="inject_twrp_confirm">Re-Inject TWRP?</string>
 		<string name="injecting_twrp">Re-Injecting TWRP...</string>
 		<string name="inject_twrp_complete">TWRP Injection Complete</string>
-		<string name="swipe_to_confirm">Swipe to Confirm</string>
+		<string name="swipe_to_confirm">Press to Confirm</string>
 		<string name="part_sd_hdr">Partition SD card</string>
 		<string name="invalid_partsd_sel">You must select a removable device</string>
 		<string name="part_sd_lose">You will lose all files on your SD card!</string>
@@ -414,7 +414,7 @@
 		<string name="part_sd_m">-</string>
 		<string name="part_sd_p">+</string>
 		<string name="file_system">File System:</string>
-		<string name="swipe_part_sd">Swipe to Partition</string>
+		<string name="swipe_part_sd">Press to Partition</string>
 		<string name="swipe_part_sd_s">Partition</string>
 		<string name="partitioning_sd">Partitioning SD card...</string>
 		<string name="partitioning_sd2">This will take a few minutes.</string>
@@ -432,7 +432,7 @@
 		<string name="dumlock_install_confirm">Install HTC dumlock files to ROM?</string>
 		<string name="dumlock_installing">Installing HTC Dumlock...</string>
 		<string name="dumlock_install_complete">HTC Dumlock Install Complete</string>
-		<string name="swipe_to_unlock">Swipe to Unlock</string>
+		<string name="swipe_to_unlock">Press to Unlock</string>
 		<string name="swipe_unlock">   Unlock</string>
 		<string name="fm_hdr">File Manager</string>
 		<string name="fm_sel_file">Select a File or Folder</string>
@@ -477,7 +477,7 @@
 		<string name="adb_sideload_hdr">ADB Sideload</string>
 		<string name="sideload_wipe_dalvik_chk">Wipe Dalvik Cache</string>
 		<string name="sideload_wipe_cache_chk">Wipe Cache</string>
-		<string name="swipe_to_sideload">Swipe to Start Sideload</string>
+		<string name="swipe_to_sideload">Press to Start Sideload</string>
 		<string name="swipe_sideload">   Start</string>
 		<string name="sideload_confirm">ADB Sideload</string>
 		<string name="sideload_usage">Usage: adb sideload filename.zip</string>
@@ -486,7 +486,7 @@
 		<string name="fix_contexts_note1">Note: Fixing contexts is rarely needed.</string>
 		<string name="fix_contexts_note2">Fixing SELinux Contexts may cause</string>
 		<string name="fix_contexts_note3">your device to not boot properly.</string>
-		<string name="swipe_to_fix_contexts">Swipe to Fix Contexts</string>
+		<string name="swipe_to_fix_contexts">Press to Fix Contexts</string>
 		<string name="swipe_fix_contexts">   Fix Contexts</string>
 		<string name="fixing_contexts">Fixing Contexts...</string>
 		<string name="fix_contexts_complete">Fix Contexts Complete</string>
@@ -502,7 +502,7 @@
 		<string name="repack_ramdisk_confirm">Install Recovery?</string>
 		<string name="repack_backup_first">Back up existing image first</string>
 		<string name="repack">Repack</string>
-		<string name="swipe_to_install">Swipe to Install</string>
+		<string name="swipe_to_install">Press to Install</string>
 		<string name="installing">Installing...</string>
 		<string name="install_complete">Install Complete</string>
 		<string name="unpack_error">Error unpacking image.</string>

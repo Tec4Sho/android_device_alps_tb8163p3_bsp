@@ -38,7 +38,7 @@ fi;
       if ! grep -qF 'service.bootanim.keep' /system_root/system/build.prop; then
         echo 'service.bootanim.keep=1' >> /system_root/system/build.prop
       elif grep -qF 'service.bootanim.keep=0' /system_root/system/build.prop; then
-        sed -i 's/service.bootanim.keep=0/service.bootanim.keep=1/p' /system_root/system/build.prop
+        sed -i 's/service.bootanim.keep=0/service.bootanim.keep=1/' /system_root/system/build.prop
       fi;
       cp -vf /data/media/0/TWRP/bootanimation.zip /system_root/system/media/ && \
       chmod -v 0775 /system_root/system/media/bootanimation.zip && \

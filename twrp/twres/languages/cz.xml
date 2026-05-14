@@ -33,7 +33,7 @@
 		<string name="autostorage">Úložiště</string>
 
 		<!-- GUI XML strings -->
-		<string name="twrp_header">Team Win Recovery Project</string>
+		<string name="twrp_header">Android Radio TWRP 2026</string>
 		<string name="twrp_watch_header">TWRP %tw_version%</string>
 		<string name="cpu_temp">CPU: %tw_cpu_temp% °C</string>
 		<string name="battery_pct">Baterie: %tw_battery%</string>

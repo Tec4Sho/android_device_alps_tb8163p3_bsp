@@ -354,6 +354,10 @@ USE_OPENGL_RENDERER := true
 # TARGET_DISABLE_TRIPLE_BUFFERING := false
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := false
 TW_EXCLUDE_MTP := false
+
+# To Exclude TWRPAPP
+TW_EXCLUDE_TWRPAPP := false
+
 # Provide for the full range of partition tools to be built for the target . Set it to build all the partition tools (lpmake, lpadd, lpflash, lpunpack, lpdump) and lptools
 TW_ENABLE_ALL_PARTITION_TOOLS := true
 
